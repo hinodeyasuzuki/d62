@@ -90,12 +90,12 @@ var allowedMeasures = [];
 $(".page").css({ opacity: "0.0" });
 
 // start parameters set depend on views
-onloadStartParamsSet = function(param) {
+onloadStartParamsSet = function (param) {
 	return param;
 };
 
 // enable to use worker in local environment
-var newWorker = function(relativePath) {
+var newWorker = function (relativePath) {
 	try {
 		return newWorkerViaBlob(relativePath);
 	} catch (e) {
@@ -104,14 +104,15 @@ var newWorker = function(relativePath) {
 };
 
 // initialize after html and scripts are loaded ========================================
-$(document).ready(function() {
+$(document).ready(function () {
 	//common start condition design
 	$(".preloader").hide();
 	$(".contents").show();
 	$(".page").css({ opacity: "1" });
 
 	//language setting. function defined in createpage.js
-	languageset();
+	// in case of semi crypted
+	//languageset();
 
 	//no web-worker
 	useWorker = false;
@@ -195,7 +196,7 @@ function startCalc(command, param) {
 //		none
 // set
 //		none
-getCalcResult = function(command, res) {
+getCalcResult = function (command, res) {
 	function isset(data) {
 		return typeof data != "undefined";
 	}
@@ -203,168 +204,168 @@ getCalcResult = function(command, res) {
 	var mestitle = "<h3>" + lang.effectivemeasures + "</h3>";
 
 	switch (command) {
-	case "start":
-	case "addandstart":
-	case "tabclick":
-		// display input and result as start mode
+		case "start":
+		case "addandstart":
+		case "tabclick":
+			// display input and result as start mode
 
-		//display tabs, input page
-		inputHtml = createInputPage(res.inputPage);
-		$("#tab").html(inputHtml.menu);
-		$("#tabcontents").html(inputHtml.combo);
+			//display tabs, input page
+			inputHtml = createInputPage(res.inputPage);
+			$("#tab").html(inputHtml.menu);
+			$("#tabcontents").html(inputHtml.combo);
 
-		//display results
-		$("#average").html(showAverageTable(res.average));
-		$("#cons").html(showItemizeTable(res.itemize));
-		$("#measure").html(mestitle + showMeasureTable(res.measure));
-		leanModalSet();
+			//display results
+			$("#average").html(showAverageTable(res.average));
+			$("#cons").html(showItemizeTable(res.itemize));
+			$("#measure").html(mestitle + showMeasureTable(res.measure));
+			leanModalSet();
 
-		//display graph
-		graphItemize(res.itemize_graph);
-		graphMonthly(res.monthly);
+			//display graph
+			graphItemize(res.itemize_graph);
+			graphMonthly(res.monthly);
 
-		//tab click method
-		$("#tab li").click(function() {
-			var index = $("#tab li").index(this);
-			var consname = $(this).prop("id");
-			tabclick(index, consname);
-		});
-		$("#tab li").keypress(function(e) {
-			if (e.keyCode != 9) {
+			//tab click method
+			$("#tab li").click(function () {
 				var index = $("#tab li").index(this);
 				var consname = $(this).prop("id");
 				tabclick(index, consname);
+			});
+			$("#tab li").keypress(function (e) {
+				if (e.keyCode != 9) {
+					var index = $("#tab li").index(this);
+					var consname = $(this).prop("id");
+					tabclick(index, consname);
+				}
+			});
+			tabset(tabNow);
+
+			if (showOver15) {
+				$("#itemize").removeClass("limit");
 			}
-		});
-		tabset(tabNow);
 
-		if (showOver15) {
-			$("#itemize").removeClass("limit");
-		}
+			//debug
+			if (debugMode) {
+				console.log("return parameters from d6 worker----");
+				console.log(res);
+			}
+			break;
 
-		//debug
-		if (debugMode) {
-			console.log("return parameters from d6 worker----");
-			console.log(res);
-		}
-		break;
+		case "subtabclick":
+			//sub tab click method : main tab is not changed
+			inputHtml = createInputPage(res.inputPage);
+			$("#tabcontents").html(inputHtml.combo);
+			tabset(tabNow);
 
-	case "subtabclick":
-		//sub tab click method : main tab is not changed
-		inputHtml = createInputPage(res.inputPage);
-		$("#tabcontents").html(inputHtml.combo);
-		tabset(tabNow);
+			tabSubNowName = res.subName;
 
-		tabSubNowName = res.subName;
+			$("ul.submenu li").removeClass("select");
+			$("ul.submenu li#" + tabNowName + "-" + tabSubNowName).addClass("select");
 
-		$("ul.submenu li").removeClass("select");
-		$("ul.submenu li#" + tabNowName + "-" + tabSubNowName).addClass("select");
+			break;
 
-		break;
+		case "modal":
+			//show modal page for measure detail
+			$("#header")[0].scrollIntoView(true);
+			leanModalSet();
 
-	case "modal":
-		//show modal page for measure detail
-		$("#header")[0].scrollIntoView(true);
-		leanModalSet();
+			//create modal page
+			var modalHtml = createModalPage(res.measure_detail);
+			$("#modal-contents").html(modalHtml);
+			if (typeof modalJoy != "undefined" && modalJoy == 1) {
+				$(".modaljoyfull").show();
+				$(".modaladvice").hide();
+			}
+			break;
 
-		//create modal page
-		var modalHtml = createModalPage(res.measure_detail);
-		$("#modal-contents").html(modalHtml);
-		if (typeof modalJoy != "undefined" && modalJoy == 1) {
-			$(".modaljoyfull").show();
-			$(".modaladvice").hide();
-		}
-		break;
+		case "inchange":
+		case "measureadd":
+		case "measuredelete":
+			//in case of input change
 
-	case "inchange":
-	case "measureadd":
-	case "measuredelete":
-		//in case of input change
+			//change result
+			$("#average").html(showAverageTable(res.average));
+			$("#cons").html(showItemizeTable(res.itemize));
+			graphItemize(res.itemize_graph);
+			console.log(res.itemize_graph);
+			graphMonthly(res.monthly);
 
-		//change result
-		$("#average").html(showAverageTable(res.average));
-		$("#cons").html(showItemizeTable(res.itemize));
-		graphItemize(res.itemize_graph);
-		console.log(res.itemize_graph);
-		graphMonthly(res.monthly);
+			//change measure list
+			$("#measure").html(mestitle + showMeasureTable(res.measure));
+			leanModalSet();
+			if (showOver15) {
+				$("#itemize").removeClass("limit");
+			}
 
-		//change measure list
-		$("#measure").html(mestitle + showMeasureTable(res.measure));
-		leanModalSet();
-		if (showOver15) {
-			$("#itemize").removeClass("limit");
-		}
+			//comment
+			$("#totalReduceComment").html(showMeasureTotalMessage(res.common));
+			break;
 
-		//comment
-		$("#totalReduceComment").html(showMeasureTotalMessage(res.common));
-		break;
+		case "measureadd_comment": //view_action,view_easy
+			//comment
+			$("#totalReduceComment").html(showMeasureTotalMessage(res.common));
+			break;
 
-	case "measureadd_comment": //view_action,view_easy
-		//comment
-		$("#totalReduceComment").html(showMeasureTotalMessage(res.common));
-		break;
+		case "graphchange":
+			graphItemize(res.itemize_graph);
+			break;
 
-	case "graphchange":
-		graphItemize(res.itemize_graph);
-		break;
+		case "add_demand": //view_base
+			$("div#inDemandSumup").html(showDemandSumupPage(res.demandin));
+			$("div#inDemandLog").html(showDemandLogPage(res.demandlog));
+			break;
 
-	case "add_demand": //view_base
-		$("div#inDemandSumup").html(showDemandSumupPage(res.demandin));
-		$("div#inDemandLog").html(showDemandLogPage(res.demandlog));
-		break;
+		case "demand": //view_base
+			$("div#inDemandSumup").html(showDemandSumupPage(res.demandin));
+			$("div#inDemandLog").html(showDemandLogPage(res.demandlog));
+			graphDemand(res.graphDemand);
+			break;
 
-	case "demand": //view_base
-		$("div#inDemandSumup").html(showDemandSumupPage(res.demandin));
-		$("div#inDemandLog").html(showDemandLogPage(res.demandlog));
-		graphDemand(res.graphDemand);
-		break;
+		case "inchange_demand": //view_base
+			graphDemand(res.graphDemand);
+			break;
 
-	case "inchange_demand": //view_base
-		graphDemand(res.graphDemand);
-		break;
+		case "evaluateaxis": //view_action
+			showEvaluateAxis(res.evaluateAxis);
+			if (typeof evaluateaxisNextMode != undefined) {
+				modeChange(evaluateaxisNextMode);
+			}
+			break;
 
-	case "evaluateaxis": //view_action
-		showEvaluateAxis(res.evaluateAxis);
-		if (typeof evaluateaxisNextMode != undefined) {
-			modeChange(evaluateaxisNextMode);
-		}
-		break;
-
-	case "save":
-	case "save_noalert":
-	case "saveandgo":
-		localStorage.setItem("sindan" + languageMode + targetMode, res);
-		var resurl = "";
-		var url =
+		case "save":
+		case "save_noalert":
+		case "saveandgo":
+			localStorage.setItem("sindan" + languageMode + targetMode, res);
+			var resurl = "";
+			var url =
 				location.protocol +
 				"//" +
 				location.hostname +
 				(location.pathname ? location.pathname : "/");
-		var params = location.search;
-		if (params) {
-			var parray = params.split("data=");
-			resurl = url + parray[0] + "&data=" + res;
-		} else {
-			resurl = url + "?data=" + res;
-		}
+			var params = location.search;
+			if (params) {
+				var parray = params.split("data=");
+				resurl = url + parray[0] + "&data=" + res;
+			} else {
+				resurl = url + "?data=" + res;
+			}
 
-		if (command == "save") {
-			alert(lang.savetobrowser + lang.savedataisshown + "\n" + resurl);
-		}
-		if (command == "saveandgo") {
-			//go to detail design
-			if (typeof detailNextDiagnosisCode != undefined) {
-				location.href =
-						"./?lang=" +languageMode +
+			if (command == "save") {
+				alert(lang.savetobrowser + lang.savedataisshown + "\n" + resurl);
+			}
+			if (command == "saveandgo") {
+				//go to detail design
+				if (typeof detailNextDiagnosisCode != undefined) {
+					location.href =
+						"./?lang=" + languageMode +
 						"&v=" + detailNextDiagnosisCode +
 						"&intro=-1";
+				}
 			}
-		}
-		break;
+			break;
 
-	case "common":
-		result_action(res); //define in each view page as js file
-		break;
+		case "common":
+			result_action(res); //define in each view page as js file
+			break;
 		/*
 		case "savenew":
 			//save new , not use for IE9,safari
@@ -394,13 +395,13 @@ getCalcResult = function(command, res) {
 			break;
 */
 
-	default:
+		default:
 	}
 	afterworker(res);
 };
 
 //after worker result function. depend on view function. override in each view
-afterworker = function(res) {};
+afterworker = function (res) { };
 
 //top page button click to start
 function top2start() {

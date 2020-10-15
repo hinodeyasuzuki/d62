@@ -1078,6 +1078,7 @@ escapeHtml = (function(String) {
 })(String);
 
 // initial language set
+// semi crypt
 languageset = function() {
 	//rot13 decode
 	function rot13(str) {
@@ -1112,6 +1113,7 @@ languageset = function() {
 	lang.gasoline = lang.gasolinetitle + " (" + lang.gasolineunit + ")";
 	lang.area = lang.areatitle + " (" + lang.areaunit + ")";
 	lang.briquet = lang.briquettitle + " (" + lang.briquetunit + ")";
+	console.log(lang);
 };
 
 //object sort

@@ -35,11 +35,12 @@
 			</div>
 		</div>
 
-
+		<!-- preloader -->
 		<div class="preloader">
 			<p>now loading diagnosis system</p>
 		</div>
 
+		<!-- front page -->
 		<div id="top" style="display:none">
 			<h2>家庭の省エネ診断で、快適な省エネライフを</h2>
 
@@ -60,14 +61,19 @@
 			</div>
 		</div>
 
+		<!-- main page -->
 		<div id="divco2">
+			<!-- main/headtab -->
 			<ul id="tab">
 			</ul>
 
+			<!-- main/input pages -->
 			<div class="leftmenu">
-				<ul id='tabcontents'></ul>
+				<ul id='tabcontents'>
+				</ul>
 			</div>
 
+			<!-- main/state result -->
 			<div class="result">
 				<select id="graphChange" onchange="graphChange();">
 					<option value="co2">CO2排出量</option>
@@ -80,6 +86,7 @@
 				<div id="cons"></div>
 			</div>
 
+			<!-- main/measures and result -->
 			<div class="mesmenu" style="display:none">
 				<div id="measure"></div>
 				<div style="text-align:right;">
@@ -105,172 +112,206 @@
 	</div>
 
 	<script>
+// created by diagnosis_view system
 var targetMode=1;var debugMode=false;var viewMode=0;var languageMode='ja';var focusMode=0;var useWorker=false;var useCode=3;var messhownumber=7;var hideAverage='0';var hidePrice='0';var includemincore='dist/d6home_core.min.js';var lang={};
-lang.d6folder='q@Yv9fo2qcL19XHN==';
-lang.viewfolder='q@Yv92nJI3K0cD';
-lang.localizeCode='q@FyN=';
-lang.pageLanguage='q@FyOsnzR=';
-lang.code='q@nzR=';
-lang.home_title='q@5n625odg44Th55lO44Xb44BA6Xv65cng';
-lang.home_joy_title='q@5n625odg44Th55lO44Xb44BA6Xv65cng77lV44TX5ePK5dJ954zV77lW';
-lang.countfix_pre_after='q@Zt==';
-lang.show_electricity='q@ISWIED==';
-lang.show_gas='q@ISWIED==';
-lang.show_kerosene='q@ISWIED==';
-lang.show_briquet='q@ExSZH0H=';
-lang.show_area='q@ExSZH0H=';
-lang.show_gasoline='q@ISWIED==';
-lang.electricitytitle='q@6Mh75ePK';
-lang.gastitle='q@44Xf44X5';
-lang.kerosenetitle='q@54Ti5eX5';
-lang.briquettitle='q@57r054Xg';
-lang.areatitle='q@5Mlj5M+s54nk';
-lang.gasolinetitle='q@44Xf44X944Bd44Bm';
-lang.electricityunit='q@n1qb';
-lang.gasunit='q@oGZ=';
-lang.keroseneunit='q@GN==';
-lang.briquetunit='q@n2p=';
-lang.areaunit='q@GHb=';
-lang.gasolineunit='q@GN==';
+lang.d6folder='./logic_JP';
+lang.viewfolder='./view_JP';
+lang.localizeCode='JP';
+lang.pageLanguage='JP_ja';
+lang.code='ja';
+lang.home_title='家庭の省エネ診断';
+lang.home_joy_title='家庭の省エネ診断（お気楽版）';
+lang.countfix_pre_after='2';
+lang.show_electricity='TRUE';
+lang.show_gas='TRUE';
+lang.show_kerosene='TRUE';
+lang.show_briquet='FALSE';
+lang.show_area='FALSE';
+lang.show_gasoline='TRUE';
+lang.electricitytitle='電気';
+lang.gastitle='ガス';
+lang.kerosenetitle='灯油';
+lang.briquettitle='練炭';
+lang.areatitle='地域熱';
+lang.gasolinetitle='ガソリン';
+lang.electricityunit='kWh';
+lang.gasunit='m3';
+lang.keroseneunit='L';
+lang.briquetunit='kg';
+lang.areaunit='MJ';
+lang.gasolineunit='L';
 lang.point_disp=function(num) {return num + "点"};;
-lang.priceunit='q@5LnT';
-lang.co2unit='q@n2p=';
-lang.energyunit='q@E0b=';
-lang.monthunit='q@5clV';
-lang.yearunit='q@5oz0';
-lang.co2unitperyear='q@n2pi5oz0';
-lang.co2unitpermonth='q@n2pi5clV';
-lang.feeunitperyear='q@5LnTY+J5gN==';
-lang.feeunitpermonth='q@5LnTY+npvN==';
-lang.energyunitperyear='q@E0bi5oz0';
-lang.energyunitpermonth='q@E0bi5clV';
-lang.startPageName='q@5LJb5Y2G77lV57Pu5cvG77lW';
-lang.header_attension='q@77lV5LhI5Y2p44Bv44BU44Be44Th44Ts44XO5b+D5dTV5cJj5LPx44Th5Y+q6Xv844Ti44TP44XX44T+44To44XG44PP44BY44B844X644Te5o+p44TL44Ts6MnY55z644TZ44Ta44TA44T+44TM44PP77lW';
-lang.dataClear='q@5LJy5Ldo44BU44B844X/44XF5LJb44Tz5LzX6Mzx44TK44T+44TM44PP44XV44XA44TK44TR44Ta44TM44TY44PP';
-lang.savetobrowser='q@44BJ44Bc44Xz44X244Te5Y+q5n2L44TK44T+44TK44Ts44PP';
-lang.savedataisshown='q@5Y+q5n2L5LPx44Ti5Yhy5YvY44Th44Tb44TX44XX44Ta44TM44PP';
+lang.priceunit='円';
+lang.co2unit='kg';
+lang.energyunit='GJ';
+lang.monthunit='月';
+lang.yearunit='年';
+lang.co2unitperyear='kg/年';
+lang.co2unitpermonth='kg/月';
+lang.feeunitperyear='円/年';
+lang.feeunitpermonth='円/月';
+lang.energyunitperyear='GJ/年';
+lang.energyunitpermonth='GJ/月';
+lang.startPageName='全体（簡易）';
+lang.header_attension='（動作モデルのため提案数値の保証はありません。ニーズに応じた開発ができます。）';
+lang.dataClear='入力データを全て削除します。よろしいですか。';
+lang.savetobrowser='ブラウザに保存しました。';
+lang.savedataisshown='保存値は以下のとおりです。';
 lang.QuestionNumber=function(numques, nowques) {return  "（" + numques +"問中" + nowques + "問目）"};;
-lang.youcall='q@44TP44Td44Ts';
-lang.youcount='q@5YvJ5ovi';
-lang.totalhome='q@5n625odg5LJb5Y2G';
+lang.youcall='あなた';
+lang.youcount='世帯';
+lang.totalhome='家庭全体';
 lang.comparehome=function(target) {return "同じ世帯人数の"+target+"の家庭"};;
 lang.rankin100=function(count) {return "100" + count +"中順位"};;
-lang.rankcall='q@5Y2A';
+lang.rankcall='位';
 lang.co2ratio=function(ratio) {return "　CO2排出量は、平均の" + ratio +"倍です。"};;
-lang.co2compare06='q@5ozm5M2U44XV44XX44XP44Tt44TR44T25oPE44Td44TR44Ta44TM44PP44Tb44Tz44XP44TM44Tz44TA44Td5cdh44XW44TK44Ta44TM44PP';
-lang.co2compare08='q@5ozm5M2U44XV44XX44XP5oPE44Td44XO44Ta44TM44PP44TM44Tz44TA44Td5cdh44XW44TK44Ta44TM44PP';
-lang.co2compare10='q@5ozm5M2U44Tb5MPZ44TL56vY5odz44Ta44TM44PP';
-lang.co2compare12='q@5ozm5M2U44XV44XX44XP44XR44XR5nFn44XO44Ta44TM44PP5cF55MnR44Te44XV44XX5LJW54nk6YX744TZ5YvY44TZ44XY5Y2M5Mlj44Ti5nFa44TA44Tq44TT44Ta44TM44PP';
-lang.co2compare14='q@5ozm5M2U44XV44XX44XP5nFn44XO44Ta44TM44PP5cF55MnR44Te44XV44XX5LJW54nk6YX744TZ5YvY44TZ44XY5Y2M5Mlj44Ti5nFa44TA44Tq44TT44Ta44TM44PP';
+lang.co2compare06='平均よりもだいぶ少ないです。とてもすてきな暮らしです。';
+lang.co2compare08='平均よりも少なめです。すてきな暮らしです。';
+lang.co2compare10='平均と同じ程度です。';
+lang.co2compare12='平均よりもやや多めです。改善により光熱費が下がる余地は大きそうです。';
+lang.co2compare14='平均よりも多めです。改善により光熱費が下がる余地は大きそうです。';
 lang.rankcomment=function(same,youcount,rank) {return same +"が100" + youcount + "あったとすると、少ないほうから" +   rank+ "番目です。<br>"};;
-lang.itemize='q@5LnS6Xvm';
-lang.itemname='q@5LvT6LrB';
-lang.percent='q@5Lzl5MPVXPHc';
-lang.measure='q@5n++562J';
-lang.merit='q@44TX5o6K';
-lang.select='q@6LT45bdr';
+lang.itemize='内訳';
+lang.itemname='分野';
+lang.percent='割合(%)';
+lang.measure='対策';
+lang.merit='お得';
+lang.select='選択';
 lang.itemizecomment=function(main3,sum) {return main3+"の割合が大きく、この3分野で" + sum+"%を占めます。こうした大きい分野の対策が効果的です。"};;
-lang.effectivemeasures='q@5Ld55c6p55dR44Td5n++562J';
+lang.effectivemeasures='効果的な対策';
 lang.comment_combined_reduce=function(percent,fee,co2) {return co2==0 ?  "対策をすることでCO2排出をへらすことができます。" : "　組み合わせると" + percent+"%、年間" + ( hidePrice != 1  ? fee +"円の光熱費と、":"") + co2+"kgのCO2が削減できます。" };;
 lang.titlemessage=function(title) {return  title+"取り組みが効果的です。"};;
 lang.co2reduction=function(co2) {return "年間" + co2+"kgのCO2を減らすことができます。"};;
 lang.reducepercent=function(name,percent) {return "これは" + name+"の" +percent+"%を減らすことに相当します。"};;
-lang.co2minus='q@D08l44XF5b6F5Lr644TK44Td44TR55Fs5eF744TZ6LTH5bvD44Ta44TA44T+44TM44PP';
-lang.error='q@VBXNh+vcf+r0fBBOehvbzBJScrBOwBBOdhBOuBBOa+BPtrnzthrhy+BOc+BOzrBNtt==';
+lang.co2minus='CO2を排出しない生活が達成できます。';
+lang.error=' ※詳細の記入がないため概算です。';
 lang.feereduction=function(fee) {return "年間約" + fee+"円お得な取り組みです。"};;
-lang.feenochange='q@5LJW54nk6YX7562W44Th5nFW5LlJ44Ti44TP44XX44T+44To44XG44PP';
+lang.feenochange='光熱費等の変化はありません。';
 lang.initialcost=function(price,lifetime,load) {return "新たに購入するために、約" + price+"円（参考価格）かかり、" + lifetime+"年の寿命で割ると、年間約"+ load+"円の負担になります。"};;
 lang.payback=function(change,totalchange,down) {return "一方、光熱費が毎年約" + change+ "円安くなるため、トータルでは年間約" + totalchange +(down?"円お得となります。":"円の負担ですみます。" )};;
-lang.payback1month='q@ZrBQghnpvBF7crJTurBOd+JSt+BPxhBOdBBPwBBOihBOzrBNtt==';
+lang.payback1month='1ヶ月以内に元をとれます。';
 lang.paybackmonth=function(month) {return "約" + month+"ヶ月で元をとれます。"};;
 lang.paybackyear=function(year) {return "約" + year+"年で元をとれます。"};;
-lang.paybacknever='q@44Td44TX44PO6XB95MBO44Th5n+/5MT944T+44Ta44Te44PO5LJW54nk6YX75LzX5evo6nTA44Ta5LJQ44XF44Tb44XY44TG44Tb44Ti44Ta44TA44T+44To44XG44PP';
+lang.paybacknever='なお、製品の寿命までに、光熱費削減額で元をとることはできません。';
 lang.notinstallfee=function(fee) {return "光熱費は年間約" + fee+"円安くなります。"};;
-lang.monthlytitle='q@5clV44TH44Tb44Th5LJW54nk6YX75b6b6XvV';
-lang.month='q@5clV';
-lang.energy='q@44Xb44BA44Be44Xh44B8';
-lang.button_clear='q@44Xi44Bd44Xv';
-lang.button_savenew='q@5cnj6XnC5Y+q5n2L';
-lang.button_save='q@5Y+q5n2L';
-lang.button_open='q@6MnY44TC';
-lang.button_close='q@6MnW44TL44XY';
-lang.button_showall='q@5LJb44Tz6XTb56F6';
-lang.add='q@6Y+95Ldt';
-lang.button_menu='q@44Bu44BY44By44B8';
-lang.button_back_toppage='q@5clN5Lvq44Th44Bn44B844X444Te5bv744XY';
-lang.button_back='q@5bv744XY';
-lang.button_prev='q@5LzA44T4';
-lang.button_next='q@5dlu44T4';
-lang.button_top='q@44BV44BQ44BK';
-lang.button_input='q@54++54d26XvL5LJy';
-lang.button_queslist='q@6YBd5MJC5YvN6Xna';
-lang.button_diagnosis='q@6Xv65cng55F76M2v';
-lang.button_measures='q@5n++562J5dFp6XvB';
-lang.button_selectcategory='q@6XzI5Y6u5LvT6LrB6Xvg5n6n';
-lang.button_calcresult='q@6XvV566K57JD5c6p';
-lang.button_about='q@6Xrw6Xdf';
-lang.button_fullversion='q@5LJb5dzs6VB954zV';
-lang.clear_confirm='q@5YvN6Xna44Bv44B844BW';
-lang.button_co2emission='q@D08l5b6F5Lr66LrC';
-lang.button_firstenergy='q@5YvN5dlu44Xb44BA44Be44Xh44B86LrC';
-lang.button_energyfee='q@5LJW54nk6YX7';
-lang.home_button_intro1='q@44PN44TP44Td44Ts44Th5n625odg44Ta44Th44Xb44BA44Be44Xh44B85dzs5Mzb44XR44PO44Tq44Th5Y2/44TR5cn544Te5o+p44TL44Tz44PO5clW5Ld544Td55lO44Xb44BA5n++562J44XF5b+D5dTV44TK44T+44TM44PP5n625odg44Ta44Th44Xb44BA44Be44Xh44B844Th5Y2/44TR5cn544Te44Tx44TR44TzZwQyyL/adViyhdowtn7bf6eyyL/wtLmwtLYwtbewto7wtMawtVYaeMGwtLwwtbawtbmwtbibf6eyyL/wtnQwtMUwtnsagMQzc4iwtnswtMawtn7wtnswtVUyz57aeMGwtLGwtM/wtnQwtL/wtnwwtVUwtLYwtnewtM/wtn7yeeoyhd3wtniwtLYwtnCwtM/ye77aeMowtcYzw5QzbLwwtMawtbiwtMCwtnwwtLmwtnswtL3wto7wtMawtVV=';
-lang.home_button_intro2='q@44PN5LJy5Ldo44TI44XZ44Ts5bBS5nPk44Te44Tx44TR44Tz44Ti44PO44TG44Th56hi5cle44XF5Lvc55Fb44TM44XY44TP44Td44Ts44Tt44TE44TZ6Mnl6Xna44Ta44TA44PO44X144B844BD44B844Te44Ti6WBR56zA44TI44XZ44T+44To44XG44PP';
-lang.home_button_startdiagnosis='q@6Xv65cng44XF44Ti44TL44XO44XY';
-lang.home_button_about='q@44TG44Th6Xv65cng44Te44Tx44TR44Tz';
-lang.home_button_result='q@57JD5c6p44XF44T/44XY';
-lang.home_button_retry='q@5Mhr562H44TK44Td44TX44TM';
-lang.home_button_average='q@5ozm5M2U5d+H6YlQ';
-lang.home_button_monthly='q@5clV5nFW5LlJ';
-lang.home_button_measure='q@5clW5Ld544Td5n++562J';
-lang.home_button_resultmessage='q@44PN5ozm5M2U44Tb44Th5d+H6YlQ44XF44Xj44Bc44BI44Te44TK44T+44TK44Ts44PP44PZ5clW5Ld544Td5n++562J44PA44XF5n6s6XTZ44TK44Ts5nP05MPV44Th5Ld55c6p44TZ5Yvg5nFh44Th44Xj44Bc44BI44Te6XTb56F644TI44XZ44T+44TM44PP';
-lang.home_button_measuremessage='q@44PN5clW5Ld544Td5n++562J44Th5YvN6Xna44Ta44TM44PP44PZ6LT45bdr44PA44Te44BO44Xa44BQ44Xi44XF44TM44XY44Tb44PO5Ld55c6p44TZ44Xj44Bc44BI44Ta6XTb56F644TI44XZ44T+44TM44PP';
-lang.home_button_pagemessage='q@44PN5LvT6LrB44XF5blU5n6n44TK44Tz6Xzm44TK44TC5Mhr562H44TK44Td44TX44TM44TG44Tb44TZ44Ta44TA44T+44TM44PP44PZ6Y+95Ldt44PA44Ta6LBb5oTY44XR5dzs5Mzb44XF6Y+95Ldt44Ta44TA44T+44TM44PP';
-lang.home_focus_title_after='q@44PN5YvN6Xna44Bv44B844BW';
-lang.intro1='q@44XV44TT44TG44Tq5cnj55lO44Xb44BA6Xv65cng44X944BI44BV44T444PP44TR44T+44Th44Xb44BA44Be44Xh44B844Th5Y2/44TR5cn544XF5LJy5Ldo44TM44XY44TG44Tb44Ta44PO5clW5Ld544Td55lO44Xb44BA5n++562J44XF6XvV566K44TK44Tz5b+D5dTV44Ta44TA44T+44TM44PP';
-lang.intro2='q@44XC44TY44XY56+R5Mhl44Ta44PO5YhX44Th44Xb44BA44Be44Xh44B844Th5Y2/44TR5cn544XF6LT444XG44Ta44TC44Tt44TI44TR44PP44TX44TX44XV44Tq44Ta44XP5drY44TR44T+44To44XG44TK44PO44XC44TY44XW44Td44TR6YBd5MJC44Ti6nBo44Tj44TK44Tz44TC44Tt44TI44TR44PP';
-lang.intro3='q@5LJy5Ldo44Te5o+p44TL44Ts5LvT5c6D57JD5c6p44TZ6MdC5czP6XTb56F644TI44XZ44T+44TM44PP';
-lang.intro4='q@D08l5b6F5Lr66LrC44XF55Fb6LPH5Lvy44Te5LvT5c6D44TK44Ts5b6b6XvV57JD5c6p44Ta44TM44PP5orz44TZ44TP44Td44Ts44Th54++54d244Ta44TM44PP5L+m44TZ5d+H6YlQ44Tb44TK44Tz44PO5MPZ5drL44Th5n625odg77lV5YdY5dJg6VPS77lW44XF56F644TK44Tz44TR44T+44TM44PP5Yvg5nFh44Ti44PO5n++562J44XF6LT45bdr44TK44Ts44Tb44TA44Th5LzX5evo5bvD5c6p44TZ56F644TI44XZ44T+44TM44PP';
-lang.intro5='q@5clV5Lvy44Th5LJW54nk6YX744XF44Xj44Bc44BI44Te44TK44Tz44TR44T+44TM44PP';
-lang.intro6='q@5clW5Ld544Td55lO44Xb44BA5n++562J44TZ6MdC5czP6XTb56F644TI44XZ44T+44TM44PP44X/44Xx44BV44Be44XF44Xi44Bd44BQ44Xi44TM44XY44Tb44PO6Xzm44TK44TC6Xrw6Xdf44TI44XZ44T+44TM44PP44TX5o6K44Th4cvS44Ti44PO6YB85LJy6YX755Fb44TZ44TP44Tw44Tz44XP5LJQ44XF5L+J44XZ44XY5n++562J44Ta44TM44PP5L+m44Th5LvK44XF44Xi44Bd44BQ44Xi44TK44Tz6LT45bdr44TM44XY44Tb44PO5n++562J44XF44TK44Ts5nP05MPV44Th5bvD5c6p44TZ44PO5Yvg5nFh44Th44Xj44Bc44BI44Te5L+A5cvt44TI44XZ44T+44TM44PP';
-lang.intro7='q@44BJ44Bc44Xz44X244Te5LJy5Ldo5bBS5nPk44XF5Y+q5n2L44TK44Tz44TX44TC44TG44Tb44TZ44Ta44TA44T+44TM44PP';
-lang.intro8='q@44TG44Th55F76M2v44TiZwQcbVKaz67adViyhdowtn7czMQwtbawtbmwtM/bf6eyyL/wtnQwtMUwtnswtMawtLmwtVUbdoCwtMswtL/bdYezyd3wtMawtbiwtMCwtnwwtbYwtnswtL3wto7wtMawtVYwtnswtn/wtMKwtnCwtM3wtL9oET9hMI3wtcYzvemwtMswtnobdYezyd3wtcYwtn/wtMwwtbUwtnowtL/wtnQwtMKwtLGwtVV=';
-lang.home_list_message='q@5n625odg44Ta5clW5Ld544Td5n++562J44Ta44TM44PP44TG44Th5Yvg44TY44XW44TP44Td44Ts44Te44TP44Tw44Ts5n++562J44XF5L6m6LT444TK44T+44TM44PP';
-lang.younow='q@54++54d2';
-lang.youafter='q@5n++562J5o6Z';
-lang.average='q@5ozm5M2U';
-lang.compare='q@5d+H6YlQ';
-lang.comparetoaverage='q@';
-lang.co2emission='q@D08l5b6F5Lr66LrC';
-lang.co2reductiontitle='q@D08l5LzX5evo5Ld55c6p';
-lang.fee='q@5LJW54nk6YX7';
-lang.feereductiontitle='q@5LJW54nk6YX75LzX5evo';
-lang.initialcosttitle='q@5Lvq5cls5bdI6YBU6nTA';
-lang.loadperyear='q@5oz06MnG6YXt5bhS6nTA';
-lang.primaryenergy='q@5YvN5dlu44Xb44BA44Be44Xh44B85enV6YX76LrC';
-lang.other='q@44Tq44Th5YhJ';
-lang.office_title='q@5YdY5dJg5bzN57Pu5cvG55lO44Xb44BA6Xv65cng';
-lang.officecall='q@5o6u56F+';
-lang.officecount='q@5YdY5dJg5bzN';
-lang.totaloffice='q@5YdY5dJg5bzN5LJb5Y2G';
-lang.officenow='q@54++54d2';
+lang.monthlytitle='月ごとの光熱費推計';
+lang.month='月';
+lang.energy='エネルギー';
+lang.button_clear='クリア';
+lang.button_savenew='新規保存';
+lang.button_save='保存';
+lang.button_open='開く';
+lang.button_close='閉じる';
+lang.button_showall='全て表示';
+lang.add='追加';
+lang.button_menu='メニュー';
+lang.button_back_toppage='最初のページに戻る';
+lang.button_back='戻る';
+lang.button_prev='前へ';
+lang.button_next='次へ';
+lang.button_top='トップ';
+lang.button_input='現状記入';
+lang.button_queslist='質問一覧';
+lang.button_diagnosis='診断画面';
+lang.button_measures='対策検討';
+lang.button_selectcategory='評価分野設定';
+lang.button_calcresult='計算結果';
+lang.button_about='解説';
+lang.button_fullversion='全機能版';
+lang.clear_confirm='一覧モード';
+lang.button_co2emission='CO2排出量';
+lang.button_firstenergy='一次エネルギー量';
+lang.button_energyfee='光熱費';
+lang.home_button_intro1='　あなたの家庭でのエネルギー機器や、その使い方に応じて、有効な省エネ対策を提案します。家庭でのエネルギーの使い方について20問程度の質問があります。答えられる質問だけで結構ですので、回答いただくと、あなたの家庭にあった対策を提案することができます。';
+lang.home_button_intro2='　入力された情報については、この端末を利用するあなただけが閲覧でき、サーバーには蓄積されません。';
+lang.home_button_startdiagnosis='診断をはじめる';
+lang.home_button_about='この診断について';
+lang.home_button_result='結果をみる';
+lang.home_button_retry='回答しなおす';
+lang.home_button_average='平均比較';
+lang.home_button_monthly='月変化';
+lang.home_button_measure='有効な対策';
+lang.home_button_resultmessage='　平均との比較をグラフにしました。「有効な対策」を実行した場合の効果が中央のグラフに表示されます。';
+lang.home_button_measuremessage='　有効な対策の一覧です。「選択」にチェックをすると、効果がグラフで表示されます。';
+lang.home_button_pagemessage='　分野を指定して詳しく回答しなおすことができます。「追加」で部屋や機器を追加できます。';
+lang.home_focus_title_after='　一覧モード';
+lang.intro1='ようこそ新省エネ診断ソフトへ。いまのエネルギーの使い方を入力することで、有効な省エネ対策を計算して提案できます。';
+lang.intro2='わかる範囲で、今のエネルギーの使い方を選んでください。おおよそでも構いませんし、わからない質問は飛ばしてください。';
+lang.intro3='入力に応じた分析結果が随時表示されます。';
+lang.intro4='CO2排出量を用途別に分析した推計結果です。左があなたの現状です。右が比較として、同様の家庭（事業者）を示しています。中央は、対策を選択したときの削減成果が示されます。';
+lang.intro5='月別の光熱費をグラフにしています。';
+lang.intro6='有効な省エネ対策が随時表示されます。タイトルをクリックすると、詳しく解説されます。お得の★は、購入費用があっても元を取れる対策です。右の列をクリックして選択すると、対策をした場合の成果が、中央のグラフに反映されます。';
+lang.intro7='ブラウザに入力情報を保存しておくことができます。';
+lang.intro8='この画面は20項目程度の限られた質問だけですが、詳しく診断することもできます。ではさっそく[Done]を押して診断をはじめてください。';
+lang.home_easy_title='快適生活のための簡単エコチェック';
+lang.home_easy_step1='質問';
+lang.home_easy_step2='比較';
+lang.home_easy_step3='特徴';
+lang.home_easy_step4='対策';
+lang.home_easy_toptitle='家の光熱費を安くしてみませんか';
+lang.home_easy_top1='　日本では「省エネ」が誤解されています。決して「がまんする」ものではなく、より生活を豊かにするものです。光熱費も安くなり、生活が快適になり、それで未来の子どもたちのためにもなります。';
+lang.home_easy_top2='　かんたんな質問で、あなたの生活にあった対策を示します。3分間でできるエコチェックしてみてください。';
+lang.home_easy_top3sm='※ご利用は無料です。<br>※名前やメールアドレスなど、あなたを特定する情報の入力は必要ありません。また端末にダウンロードして動作するため、入力した値を利用端末以外に送ることはありません。<br>※このページは利用状況を把握するためにGoogle Analiticsを使用しています。';
+lang.home_easy_top_button_start='診断をはじめる';
+lang.home_easy_top_button_about='　解説　';
+lang.home_easy_p5title='この質問にお答えください';
+lang.home_easy_p5_1='　おおよそあてはまる選択肢を選んでください。わからない場合には、回答しなくても構いません。';
+lang.home_easy_p5_button_next='結果をみる';
+lang.home_easy_p2title='平均世帯とくらべて';
+lang.home_easy_p2_button_next='大きな原因を明らかにします';
+lang.home_easy_p3title='あなたの生活の特徴';
+lang.home_easy_p3_1='　CO2がどこから出ているのか分析した結果です。左があなた、右は条件があなたに似た家庭の標準値を示しています。';
+lang.home_easy_p3_button_next='おすすめの対策はこちら';
+lang.home_easy_p4title_pre='　';
+lang.home_easy_p4title_after='つのおすすめ対策';
+lang.home_easy_p4_button_next='一番おすすめの対策';
+lang.home_easy_p4_1='　あなたの家庭に合わせた、おすすめの省エネ対策です。タイトルをクリックすると、詳しく解説されます。お得の★マークは、購入費用があっても元を取れる対策です。';
+lang.home_easy_p4_2='　これは概算です。詳しい診断で、よりあなたにあった提案をすることもできます。';
+lang.home_easy_p4_button_next2='さらに詳しい診断はこちらからできます';
+lang.home_easy_p4_button_next3='家電製品の買い換えを考えているかた';
+lang.home_easy_measure_show=function(num) {return num + "番目におすすめを表示"};;
+lang.home_maintenance_message='　あなたの選択した対策は以下のとおりです。取り組めていますか？';
+lang.home_maintenance_list='選択した対策';
+lang.home_maintenance_selected='この対策を選択しました';
+lang.home_action_title='低炭素生活のための簡単エコチェック';
+lang.home_action_step1='質問';
+lang.home_action_step2='評価';
+lang.home_action_step3='対策';
+lang.home_action_toptitle='めざせ低炭素家庭';
+lang.home_action_top1='削減ができます';
+lang.home_action_top2='かんたんな方法で';
+lang.home_action_axis1='持続可能性';
+lang.home_action_axis2='省エネ機器';
+lang.home_action_axis3='省エネ行動';
+lang.home_action_label1='すばらしい！';
+lang.home_action_label2='まあまあよい';
+lang.home_action_label3='ちょっと残念';
+lang.home_action_good_point='良い点';
+lang.home_action_bad_point='改善点';
+lang.home_list_message='家庭で有効な対策です。この中からあなたにあった対策を厳選します。';
+lang.younow='現状';
+lang.youafter='対策後';
+lang.average='平均';
+lang.compare='比較';
+lang.comparetoaverage='';
+lang.co2emission='CO2排出量';
+lang.co2reductiontitle='CO2削減効果';
+lang.fee='光熱費';
+lang.feereductiontitle='光熱費削減';
+lang.initialcosttitle='初期投資額';
+lang.loadperyear='年間負担額';
+lang.primaryenergy='一次エネルギー消費量';
+lang.other='その他';
+lang.office_title='事業所簡易省エネ診断';
+lang.officecall='御社';
+lang.officecount='事業所';
+lang.totaloffice='事業所全体';
+lang.officenow='現状';
 lang.compareoffice=function(target) {return "同じ規模の" + target};;
-lang.button_demand='q@44BU44Br44Bm44BW';
-lang.button_end='q@44XR44XO44XY';
-lang.button_agree='q@6Xvg5n6n44TM44XY';
-lang.button_commit='q@5n6s6XTZ44TK44T+44TM';
-lang.home_lifegame_button_sel99='q@';
-lang.home_lifegame_button_sel3a='q@';
-lang.home_lifegame_button_sel3b='q@';
-lang.home_uchieco_title='q@44TT44Tu44Xb44Xm44Xg44BQ44X6I0IP6Xv65cng';
-lang.home_uchieco_complete='q@6LTH5bvD5evV44T/';
-lang.home_uchieco_reducepercent='q@Wrn4zj==';
-lang.home_uchieco_question='q@6YBd5MJC';
-lang.home_uchieco_questionlist='q@6YBd5MJC5YvN6Xna';
-lang.home_uchieco_average='q@5ozm5M2U5d+H6YlQ';
-lang.home_uchieco_target='q@D08l5LzX5evo55hh5dvM';
-lang.home_uchieco_itemize='q@D08l5b6F5Lr644Th5LnS6Xvm';
-lang.home_uchieco_measure='q@D08l5LzX5evo5n++562J44Tb5Ld55c6p';
+lang.button_demand='デマンド';
+lang.button_end='やめる';
+lang.button_agree='設定する';
+lang.button_commit='実行します';
 </script>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" type="text/javascript"></script>
@@ -281,7 +322,8 @@ lang.home_uchieco_measure='q@D08l5LzX5evo5n++562J44Tb5Ld55c6p';
 	<script src="view/graph.js" type="text/javascript"></script>
 	<script src="https://d3js.org/d3.v6.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dimple/2.3.0/dimple.latest.min.js"></script>
-	<script src='dist/d6home_core.min.js' type='text/javascript'></script><script src='dist/d6home_JP.min.js' type='text/javascript'></script>
+	<script src='dist/d6home_core.min.js' type='text/javascript'></script>
+	<script src='dist/d6home_JP.min.js' type='text/javascript'></script>
 
 	<script>
 	window.onload = function(){
@@ -289,7 +331,6 @@ lang.home_uchieco_measure='q@D08l5LzX5evo5n++562J44Tb5Ld55c6p';
 		$('#divco2').hide();
 	};
 	</script>
-	<script>paramdata='';</script>
 	<script src="view/view_base/onclick-base.js" type="text/javascript"></script>
 
 </body>
