@@ -1,0 +1,12 @@
+Licensing
+Available under the MIT and GPL licenses.
+
+Change Log
+Feb 2012: v1.1 - added a closeButton option. Fixed multiple spawn of #lean_overlay.
+
+Support & Feedback
+For issues or suggestions please see leanModal on Github, or tweet @finelysliced.
+
+Thanks for your support!
+
+http://leanmodal.finelysliced.com.au/

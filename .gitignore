@@ -1,0 +1,25 @@
+.DS_Store
+node_modules/
+dist/
+npm-debug.log
+yarn-error.log
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+develop/
+logic_JP_en/
+logic_FR/
+logic_KR/
+logic_VI/
+logic_CN/
+view_JP_en/
+view_FR/
+view_KR/
+view_VI/
+view_CN/
+_you_can*
+lib/
