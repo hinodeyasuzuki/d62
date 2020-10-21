@@ -14,8 +14,15 @@ This program can advice how to reduce CO2 emission by some question about energy
 
 You can make your area/language software by support of Excel file
 
+## Demo (git page)
 
-## Demo
+https://hinodeyasuzuki.github.io/d62/index.html
+
+https://hinodeyasuzuki.github.io/d62/index_develop.html
+
+
+## Other Demo
+
 https://www.hinodeya-ecolife.com/diagnosis/?lang=ja	Japanese Default
 
 You can design visual and diagnosis flow. such as...
