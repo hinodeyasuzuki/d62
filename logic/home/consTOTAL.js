@@ -271,15 +271,29 @@ D6.consTotal.calc = function() {
 		} else {
 			pvSellUnitPrice = 31;
 		}
-	} else if (this.solarYear >= 2017 && this.solarYear < 2020) {
+	} else if (this.solarYear == 2017) {
 		if (this.pvRestrict == 1) {
 			pvSellUnitPrice = 30;
 		} else {
 			pvSellUnitPrice = 28;
 		}
+	} else if (this.solarYear == 2018) {
+		if (this.pvRestrict == 1) {
+			pvSellUnitPrice = 28;
+		} else {
+			pvSellUnitPrice = 26;
+		}
+	} else if (this.solarYear == 2019) {
+		if (this.pvRestrict == 1) {
+			pvSellUnitPrice = 26;
+		} else {
+			pvSellUnitPrice = 24;
+		}
+	} else if (this.solarYear >= 2020 && this.solarYear<2024) {
+		pvSellUnitPrice = 21;
 	} else if (this.solarYear < 2100) {
 		//estimate
-		pvSellUnitPrice = 20;
+		pvSellUnitPrice = 11;
 	}
 
 	//PV installed
