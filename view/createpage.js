@@ -576,20 +576,20 @@ showItemizeTable = function(target) {
 		"</th><th>CO2(kg)</th><th>" +
 		lang.percent +
 		"</th><th>" +
-		lang.electricity +
+		lang.electricitytitle +
 		"</th><th>" +
-		lang.gas +
+		lang.gastitle +
 		"</th>";
 	if (lang.show_kerosene) {
-		ret += "<th>" + lang.kerosene + "</th>";
+		ret += "<th>" + lang.kerosenetitle + "</th>";
 	}
 	if (lang.show_briquet) {
-		ret += "<th>" + lang.briquet + "</th>";
+		ret += "<th>" + lang.briquettitle + "</th>";
 	}
 	if (lang.show_area) {
-		ret += "<th>" + lang.area + "</th>";
+		ret += "<th>" + lang.areatitle + "</th>";
 	}
-	ret += "<th>" + lang.gasoline + "</th></tr>";
+	ret += "<th>" + lang.gasolinetitle + "</th></tr>";
 	var cons;
 
 	for (var cid in target) {
