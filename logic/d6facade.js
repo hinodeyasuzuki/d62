@@ -20,7 +20,7 @@
 
 
 ------ structure creation  ------
-D6.constructor()							generate calculation logic
+D6.construct()							generate calculation logic
 D6.addConsSetting(consName)					add countable consumption, ex. room, equipment
 				consName: consumption code name
 
@@ -162,7 +162,7 @@ D6.workercalc = function(command, param) {
 		}
 
 		//initialize D6 datasets
-		D6.constructor(
+		D6.construct(
 			param.prohibitQuestions,
 			param.allowedQuestions,
 			param.defInput
@@ -390,7 +390,7 @@ D6.workercalc = function(command, param) {
 		var measurechange = false;
 		//construct d6 senario
 		if (typeof param.construct != "undefined" && param.construct) {
-			D6.constructor(
+			D6.construct(
 				param.prohibitQuestions,
 				param.allowedQuestions,
 				param.defInput

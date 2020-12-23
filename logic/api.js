@@ -26,7 +26,7 @@ function maxmeasure(n){
 }
 
 //基本構造構築
-D6.constructor();
+D6.construct();
 
 //構造の変更
 var key, key2;

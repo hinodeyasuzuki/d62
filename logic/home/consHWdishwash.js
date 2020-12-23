@@ -26,44 +26,48 @@
 var D6 = D6 || {};
 
 //Inherited class of D6.consCRsum
-D6.consHWdishwash = Object.create(ConsBase);
+class ConsHWdishwash extends ConsBase{
 
-D6.consHWdishwash.init = function () {
-	this.reduceRateWashTank = 0.3;			//reduction rate wash with stored water
-	this.reduceRateWashNotSummer = 0.5;	//reduction rate with cold water in summer
-	this.reduceRateDishWasher = 0.2;		//reduction rate with wash machine
+	constructor() {
+		super();
 
-	//construction setting
-	this.consName = "consHWdishwash";  	//code name of this consumption 
-	this.consCode = "HW";            		//short code to access consumption, only set main consumption user for itemize
-	this.title = "Dish Wash";						//consumption title name
-	this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
-	this.groupID = "1";									//number code in items
-	this.color = "#ffb700";							//color definition in graph
-	this.countCall = "";								//how to point n-th equipment
+		this.reduceRateWashTank = 0.3;			//reduction rate wash with stored water
+		this.reduceRateWashNotSummer = 0.5;	//reduction rate with cold water in summer
+		this.reduceRateDishWasher = 0.2;		//reduction rate with wash machine
 
-	this.sumConsName = "consHWsum";			//code name of consumption sum up include this
-	this.sumCons2Name = "";							//code name of consumption related to this
+		//construction setting
+		this.consName = "consHWdishwash";  	//code name of this consumption 
+		this.consCode = "HW";            		//short code to access consumption, only set main consumption user for itemize
+		this.title = "Dish Wash";						//consumption title name
+		this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
+		this.groupID = "1";									//number code in items
+		this.color = "#ffb700";							//color definition in graph
+		this.countCall = "";								//how to point n-th equipment
 
-	//guide message in input page
-	this.inputGuide = "How to use the dishwasher";
-};
-D6.consHWdishwash.init();
+		this.sumConsName = "consHWsum";			//code name of consumption sum up include this
+		this.sumCons2Name = "";							//code name of consumption related to this
 
-
-D6.consHWdishwash.calc = function () {
-	this.copy(this.sumCons);
-	this.multiply(this.sumCons.consHWdishwashRate);
-};
-
-D6.consHWdishwash.calcMeasure = function () {
-	//mHWdishTank
-	if (this.sumCons.dishWashWater != 1) {
-		this.measures["mHWdishTank"].calcReduceRate(this.reduceRateWashTank);
+		//guide message in input page
+		this.inputGuide = "How to use the dishwasher";
 	}
 
-	//mHWdishWater
-	if (this.sumCons.dishWashWater != 1) {
-		this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
+
+	calc() {
+		this.copy(this.sumCons);
+		this.multiply(this.sumCons.consHWdishwashRate);
 	}
-};
+
+	calcMeasure() {
+		//mHWdishTank
+		if (this.sumCons.dishWashWater != 1) {
+			this.measures["mHWdishTank"].calcReduceRate(this.reduceRateWashTank);
+		}
+
+		//mHWdishWater
+		if (this.sumCons.dishWashWater != 1) {
+			this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
+		}
+	}
+
+}
+

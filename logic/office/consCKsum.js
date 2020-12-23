@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2011/11/04 diagnosis5
 */
 
-D6.consCKsum = Object.create( ConsBase );
+D6.consCKsum = new ConsBase();
 DC = D6.consCKsum;
 
 //初期設定値

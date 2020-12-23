@@ -11,7 +11,7 @@
 */
 
 
-D6.consCRsum = Object.create( ConsBase );
+D6.consCRsum = new ConsBase();
 DC = D6.consCRsum;
 
 

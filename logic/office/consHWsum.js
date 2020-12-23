@@ -11,7 +11,7 @@
 *								2011/10/21 給湯簡易計算を実装
 */
 
-D6.consHWsum = Object.create( ConsBase );
+D6.consHWsum = new ConsBase();
 DC = D6.consHWsum;
 
 

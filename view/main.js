@@ -90,7 +90,7 @@ var allowedMeasures = [];
 $(".page").css({ opacity: "0.0" });
 
 // start parameters set depend on views
-onloadStartParamsSet = function (param) {
+var onloadStartParamsSet = function (param) {
 	return param;
 };
 
@@ -196,7 +196,7 @@ function startCalc(command, param) {
 //		none
 // set
 //		none
-getCalcResult = function (command, res) {
+var getCalcResult = function (command, res) {
 	function isset(data) {
 		return typeof data != "undefined";
 	}

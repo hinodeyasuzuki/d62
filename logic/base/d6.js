@@ -74,7 +74,7 @@ D6.viewparam = {};
 D6.debugMode = false;
 
 //constructor
-D6.constructor = function(a, b, c) {
+D6.construct = function(a, b, c) {
 	D6.setscenario(a, b, c);
 };
 

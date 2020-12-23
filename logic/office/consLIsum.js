@@ -10,7 +10,7 @@
 *								2011/10/21 照明簡易計算を実装
 */
 
-D6.consLIsum = Object.create( ConsBase );
+D6.consLIsum = new ConsBase();
 DC = D6.consLIsum;
 
 

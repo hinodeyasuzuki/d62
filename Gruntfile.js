@@ -206,7 +206,7 @@ module.exports = function(grunt){
 			},
 		},
 
-		uglify: {
+		terser: {
 			home_core : {
 				files:{
 									// output file : source file
@@ -286,14 +286,14 @@ module.exports = function(grunt){
 			},
 			},
 	});
-
+	grunt.loadNpmTasks('grunt-terser');
 	grunt.loadNpmTasks("grunt-contrib-concat");
-	grunt.loadNpmTasks("grunt-contrib-uglify");
+//	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.registerTask("core", ["concat:home_core",
 								"concat:office_core",
-								"uglify:home_core",
-								"uglify:office_core"
+								"terser:home_core",
+								"terser:office_core"
 								]);
-	grunt.registerTask("default", ["concat","uglify"]);
+	grunt.registerTask("default", ["concat","terser"]);
 
 };

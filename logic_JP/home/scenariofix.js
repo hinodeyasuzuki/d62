@@ -130,6 +130,8 @@ D6.scenario.areafix = function() {
 	D6.scenario.defEasyQues[0].title = "簡易入力";
 	D6.scenario.defEasyQues[1].title = "行動チェック入力";
 
+	/*
+	//TODO　まだ構築されていない
 	//cons definition
 	D6.consAC.title = "部屋空調";
 	D6.consAC.countCall = "部屋目";
@@ -233,7 +235,7 @@ D6.scenario.areafix = function() {
 
 	D6.consTVsum.title = "テレビ";
 	D6.consTVsum.inputGuide = "家全体のテレビの使い方について";
-
+*/
 	D6.Unit.name = {
 		electricity: "電気",
 		nightelectricity: "夜間電気",

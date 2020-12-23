@@ -8,7 +8,7 @@
 *								2011/05/06 actionscript3
 */
 
-D6.consTotal = Object.create( ConsBase );
+D6.consTotal = new ConsBase();
 DC = D6.consTotal;
 
 

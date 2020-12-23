@@ -133,7 +133,7 @@ var createInputPage = function(res) {
 //	return
 //		page			input page html with buttons
 //
-createInputButtonPageOne = function(res) {
+var createInputButtonPageOne = function(res) {
 	if (!res) return "";
 	var page = "<h2>" + res.title;
 	page += lang.QuestionNumber(res.numques, res.nowques) + "</h2>";
@@ -218,7 +218,7 @@ var createPageList = function(res) {
 //		mes.costTotalChangeOriginal		payback yen/year
 //	return
 //		modalHtml result written in html
-createModalPage = function(mes) {
+var createModalPage = function(mes) {
 	var ret = getMeasureComment(mes);
 	var modalHtml = "<h2>" + mes.title + "</h2>";
 	modalHtml +=
@@ -303,7 +303,7 @@ createModalPage = function(mes) {
 //		ret[1]	CO2 reduction
 //		ret[2]  cost comment
 //		ret[3]	advice
-getMeasureComment = function(mes) {
+var getMeasureComment = function(mes) {
 	var ret = [];
 
 	// caption to call total
@@ -389,7 +389,7 @@ getMeasureComment = function(mes) {
 	return ret;
 };
 
-createEnergyAverage = function(ave) {
+var createEnergyAverage = function(ave) {
 	var good = "";
 	var goodcount = 0;
 	var bad = "";
@@ -453,7 +453,7 @@ createEnergyAverage = function(ave) {
 //		notshowafter 1/0 show table of after saving
 // return
 //		ret  compare to average table written in html show CO2 and cost
-showAverageTable = function(dat) {
+var showAverageTable = function(dat) {
 	var youcall = "";
 	var youcount = "";
 	var same = "";
@@ -531,7 +531,7 @@ showAverageTable = function(dat) {
 
 //createCompareComment( you, av, target )
 //
-createCompareComment = function(same, you, av, target, rank100) {
+var createCompareComment = function(same, you, av, target, rank100) {
 	var youcount;
 	if (targetMode == 1) {
 		//home
@@ -569,7 +569,7 @@ createCompareComment = function(same, you, av, target, rank100) {
 // 		target: consumption list as array
 // return
 //		itemized table written in html, show energy consumption and CO2
-showItemizeTable = function(target) {
+var showItemizeTable = function(target) {
 	var ret =
 		"<table id='itemize' width='100%'><tr><th>" +
 		lang.itemname +
@@ -655,7 +655,7 @@ showItemizeTable = function(target) {
 // 		target: consumption list as array
 // return
 //		itemized table written in html, show energy consumption and CO2
-showItemizeTableSort = function(target) {
+var showItemizeTableSort = function(target) {
 	var ret =
 		"<table id='itemize'><tr><th>" +
 		lang.itemname +
@@ -718,7 +718,7 @@ showItemizeTableSort = function(target) {
 //		measures array table in html
 // global
 //		showMeasureTable_Max   : list size
-showMeasureTable = function(mesArray) {
+var showMeasureTable = function(mesArray) {
 	var ret =
 		"<table id='itemize' class='limit' width='100%'><tr><th width='60%'>" +
 		lang.measure +
@@ -739,7 +739,7 @@ showMeasureTable = function(mesArray) {
 	var countCons = {};
 	var maxMesCount = 3; //measures in same group in case of listricted output
 
-	isProhivitedMeasure = function(mname) {
+	var isProhivitedMeasure = function(mname) {
 		if (prohibitMeasures.length <= 0) {
 			if (allowedMeasures.length <= 0) {
 				return false;
@@ -886,7 +886,7 @@ showMeasureTable = function(mesArray) {
 //		pdata.data[][][6]	turn off time
 // result
 //		combo to input equip and usage pattern
-showDemandSumupPage = function(pdata) {
+var showDemandSumupPage = function(pdata) {
 	var page = {};
 	var res = pdata.data;
 	var title = pdata.title;
@@ -950,7 +950,7 @@ showDemandSumupPage = function(pdata) {
 //		res[i]	input text component in each hour
 //  result
 //		demand input table and titile written in html
-showDemandLogPage = function(res) {
+var showDemandLogPage = function(res) {
 	var page = {};
 	var ad = "";
 
@@ -970,7 +970,7 @@ showDemandLogPage = function(res) {
 //		rescommon	return value common
 //  result
 //		message written in html
-showMeasureTotalMessage = function(rescommon) {
+var showMeasureTotalMessage = function(rescommon) {
 	var html = "";
 	var redco2 = rescommon.co2Original - rescommon.co2;
 	var redcost = rescommon.costOriginal - rescommon.cost;
@@ -987,7 +987,7 @@ showMeasureTotalMessage = function(rescommon) {
 //leanModalSet()-------------------------------------------
 //		design set for leanModal
 //
-leanModalSet = function() {
+var leanModalSet = function() {
 	// use leanModal
 	$("a[rel*=leanModal]").leanModal({
 		top: 50, // top position
@@ -999,7 +999,7 @@ leanModalSet = function() {
 // showModal(id) ----------------------------------------
 //		detail measures result as modal dialog for PC
 //
-showModal = function(id) {
+var showModal = function(id) {
 	var param = {};
 	param.mid = id;
 	startCalc("modal", param);
@@ -1015,7 +1015,7 @@ function tabset() {}
 //	return
 //		rounded string with commma
 //
-priceRound = function(num) {
+var priceRound = function(num) {
 	var price;
 	if (num > 10000) {
 		price = this.comma3(Math.round(num / 100) * 100);
@@ -1033,7 +1033,7 @@ priceRound = function(num) {
 //		num : number
 //	return
 //		rounded string with comma
-comma3 = function(num) {
+var comma3 = function(num) {
 	var n;
 	var l;
 	var m = "";
@@ -1051,7 +1051,7 @@ comma3 = function(num) {
 //escapeHtml(string)----------------------------------------
 //		sanitize html script
 //
-escapeHtml = (function(String) {
+var escapeHtml = (function(String) {
 	var escapeMap = {
 		"&": "&amp;",
 		"'": "&#x27;",
@@ -1079,7 +1079,7 @@ escapeHtml = (function(String) {
 
 // initial language set
 // semi crypt
-languageset = function() {
+var languageset = function() {
 	//rot13 decode
 	function rot13(str) {
 		var i = [];
@@ -1117,7 +1117,7 @@ languageset = function() {
 };
 
 //object sort
-ObjArraySort = function(ary, key, order) {
+var ObjArraySort = function(ary, key, order) {
 	var reverse = 1;
 	if (order && order.toLowerCase() == "desc") reverse = -1;
 	ary.sort(function(a, b) {
@@ -1281,7 +1281,7 @@ base64.encode = function(s) {
 
 //over15show() -----------------------------------------
 //		show measures more than 15
-over15show = function() {
+var over15show = function() {
 	showOver15 = true;
 	$("#itemize").removeClass("limit");
 };

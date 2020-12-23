@@ -25,38 +25,41 @@
 var D6 = D6||{};
 
 //Inherited class of ConsBase
-D6.consSeason = Object.create( ConsBase );
+D6.consSeason = new ConsBase();
 
-D6.consSeason.init = function() {
-	this.titleList = ["","winter","spring/fall","summer"];	//season name
+class ConsSeason extends ConsBase {
 
-	//construction setting
-	this.consName = "consSeason";   	//code name of this consumption 
-	this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
-	this.title = "";					//consumption title name
-	this.orgCopyNum = 3;                //original copy number in case of countable consumption, other case set 0
-	this.groupID = "2";					//number code in items
-	this.color = "#ff0000";				//color definition in graph
-	this.countCall = "";				//how to point n-th equipment
-	this.residueCalc = "sumup";			//calculate method	no/sumup/yes
+	constructor() {
+		super();
 
-	this.sumConsName = "";				//code name of consumption sum up include this
-	this.sumCons2Name = "consTotal";	//code name of consumption related to this
+		this.titleList = ["","winter","spring/fall","summer"];	//season name
 
-	//guide message in input page
-	this.inputDisp = "consTotal";		//question display group
-	this.inputGuide = "For monthly water and electricity charges per season. Please fill in the approximate value.";
+		//construction setting
+		this.consName = "consSeason";   	//code name of this consumption 
+		this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
+		this.title = "";					//consumption title name
+		this.orgCopyNum = 3;                //original copy number in case of countable consumption, other case set 0
+		this.groupID = "2";					//number code in items
+		this.color = "#ff0000";				//color definition in graph
+		this.countCall = "";				//how to point n-th equipment
+		this.residueCalc = "sumup";			//calculate method	no/sumup/yes
 
-};
-D6.consSeason.init();
+		this.sumConsName = "";				//code name of consumption sum up include this
+		this.sumCons2Name = "consTotal";	//code name of consumption related to this
 
+		//guide message in input page
+		this.inputDisp = "consTotal";		//question display group
+		this.inputGuide = "For monthly water and electricity charges per season. Please fill in the approximate value.";
 
-D6.consSeason.calc = function() {
-	this.clear();
-};
+	}
+	calc() {
+		this.clear();
+	}
 
-D6.consSeason.calcMeasure = function() {
-};
+	calcMeasure() {
+	}
+}
+
 
 
 

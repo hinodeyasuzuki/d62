@@ -11,7 +11,7 @@
 *								2011/10/21 暖房簡易計算を実装
 */
 
-D6.consAC = Object.create( ConsBase );
+D6.consAC = new ConsBase();
 DC = D6.consAC;
 
 //初期設定値
@@ -83,14 +83,14 @@ DC.calcMeasure = function() {
 			//暖房をエアコンでしている場合
 			mes.electricity = this.electricity * this.acHeat.apf / this.acHeat.apfMax;
 			//分割評価
-			mes["consHT"] = Object.create( Energy );
+			mes["consHT"] = new Energy();
 			mes["consHT"].copy( this.acHeat );
 			mes["consHT"].electricity = this.acHeat.electricity * this.acHeat.apf / this.acHeat.apfMax;
 		} else {
 			mes.electricity -= this.acCool.electricity * ( 1 - this.acHeat.apf / this.acHeat.apfMax );
 		}
 		//分割評価
-		mes["consCO"] = Object.create( Energy );
+		mes["consCO"] = new Energy();
 		mes["consCO"].copy( this.acCool );
 		mes["consCO"].electricity = this.acCool.electricity * this.acHeat.apf / this.acHeat.apfMax;
 		
@@ -106,11 +106,11 @@ DC.calcMeasure = function() {
 	//mACreplaceHeat
 	mes = this.measures["mACreplaceHeat"];
 	mes.clear();
-	mes["consHT"] = Object.create( Energy );
+	mes["consHT"] = new Energy();
 	mes["consHT"].copy( this.acHeat );
 	mes["consHT"].electricity = this.acHeat.endEnergy /　this.acHeat.apfMax　/ D6.Unit.calorie.electricity;
 
-	mes["consCO"] = Object.create( Energy );
+	mes["consCO"] = new Energy();
 	mes["consCO"].copy( this.acCool );
 	mes["consCO"].electricity = this.acCool.electricity * this.acHeat.apf / this.acHeat.apfMax;
 

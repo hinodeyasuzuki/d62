@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-D6.consEnergy = Object.create( ConsBase );
+D6.consEnergy = new ConsBase();
 DC = D6.consEnergy;
 
 //初期設定値

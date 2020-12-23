@@ -26,49 +26,49 @@
 var D6 = D6||{};
  
 //Inherited class of ConsBase
-D6.consHWtub = Object.create(ConsBase);
+class ConsHWtub extends ConsBase {
 
-D6.consHWtub.init = function() {
-	this.autoKeepRate = 0.5;			//reduce rate to change auto heating to demand heating
+	constructor() {
+		super();
 
-	//construction setting
-	this.consName = "consHWtub";   	 	//code name of this consumption 
-	this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
-	this.title = "Bathtub";				//consumption title name
-	this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
-	this.groupID = "1";					//number code in items
-	this.color = "#ffb700";				//color definition in graph
-	this.countCall = "";				//how to point n-th equipment
+		this.autoKeepRate = 0.5;			//reduce rate to change auto heating to demand heating
 
-	this.sumConsName = "consHWsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";				//code name of consumption related to this
+		//construction setting
+		this.consName = "consHWtub";   	 	//code name of this consumption 
+		this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
+		this.title = "Bathtub";				//consumption title name
+		this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
+		this.groupID = "1";					//number code in items
+		this.color = "#ffb700";				//color definition in graph
+		this.countCall = "";				//how to point n-th equipment
 
-	//guide message in input page
-	this.inputGuide = "how to use hot water in bath tub";
+		this.sumConsName = "consHWsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";				//code name of consumption related to this
 
-};
-D6.consHWtub.init();
+		//guide message in input page
+		this.inputGuide = "how to use hot water in bath tub";
 
-
-D6.consHWtub.calc = function() {
-	this.copy( this.sumCons );
-	this.multiply( this.sumCons.consHWtubRate );
-};
-
-D6.consHWtub.calcMeasure = function() {
-	//mHWinsulation
-	this.measures[ "mHWinsulation" ].calcReduceRate( this.sumCons.reduceRateInsulation );
-
-	//mHWkeep
-	this.measures[ "mHWkeep" ].calcReduceRate( this.sumCons.reduceRateTabKeep );
-
-	//mHWstopAutoKeep 
-	if ( this.sumCons.keepMethod > 5 )  {
-		this.measures[ "mHWstopAutoKeep" ].calcReduceRate( this.sumCons.reduceRateTabKeep * this.autoKeepRate );
 	}
 
-	//mHWonlyShower
-	this.measures[ "mHWonlyShower" ].calcReduceRate(  this.sumCons.reduceRateStopTabSummer );
-};
+	calc() {
+		this.copy( this.sumCons );
+		this.multiply( this.sumCons.consHWtubRate );
+	}
 
+	calcMeasure() {
+		//mHWinsulation
+		this.measures[ "mHWinsulation" ].calcReduceRate( this.sumCons.reduceRateInsulation );
+
+		//mHWkeep
+		this.measures[ "mHWkeep" ].calcReduceRate( this.sumCons.reduceRateTabKeep );
+
+		//mHWstopAutoKeep 
+		if ( this.sumCons.keepMethod > 5 )  {
+			this.measures[ "mHWstopAutoKeep" ].calcReduceRate( this.sumCons.reduceRateTabKeep * this.autoKeepRate );
+		}
+
+		//mHWonlyShower
+		this.measures[ "mHWonlyShower" ].calcReduceRate(  this.sumCons.reduceRateStopTabSummer );
+	}
+}
 

@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-D6.consRM = Object.create( ConsBase );
+D6.consRM = new ConsBase();
 DC = D6.consRM;
 
 //初期設定値

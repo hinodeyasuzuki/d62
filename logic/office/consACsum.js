@@ -11,7 +11,7 @@
 *								2011/10/21 暖房簡易計算を実装
 */
 
-D6.consACsum = Object.create( ConsBase );
+D6.consACsum = new ConsBase();
 DC = D6.consACsum;
 
 //初期設定値

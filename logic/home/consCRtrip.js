@@ -27,74 +27,78 @@
 var D6 = D6 || {};
 
 //Inherited class of D6.consCRsum
-D6.consCRtrip = Object.create(D6.consCRsum);
+class ConsCRtrip extends ConsCRsum {
 
-//initialize
-D6.consCRtrip.init = function () {
-	//construction setting
-	this.consName = "consCRtrip";    	//code name of this consumption 
-	this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
-	this.title = "movement";					//consumption title name
-	this.orgCopyNum = 1;             	//original copy number in case of countable consumption, other case set 0
-	this.groupID = "8";								//number code in items
-	this.color = "#ee82ee";						//color definition in graph
-	this.countCall = "th places";			//how to point n-th equipment
-	this.addable = "destination";
+	//initialize
+	constructor() {
+		super();
 
-	this.sumConsName = "consCRsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
+		//construction setting
+		this.consName = "consCRtrip";    	//code name of this consumption 
+		this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
+		this.title = "movement";					//consumption title name
+		this.orgCopyNum = 1;             	//original copy number in case of countable consumption, other case set 0
+		this.groupID = "8";								//number code in items
+		this.color = "#ee82ee";						//color definition in graph
+		this.countCall = "th places";			//how to point n-th equipment
+		this.addable = "destination";
 
-	//guide message in input page
-	this.inputGuide = "how to use cars by destinations";
-};
-D6.consCRtrip.init();
+		this.sumConsName = "consCRsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
 
+		//guide message in input page
+		this.inputGuide = "how to use cars by destinations";
+	}
 
-D6.consCRtrip.precalc = function () {
-	this.clear();
+	precalc() {
+		this.clear();
 
-	this.mesTitlePrefix = this.input("i921" + this.subID, this.mesTitlePrefix);	//destination
-	this.frequency = this.input("i922" + this.subID, 250);		//frequency to visit
-	this.km = this.input("i923" + this.subID, 0);		//distance
-	this.carID = this.input("i924" + this.subID, 1);		//car to mainly use
+		this.mesTitlePrefix = this.input("i921" + this.subID, this.mesTitlePrefix);	//destination
+		this.frequency = this.input("i922" + this.subID, 250);		//frequency to visit
+		this.km = this.input("i923" + this.subID, 0);		//distance
+		this.carID = this.input("i924" + this.subID, 1);		//car to mainly use
 
-	//instance of car
-	this.consCar = D6.consListByName["consCR"][this.carID];
-};
+		//instance of car
+		this.consCar = D6.consListByName["consCR"][this.carID];
+	}
 
-D6.consCRtrip.calc = function () {
-	//performance
-	this.performance = this.consCar.performance;
+	calc() {
+		//performance
+		this.performance = this.consCar.performance;
 
-	//consumption of gasoline L/month
-	this.car = this.km * 2 * this.frequency / 12 / this.performance;
+		//consumption of gasoline L/month
+		this.car = this.km * 2 * this.frequency / 12 / this.performance;
 
-	//add related car
-	this.consCar.car += this.car;
-};
+		//add related car
+		this.consCar.car += this.car;
+	}
 
-D6.consCRtrip.calc2nd = function () {
-	//calc residue
-	if (this.subID == 0) {
-		this.car = this.sumCons.car;
-		var cons = D6.consListByName[this.consName];
-		for (var i = 1; i < cons.length; i++) {
-			this.car -= cons[i].car;
+	calc2nd() {
+		//calc residue
+		if (this.subID == 0) {
+			this.car = this.sumCons.car;
+			var cons = D6.consListByName[this.consName];
+			for (var i = 1; i < cons.length; i++) {
+				this.car -= cons[i].car;
+			}
 		}
 	}
-};
 
-D6.consCRtrip.calcMeasure = function () {
-	//mCRwalk
-	if (this.km < 3) {
-		this.measures["mCRwalk"].calcReduceRate(this.walkRate);
+	calcMeasure() {
+		//mCRwalk
+		if (this.km < 3) {
+			this.measures["mCRwalk"].calcReduceRate(this.walkRate);
+		}
+
+		//mCR20percent
+		this.measures["mCR20percent"].calcReduceRate(0.2);
+
+		//mCRtrain
+		this.measures["mCRtrain"].calcReduceRate(this.reduceRatePublic * this.publicRate);
+
 	}
 
-	//mCR20percent
-	this.measures["mCR20percent"].calcReduceRate(0.2);
+}
 
-	//mCRtrain
-	this.measures["mCRtrain"].calcReduceRate(this.reduceRatePublic * this.publicRate);
 
-};
 

@@ -24,101 +24,102 @@
 var D6 = D6 || {};
 
 //Inherited class of Energy
-ConsBase = Object.create(Energy); //base class is energy
+class ConsBase extends Energy{
+	constructor(){
+		//----------- declare instanses ---------------------------
+		super();
 
-ConsBase.init = function() {
-	//----------- declare instanses ---------------------------
+		this.measures = []; //related instanses of measure
+		// name of related measures is declared in each consumption definition
+		//names, codes
+		this.title = ""; //caption of this consumption
+		this.consName = "consXX"; //name of consumption "cons" +  2 charactors
+		this.consCode = ""; //code of consumption written in 2 charactors
+		this.subID = 0; //id in same kind of consumtion, rooms or equipments
+		this.groupID = 0; //consumption group id
+		this.inputGuide = ""; //guide message for input
 
-	this.measures = []; //related instanses of measure
-	// name of related measures is declared in each consumption definition
-	//names, codes
-	this.title = ""; //caption of this consumption
-	this.consName = "consXX"; //name of consumption "cons" +  2 charactors
-	this.consCode = ""; //code of consumption written in 2 charactors
-	this.subID = 0; //id in same kind of consumtion, rooms or equipments
-	this.groupID = 0; //consumption group id
-	this.inputGuide = ""; //guide message for input
+		//structure
+		this.consShow = []; //other main consumption instances list
+		this.sumCons = ""; //sum side consumption instance
+		this.sumCons2 = ""; //sum related side of consumption
+		this.sumConsName = ""; //sum side consumption name
+		this.sumCons2Name = ""; //sum related side of consumption name
+		this.partCons = []; //part side consumption instances
+		this.partCons2 = []; //part related side consumption instance
+		this.partConsName = ""; //part side name
+		this.partCons2Name = ""; //part related side name
+		this.residueCalc = "yes"; //calc residue in this brother consumption ( yes or not)
 
-	//structure
-	this.consShow = []; //other main consumption instances list
-	this.sumCons = ""; //sum side consumption instance
-	this.sumCons2 = ""; //sum related side of consumption
-	this.sumConsName = ""; //sum side consumption name
-	this.sumCons2Name = ""; //sum related side of consumption name
-	this.partCons = []; //part side consumption instances
-	this.partCons2 = []; //part related side consumption instance
-	this.partConsName = ""; //part side name
-	this.partCons2Name = ""; //part related side name
-	this.residueCalc = "yes"; //calc residue in this brother consumption ( yes or not)
+		//calclation parameters
+		this.performance = ""; //performance factor
+		this.mainSource = ""; //main energy source
+		this.co2Original = ""; //CO2 in case of no measures are selected
+		this.costOriginal = ""; //cost in case of no measures are selected
+		this.julesOriginal = ""; //energy consumption in case of no measures are selected
 
-	//calclation parameters
-	this.performance = ""; //performance factor
-	this.mainSource = ""; //main energy source
-	this.co2Original = ""; //CO2 in case of no measures are selected
-	this.costOriginal = ""; //cost in case of no measures are selected
-	this.julesOriginal = ""; //energy consumption in case of no measures are selected
+		//display
+		this.color = ""; //fill color in graph
 
-	//display
-	this.color = ""; //fill color in graph
+		//type of calclation
+		this.total = false; //in case of reprezent all of related consumption
+		// for example, tv consumption not each equipments but total.
+		this.orgCopyNum = 0; //count of same consumption
+		this.addable = ""; //in case of add consumption set this postfix
+	}
 
-	//type of calclation
-	this.total = false; //in case of reprezent all of related consumption
-	// for example, tv consumption not each equipments but total.
-	this.orgCopyNum = 0; //count of same consumption
-	this.addable = ""; //in case of add consumption set this postfix
-
-	//--------- calclation of consumption ---------------------------------
 	// pre calculation
-	this.precalc = function() {
+	precalc(){
 		this.clear();
-	};
+	}
 
 	// calculation
-	this.calc = function() {
+	calc(){
 		this.clear();
-	};
+	}
 
 	//dummy definition, main routine is defined in each consumption class
-	this.calc2nd = function() {};
+	calc2nd(){
+	}
 
 	//calculation adjust
-	this.calcAdjust = function(energyAdj) {
+	calcAdjust(energyAdj) {
 		this.multiplyArray(energyAdj); //main adjust
 
 		//add adjust for some calculation
 		this.calcAdjustStrategy(energyAdj);
-	};
+	}
 
 	//dummy definition, add adjust
-	this.calcAdjustStrategy = function(energyAdj) {};
+	calcAdjustStrategy(energyAdj) {}
 
 	// in case of monthly calculation
-	this.consSumMonth = function(source, month) {
+	consSumMonth(source, month) {
 		for (var i in D6.Unit.co2) {
 			this[i] += source[i] * month;
 		}
 		this.co2 += source.co2 * month;
 		this.cost += source.cost * month;
-	};
+	}
 
 	//--------- calculation of each measures ---------------------------------
 
 	//main calculation of measures , defined in each classes
-	this.calcMeasure = function() {};
+	calcMeasure() {}
 
 	//measures initialize, fit to consumption
-	this.calcMeasureInit = function() {
+	calcMeasureInit() {
 		for (var mes in this.measures) {
 			//set reduction zero
 			this.measures[mes].setzero();
 		}
-	};
+	}
 
 	// when select measure, reduce consumption with related consumption link
 	//		called by addReduction in measures files
 	//		originalConsName: consumption name of original in chain
 	//		sourceConsName: consumption name called by
-	this.addReductionMargin = function(margin, originalConsName, sourceConsName) {
+	addReductionMargin(margin, originalConsName, sourceConsName) {
 		var ccons;
 		var pcons;
 		var fromPart;
@@ -245,7 +246,7 @@ ConsBase.init = function() {
 					}
 				}
 				//reduction
-				var submargin = Object.create(Energy);
+				var submargin = new Energy();
 				submargin.clear();
 				if ( en ){
 					for( k in ht){
@@ -267,16 +268,16 @@ ConsBase.init = function() {
 				D6.consHTsum.calcJules();
 			}
 		} 
-	};
+	}
 
 	//calclate to sub part reduction, take rate of each sub consumption for consern
-	this.addReductionMargin2Part = function(
+	addReductionMargin2Part(
 		pconsList,
 		margin,
 		originalConsName,
 		sourceConsName
 	) {
-		var submargin = Object.create(Energy);
+		var submargin = new Energy();
 		var pcons;
 
 		if (pconsList.length > 1) {
@@ -343,10 +344,10 @@ ConsBase.init = function() {
 				}
 			}
 		}
-	};
+	}
 
 	//set input data
-	this.input = function(InDataCode, defaultData) {
+	input(InDataCode, defaultData) {
 		var ret;
 		//return only average if average mode
 		if (
@@ -376,10 +377,10 @@ ConsBase.init = function() {
 			}
 		}
 		return ret;
-	};
+	}
 
 	//set 2seasons input data
-	this.input2seasons = function(InDataCode1, InDataCode2, defaultData) {
+	input2seasons(InDataCode1, InDataCode2, defaultData) {
 		var ret = [];
 		var r0 = this.input(InDataCode1, -1);
 		var r1 = this.input(InDataCode2, r0);
@@ -393,10 +394,10 @@ ConsBase.init = function() {
 		ret[0] = r0;
 		ret[1] = r1;
 		return ret;
-	};
+	}
 
 	//get equip parameters
-	this.getEquipParameters = function(year, size, sizeThreshold, defEquip) {
+	getEquipParameters(year, size, sizeThreshold, defEquip) {
 		var ret = {};
 
 		//get definisiton by size
@@ -428,35 +429,37 @@ ConsBase.init = function() {
 				(justafter - justbefore);
 		}
 		return ret;
-	};
+	}
 
 	//room/equip id
-	this.setsubID = function(num) {
+	setsubID(num) {
 		this.subID = num;
 		if (this.titleList) {
 			this.title = this.titleList[num];
 		}
-	};
+	}
 
 	//is this measure selected?
-	this.isSelected = function(mName) {
+	isSelected(mName) {
 		if (!this.measures[mName]) {
 			return false;
 		} else {
 			return this.measures[mName].selected;
 		}
-	};
+	}
 
 	//get size rank
 	//	val : value, thresholdList: list of value to get rank
-	this.getIndex = function(val, thresholdList) {
+	getIndex(val, thresholdList) {
 		for (var i = 0; i < thresholdList.length; i++) {
 			if (val < thresholdList[i]) {
 				return i;
 			}
 		}
 		return thresholdList.length;
-	};
-};
+	}
 
-ConsBase.init();
+
+}
+
+

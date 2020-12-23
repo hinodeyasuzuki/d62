@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-D6.consMonth = Object.create( ConsBase );
+D6.consMonth = new ConsBase();
 DC = D6.consMonth;
 
 //初期設定値

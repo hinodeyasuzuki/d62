@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-D6.consSeason = Object.create( ConsBase );
+D6.consSeason = new ConsBase();
 DC = D6.consSeason;
 
 //初期設定値

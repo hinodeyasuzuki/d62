@@ -12,7 +12,7 @@
 * 								2016/04/12 js
 */
 
-D6.consCOsum = Object.create( ConsBase );
+D6.consCOsum = new ConsBase();
 
 //初期設定値
 D6.consCOsum.init = function() {

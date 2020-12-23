@@ -28,38 +28,37 @@
 var D6 = D6||{};
 
 //Inherited class of D6.consCRsum
-D6.consEnergy = Object.create(ConsBase);
+class ConsEnergy extends ConsBase {
 
-D6.consEnergy.init = function() {
-	//construction setting
-	this.consName = "consEnergy";    				//code name of this consumption 
-	this.consCode = "";            					//short code to access consumption, only set main consumption user for itemize
-	this.title = "General Energy Setting";	//consumption title name
-	this.orgCopyNum = 0;                		//original copy number in case of countable consumption, other case set 0
-	this.groupID = "0";											//number code in items
-	this.color = "#ff0000";									//color definition in graph
-	this.countCall = "";										//how to point n-th equipment
+	constructor() {
+		super();
 
-	this.sumConsName = "consTotal";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
+		//construction setting
+		this.consName = "consEnergy";    				//code name of this consumption 
+		this.consCode = "";            					//short code to access consumption, only set main consumption user for itemize
+		this.title = "General Energy Setting";	//consumption title name
+		this.orgCopyNum = 0;                		//original copy number in case of countable consumption, other case set 0
+		this.groupID = "0";											//number code in items
+		this.color = "#ff0000";									//color definition in graph
+		this.countCall = "";										//how to point n-th equipment
 
-	//guide message in input page
-	this.inputGuide = "the use of energy of the whole house, monthly bills";
+		this.sumConsName = "consTotal";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
 
-	// add instance combined to this class
-	this.partConsName = [		
-	];
-};
-D6.consEnergy.init();
+		//guide message in input page
+		this.inputGuide = "the use of energy of the whole house, monthly bills";
 
-
-D6.consEnergy.calc = function() {
-	this.clear();
-};
-
-D6.consEnergy.calcMeasure = function() {
-};
+		// add instance combined to this class
+		this.partConsName = [		
+		];
+	}
 
 
+	calc() {
+		this.clear();
+	}
 
+	calcMeasure() {
+	}
+}
 

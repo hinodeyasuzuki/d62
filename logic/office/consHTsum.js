@@ -12,7 +12,7 @@
 */
 
 
-D6.consHTsum = Object.create( ConsBase );
+D6.consHTsum = new ConsBase();
 DC = D6.consHTsum;
 
 

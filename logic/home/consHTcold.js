@@ -28,34 +28,36 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-D6.consHTcold = Object.create(ConsBase);
+class ConsHTcold extends ConsBase {
 
-D6.consHTcold.init = function () {
-	//construction setting
-	this.consName = "consHTcold";    	//code name of this consumption 
-	this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
-	this.title = "In the cold climate area";				//consumption title name
-	this.orgCopyNum = 0;               //original copy number in case of countable consumption, other case set 0
-	this.groupID = "2";								//number code in items
-	this.color = "#ff0000";						//color definition in graph
-	this.countCall = "";							//how to point n-th equipment
+	constructor() {
+		super();
 
-	this.sumConsName = "consHTsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
+		//construction setting
+		this.consName = "consHTcold";    	//code name of this consumption 
+		this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
+		this.title = "In the cold climate area";				//consumption title name
+		this.orgCopyNum = 0;               //original copy number in case of countable consumption, other case set 0
+		this.groupID = "2";								//number code in items
+		this.color = "#ff0000";						//color definition in graph
+		this.countCall = "";							//how to point n-th equipment
 
-	//guide message in input page
-	this.inputGuide = "How to use heating in cold climate area";
+		this.sumConsName = "consHTsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
 
-};
-D6.consHTcold.init();
+		//guide message in input page
+		this.inputGuide = "How to use heating in cold climate area";
 
+	}
 
-D6.consHTcold.calc = function () {
-	this.clear();
-};
+	calc() {
+		this.clear();
+	}
 
-D6.consHTcold.calcMeasure = function () {
-};
+	calcMeasure() {
+	}
+}
+
 
 
 

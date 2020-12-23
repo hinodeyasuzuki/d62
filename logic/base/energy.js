@@ -19,33 +19,35 @@
  */
 
 
-var Energy = {
+class Energy {
 	//value of each energy type
-	electricity: 0,
-	nightelectricity: 0,
-	sellelectricity: 0,
-	nagas: 0,
-	lpgas: 0,
-	kerosene: 0,
-	gasoline: 0,
-	lightoil: 0,
-	heavyoil: 0,
-	coal: 0,
-	biomass: 0,
-	hotwater: 0,
-	waste: 0,
-	water: 0,
-	gas: 0,
-	car: 0,
+	constructor(){
+		this.electricity = 0;
+		this.nightelectricity = 0;
+		this.sellelectricity = 0;
+		this.nagas = 0;
+		this.lpgas = 0;
+		this.kerosene = 0;
+		this.gasoline = 0;
+		this.lightoil = 0;
+		this.heavyoil = 0;
+		this.coal = 0;
+		this.biomass = 0;
+		this.hotwater = 0;
+		this.waste = 0;
+		this.water = 0;
+		this.gas = 0;
+		this.car = 0;
 
-	//calculated values
-	co2: 0,
-	jules: 0,
-	cost: 0,
+		//calculated values
+		this.co2 = 0;
+		this.jules = 0;
+		this.cost = 0;
+	}
 
 	//clear() --------------------------------------------
 	//		clear values
-	clear : function () {
+	clear() {
 		for (var i in D6.Unit.co2) {
 			this[i] = 0;
 		}
@@ -61,27 +63,27 @@ var Energy = {
 				this.mesTitlePrefix = this.subID + this.countCall;
 			}
 		}
-	},
+	}
 
 	//calcCO2() ------------------------------------------
 	//		calculate total co2
-	calcCO2: function () {
+	calcCO2() {
 		this.co2 = 0;
 		for (var i in D6.Unit.co2) {
 			this.co2 += this[i] * D6.Unit.co2[i];
 		}
-	},
+	}
 
 	//calcJules() ----------------------------------------
 	//		calculate total energy
-	calcJules: function () {
+	calcJules() {
 		this.jules = 0;
 		for (var i in D6.Unit.co2) {
 			this.jules += this[i] * D6.Unit.jules[i];
 		}
-	},
+	}
 
-	calcHeat: function (apf) {
+	calcHeat(apf) {
 		var kcal = 0;
 		for (var i in D6.Unit.co2) {
 			if (i == "electricity") {
@@ -91,43 +93,43 @@ var Energy = {
 			}
 		}
 		return kcal;
-	},
+	}
 
 	//calcCost() ----------------------------------------
 	//		calculate total cost
-	calcCost: function () {
+	calcCost() {
 		this.cost = 0;
 		for (var i in D6.Unit.co2) {
 			this.cost += this[i] * D6.Unit.price[i];
 		}
-	},
+	}
 
 	//multiply( rate) -------------------------------------
 	//		multiply rate to each energy
-	multiply: function (rate) {
+	multiply(rate) {
 		for (var i in D6.Unit.co2) {
 			this[i] *= rate;
 		}
 		this.co2 *= rate;
 		this.jules *= rate;
 		this.cost *= rate;
-	},
+	}
 
 	//multiplyArray( marray) -------------------------------------
 	//		multiply as array to each energy
-	multiplyArray: function (marray) {
+	multiplyArray(marray) {
 		for (var i in D6.Unit.co2) {
 			this[i] *= marray[i];
 		}
 		this.calcCO2();
 		this.calcJules();
 		this.calcCost();
-	},
+	}
 
 
 	//copy( source ) --------------------------------------------
 	//		copy souce data to this instance
-	copy: function (source) {
+	copy(source) {
 		for (var i in D6.Unit.co2) {
 			this[i] = source[i];
 		}
@@ -136,11 +138,11 @@ var Energy = {
 		this.cost = source.cost;
 		//this.endEnergy = ( source.endEnergy ? source.endEnergy : 0 );
 		// 190327 calc by energy consumption in each consumption class 
-	},
+	}
 
 	//sub( target ) ---------------------------------------------
 	//		calculate this minus target
-	sub: function (target) {
+	sub(target) {
 		for (var i in D6.Unit.co2) {
 			this[i] -= target[i];
 		}
@@ -148,11 +150,11 @@ var Energy = {
 		this.jules -= target.jules;
 		this.cost -= target.cost;
 		//this.endEnergy -= ( target.endEnergy ? target.endEnergy : 0 );
-	},
+	}
 
 	//add( target ) ---------------------------------------------
 	//		add target cons to this cons
-	add: function (target) {
+	add(target) {
 		for (var i in D6.Unit.co2) {
 			this[i] += target[i];
 		}
@@ -160,13 +162,13 @@ var Energy = {
 		this.jules += target.jules;
 		this.cost += target.cost;
 		//this.endEnergy += ( target.endEnergy ? target.endEnergy : 0 );
-	},
+	}
 
 	//isSame(target) -------------------------------------------
 	//		compare to target
 	// return
 	//		true : same, false : different
-	isSame: function (target) {
+	isSame(target) {
 		var same = true;
 		for (var i in D6.Unit.co2) {
 			if (this[i] != target[i]) {
@@ -177,10 +179,5 @@ var Energy = {
 		return same;
 	}
 
-};
-
-
-
-
-
+}
 

@@ -33,9 +33,12 @@
  */
 
 //Inherited class of Energy
-MeasureBase = Object.create(Energy);		//measure class include energy 
+class MeasureBase extends Energy{
 
-MeasureBase.init = function() {
+//constructor, copy definition from scenarioset.js
+constructor( consInstance, mdef, mesIDP ) {
+	super();
+	
 	//------declare of member value---------------------------
 	this.mesID = 0;						//measure ID (serial number)
 	this.mesdefID = 0;				//measure ID (defined number)
@@ -100,12 +103,8 @@ MeasureBase.init = function() {
 
 	// not to show cost in case of change to public transport
 	this.notShowCost = false;
-};
-MeasureBase.init();
 
-
-//constructor, copy definition from scenarioset.js
-MeasureBase.Constructor = function( consInstance, mdef, mesIDP ) {
+	//params
 	this.def = mdef;
 	this.measureName = mdef["name"];			//measure class name
 	this.cons = consInstance;					//related consumption class
@@ -126,11 +125,11 @@ MeasureBase.Constructor = function( consInstance, mdef, mesIDP ) {
 	this.priceOrg = mdef["price"];
 	this.easyness = mdef["easyness"];
 	this.relation = mdef["relation"];
-};
+}
 
 
 //clear and initialize
-MeasureBase.clearMeasure = function() {
+clearMeasure() {
 	this.priceNew = 0;
 	this.lifeTime = 0;
 	this.co2Change = 0;
@@ -149,10 +148,10 @@ MeasureBase.clearMeasure = function() {
 	this.price = 0;
 		
 	this.clear();
-};
+}
 
 //calculate save cost and CO2 by each energy change, called by D6.calcMeasureOne()
-MeasureBase.calcSave = function() {
+calcSave() {
 	//calculate CO2
 	this.calcCO2();
 
@@ -209,59 +208,59 @@ MeasureBase.calcSave = function() {
 		this.costTotalChangeOriginal = this.costTotalChange;
 	}	
 
-};
+}
 
 
 //set reduction zero, or initialize by copy consumption data
-MeasureBase.setzero = function() {
+setzero() {
 	this.copy( this.cons );
 };
 
 //calculate saving amount by reduction rate
-MeasureBase.calcReduceRate = function( reduceRate ) {
+calcReduceRate( reduceRate ) {
 	this.copy( this.cons );
 	this.multiply( 1 - reduceRate );
-};
+}
 
 //calculate saving amount of selected energy by reduction rate
-MeasureBase.calcReduceRateOne =  function( target, reduceRate ) {
+calcReduceRateOne( target, reduceRate ) {
 	this.copy( this.cons );
 	this[target] = this.cons[target] * ( 1- reduceRate);
-};
+}
 
 //expand reduction rate to sub category
-MeasureBase.calcReduceRateWithParts = function( reduceRate, partCons ){
+calcReduceRateWithParts( reduceRate, partCons ){
 	this.calcReduceRate( reduceRate );
 	for( var c in partCons ){
-		this[partCons[c].consName] = Object.create( Energy );
+		this[partCons[c].consName] = new Energy();
 		this[partCons[c].consName].copy( partCons[c] );
 		this[partCons[c].consName].multiply( 1 - reduceRate );
 	}
-};
+}
 	
 //select and add this measure, and set reduction value
-MeasureBase.addReduction = function() {
-	var margin = Object.create(Energy);
+addReduction() {
+	var margin = new Energy();
 
 	margin.copy( this );
 	margin.sub( this.cons );
 
 	//expand difference to related consumption
 	this.cons.addReductionMargin( margin, this.cons.consName );
-};
+}
 
 //calculation of measure, in case want to calculate one measure 
 //
 //	in standard process, D6.calcMeasures() directly call cons.calcMeasure in consumption class. 
 //
-MeasureBase.calc = function() {
+calc() {
 	this.clearMeasure();					//clear data
 	this.calcMeasure( this.measureName );	//call consumption class 
 	this.calcSave();						//calc saving CO2 and cost
-};
+}
 
 //sum up 12 months, in case of calculate by month
-MeasureBase.measureSumMonth = function( source, month ) {
+measureSumMonth( source, month ) {
 	for (var i in this.Unit.co2 ) {
 		this[i] += source[i] * month;
 	}
@@ -274,16 +273,16 @@ MeasureBase.measureSumMonth = function( source, month ) {
 	this.costOriginal += source.costOriginal * month;
 	this.costChangeOriginal += source.costChangeOriginal * month;
 	this.costTotalChangeOriginal += source.costTotalChangeOriginal * month;
-};
+}
 
 //room/equip name discripotion
-MeasureBase.setRoomTitle = function( subname ){
+setRoomTitle( subname ){
 	this.title = subname + "の" + this.title;
 	this.titleShort = this.titleShort + "(" + subname + ")";
 
-};
+}
 	
-
+}
 
 
 

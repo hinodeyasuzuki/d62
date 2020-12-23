@@ -26,48 +26,51 @@
 var D6 = D6||{};
  
 //Inherited class of ConsBase
-D6.consHWshower = Object.create(ConsBase);
+class ConsHWshower extends ConsBase {
 
-D6.consHWshower.init = function() {
-	//construction setting
-	this.consName = "consHWshower";   //code name of this consumption 
-	this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
-	this.title = "shower";						//consumption title name
-	this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
-	this.groupID = "1";								//number code in items
-	this.color = "#ffb700";						//color definition in graph
-	this.countCall = "";							//how to point n-th equipment
+	constructor() {
+		super();
+		
+		//construction setting
+		this.consName = "consHWshower";   //code name of this consumption 
+		this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
+		this.title = "shower";						//consumption title name
+		this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
+		this.groupID = "1";								//number code in items
+		this.color = "#ffb700";						//color definition in graph
+		this.countCall = "";							//how to point n-th equipment
 
-	this.sumConsName = "consHWsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
+		this.sumConsName = "consHWsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
 
-	//guide message in input page
-	this.inputGuide = "how to use shower";
-};	
-D6.consHWshower.init();
-
-
-//calculate consumption
-D6.consHWshower.calc = function( ) {
-	//rate of shower 
-	this.copy( this.sumCons );
-	this.multiply( this.sumCons.consHWshowerRate );
-};
-
-D6.consHWshower.calcMeasure = function( ) {
-	//mHWshowerHead
-	if ( this.sumCons.savingShower != 1 ){
-		this.measures[ "mHWshowerHead" ].calcReduceRate(  this.sumCons.reduceRateShowerHead );
-	}
-	
-	//mHWshowerTime
-	if ( this.sumCons.showerMinutes / this.sumCons.person >= 5 
-		&& !this.isSelected( "mHWshowerTime30" )
-	){
-		this.measures[ "mHWshowerTime" ].calcReduceRate(  this.sumCons.reduceRateShowerTime );
+		//guide message in input page
+		this.inputGuide = "how to use shower";
 	}
 
-	//mHWshowerTime30
-	this.measures[ "mHWshowerTime30" ].calcReduceRate(  0.3 );	
-};
+
+	//calculate consumption
+	calc() {
+		//rate of shower 
+		this.copy( this.sumCons );
+		this.multiply( this.sumCons.consHWshowerRate );
+	}
+
+	calcMeasure() {
+		//mHWshowerHead
+		if ( this.sumCons.savingShower != 1 ){
+			this.measures[ "mHWshowerHead" ].calcReduceRate(  this.sumCons.reduceRateShowerHead );
+		}
+		
+		//mHWshowerTime
+		if ( this.sumCons.showerMinutes / this.sumCons.person >= 5 
+			&& !this.isSelected( "mHWshowerTime30" )
+		){
+			this.measures[ "mHWshowerTime" ].calcReduceRate(  this.sumCons.reduceRateShowerTime );
+		}
+
+		//mHWshowerTime30
+		this.measures[ "mHWshowerTime30" ].calcReduceRate(  0.3 );	
+	}
+}
+
 

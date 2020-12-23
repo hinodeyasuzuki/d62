@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-D6.consElecTime = Object.create( ConsBase );
+D6.consElecTime = new ConsBase();
 DC = D6.consElecTime;
 
 //初期設定値

@@ -26,31 +26,35 @@
 var D6 = D6||{};
 
 //Inherited class of ConsBase
-D6.consHWdresser = Object.create(ConsBase);
-D6.consHWdresser.init = function(){
-	//construction setting
-	this.consName = "consHWdresser";    //code name of this consumption 
-	this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
-	this.title = "basin";				//consumption title name
-	this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
-	this.groupID = "1";					//number code in items
-	this.color = "#ffb700";				//color definition in graph
-	this.countCall = "";				//how to point n-th equipment
+class ConsHWdresser extends ConsBase{
 
-	this.sumConsName = "consHWsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";				//code name of consumption related to this
+	constructor(){
+		super();
 
-	//guide message in input page
-	this.inputGuide = "How to wash hot water in the basin";
-};
-D6.consHWdresser.init();
+		//construction setting
+		this.consName = "consHWdresser";    //code name of this consumption 
+		this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
+		this.title = "basin";				//consumption title name
+		this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
+		this.groupID = "1";					//number code in items
+		this.color = "#ffb700";				//color definition in graph
+		this.countCall = "";				//how to point n-th equipment
+
+		this.sumConsName = "consHWsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";				//code name of consumption related to this
+
+		//guide message in input page
+		this.inputGuide = "How to wash hot water in the basin";
+	}
 
 
-D6.consHWdresser.calc = function( ) {
-	this.copy( this.sumCons );
-	this.multiply( this.sumCons.consHWdresserRate );
-};
+	calc() {
+		this.copy( this.sumCons );
+		this.multiply( this.sumCons.consHWdresserRate );
+	}
 
-D6.consHWdresser.calcMeasure = function( ) {
-};
+	calcMeasure() {
+	}
+
+}
 

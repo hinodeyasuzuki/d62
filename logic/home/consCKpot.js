@@ -27,45 +27,47 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-D6.consCKpot = Object.create(ConsBase);
+class ConsCKpot extends ConsBase {
 
-//initialize
-D6.consCKpot.init = function () {
-	this.wattOrdinal = 30;				//electricity for keep hot（W)
+	//initialize
+	constructor() {
+		super();
 
-	//construction setting
-	this.consName = "consCKpot";    	//code name of this consumption 
-	this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
-	this.title = "heat holding pot";	//consumption title name
-	this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
-	this.groupID = "4";								//number code in items
-	this.color = "#ffe4b5";						//color definition in graph
-	this.countCall = "";							//how to point n-th equipment
+		this.wattOrdinal = 30;				//electricity for keep hot（W)
 
-	this.sumConsName = "consCKsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
+		//construction setting
+		this.consName = "consCKpot";    	//code name of this consumption 
+		this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
+		this.title = "heat holding pot";	//consumption title name
+		this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
+		this.groupID = "4";								//number code in items
+		this.color = "#ffe4b5";						//color definition in graph
+		this.countCall = "";							//how to point n-th equipment
 
-	//guide message in input page
-	this.inputGuide = "How to use heat holding pot";
-};
-D6.consCKpot.init();
+		this.sumConsName = "consCKsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
 
+		//guide message in input page
+		this.inputGuide = "How to use heat holding pot";
+	}
 
-D6.consCKpot.precalc = function () {
-	this.clear();
+	precalc() {
+		this.clear();
 
-	//prepare input value
-	this.time = this.input("i821", 6);		//keep hot time
-	this.ecoType = this.input("i822", 3);		//energy level
-};
+		//prepare input value
+		this.time = this.input("i821", 6);		//keep hot time
+		this.ecoType = this.input("i822", 3);		//energy level
+	}
 
-D6.consCKpot.calc = function () {
-	//monthly electricity consumption kWh/month
-	this.electricity = this.wattOrdinal * this.time * 30 / 1000
-		* (this.ecoType == 1 ? 0.5 : 1);
-};
+	calc() {
+		//monthly electricity consumption kWh/month
+		this.electricity = this.wattOrdinal * this.time * 30 / 1000
+			* (this.ecoType == 1 ? 0.5 : 1);
+	}
 
-D6.consCKpot.calcMeasure = function () {
-};
+	calcMeasure() {
+	};
+
+}
 
 

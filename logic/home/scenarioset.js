@@ -42,36 +42,36 @@ D6.scenario = {
 
 		// in case of create new consumption class, write here to use in D6
 		// in some case, the order is important
-		logicList["consTotal"] = D6.consTotal;
-		logicList["consEnergy"] = D6.consEnergy;
-		logicList["consSeason"] = D6.consSeason;
-		logicList["consHWsum"] = D6.consHWsum;
-		logicList["consHWshower"] = D6.consHWshower;
-		logicList["consHWtub"] = D6.consHWtub;
-		logicList["consHWdresser"] = D6.consHWdresser;
-		logicList["consHWdishwash"] = D6.consHWdishwash;
-		logicList["consHWtoilet"] = D6.consHWtoilet;
-		logicList["consCOsum"] = D6.consCOsum;
-		logicList["consACcool"] = D6.consACcool;
-		logicList["consHTsum"] = D6.consHTsum;
-		logicList["consHTcold"] = D6.consHTcold;
-		logicList["consACheat"] = D6.consACheat;
-		logicList["consAC"] = D6.consAC;
-		logicList["consRFsum"] = D6.consRFsum;
-		logicList["consRF"] = D6.consRF;
-		logicList["consLIsum"] = D6.consLIsum;
-		logicList["consLI"] = D6.consLI;
-		logicList["consTVsum"] = D6.consTVsum;
-		logicList["consTV"] = D6.consTV;
-		logicList["consDRsum"] = D6.consDRsum;
-		logicList["consCRsum"] = D6.consCRsum;
-		logicList["consCR"] = D6.consCR;
-		logicList["consCRtrip"] = D6.consCRtrip;
-		logicList["consCKpot"] = D6.consCKpot;
-		logicList["consCKcook"] = D6.consCKcook;
-		logicList["consCKrice"] = D6.consCKrice;
-		logicList["consCKsum"] = D6.consCKsum;
-		logicList["consOTother"] = D6.consOTother;
+		logicList["consTotal"] = D6.consTotal = new ConsTotal();
+		logicList["consEnergy"] = D6.consEnergy = new ConsEnergy();
+		logicList["consSeason"] = D6.consSeason = new ConsSeason();
+		logicList["consHWsum"] = D6.consHWsum = new ConsHWsum();
+		logicList["consHWshower"] = D6.consHWshower = new ConsHWshower();
+		logicList["consHWtub"] = D6.consHWtub = new ConsHWtub();
+		logicList["consHWdresser"] = D6.consHWdresser = new ConsHWdresser();
+		logicList["consHWdishwash"] = D6.consHWdishwash = new ConsHWdishwash();
+		logicList["consHWtoilet"] = D6.consHWtoilet = new ConsHWtoilet();
+		logicList["consCOsum"] = D6.consCOsum = new ConsCOsum();
+		logicList["consACcool"] = D6.consACcool = new ConsACcool();
+		logicList["consHTsum"] = D6.consHTsum = new ConsHTsum2();		//TODO overrideでメイン側を変更しないといけない
+		logicList["consHTcold"] = D6.consHTcold = new ConsHTcold();
+		logicList["consACheat"] = D6.consACheat = new ConsACheat();
+		logicList["consAC"] = D6.consAC = new ConsAC();
+		logicList["consRFsum"] = D6.consRFsum = new ConsRFsum();
+		logicList["consRF"] = D6.consRF = new ConsRF();
+		logicList["consLIsum"] = D6.consLIsum = new ConsLIsum();
+		logicList["consLI"] = D6.consLI = new ConsLI();
+		logicList["consTVsum"] = D6.consTVsum = new ConsTVsum();
+		logicList["consTV"] = D6.consTV = new ConsTV();
+		logicList["consDRsum"] = D6.consDRsum = new ConsDRsum();
+		logicList["consCRsum"] = D6.consCRsum = new ConsCRsum();
+		logicList["consCR"] = D6.consCR = new ConsCR();
+		logicList["consCRtrip"] = D6.consCRtrip = new ConsCRtrip();
+		logicList["consCKpot"] = D6.consCKpot = new ConsCKpot();
+		logicList["consCKcook"] = D6.consCKcook = new ConsCKcook(); 
+		logicList["consCKrice"] = D6.consCKrice = new ConsCKrice();
+		logicList["consCKsum"] = D6.consCKsum = new ConsCKsum();
+		logicList["consOTother"] = D6.consOTother = new ConsOTother();
 
 		return logicList;
 	},

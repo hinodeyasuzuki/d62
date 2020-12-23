@@ -27,33 +27,35 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-D6.consCKsum = Object.create(ConsBase);
+class ConsCKsum extends ConsBase{
 
-D6.consCKsum.init = function () {
-	//construction setting
-	this.consName = "consCKsum";    	//code name of this consumption 
-	this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
-	this.title = "Cooking";						//consumption title name
-	this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
-	this.groupID = "4";								//number code in items
-	this.color = "#ffe4b5";						//color definition in graph
-	this.countCall = "";							//how to point n-th equipment
+	constructor() {
+		super();
+		
+		//construction setting
+		this.consName = "consCKsum";    	//code name of this consumption 
+		this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
+		this.title = "Cooking";						//consumption title name
+		this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
+		this.groupID = "4";								//number code in items
+		this.color = "#ffe4b5";						//color definition in graph
+		this.countCall = "";							//how to point n-th equipment
 
-	this.sumConsName = "consTotal";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
-	this.residueCalc = "no";					//calculate residue
+		this.sumConsName = "consTotal";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
+		this.residueCalc = "no";					//calculate residue
 
-	//guide message in input page
-	this.inputGuide = "How to use cooking equipments";
-};
-D6.consCKsum.init();
+		//guide message in input page
+		this.inputGuide = "How to use cooking equipments";
+	}
 
 
-D6.consCKsum.calc = function () {
-	this.clear();
-};
+	calc() {
+		this.clear();
+	}
 
-D6.consCKsum.calcMeasure = function () {
-};
+	calcMeasure() {
+	}
 
+}
 

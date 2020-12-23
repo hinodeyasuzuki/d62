@@ -93,8 +93,8 @@ D6.calcConsAdjust = function () {
 	var ci, i, j;
 	var consNum;
 	var consSum;
-	var energySum = Object.create(Energy);
-	D6.energyAdj = Object.create(Energy); //adjust parameters by energy
+	var energySum = new Energy();
+	D6.energyAdj = new Energy(); //adjust parameters by energy
 	var singleArray = true;
 	var lastname = "";
 
@@ -241,9 +241,8 @@ D6.calcConsAdjust = function () {
  *		consumption object / object array
  */
 D6.getTargetConsList = function (consName) {
-	var i,
-		c = 0;
-	var target = new Array();
+	var i, c = 0;
+	var target = [];
 	var ret;
 
 	if (consName != "") {

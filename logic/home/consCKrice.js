@@ -27,45 +27,45 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-D6.consCKrice = Object.create(ConsBase);
+class ConsCKrice extends ConsBase{
 
-//initialize
-D6.consCKrice.init = function () {
-	this.wattOrdinal = 30;				//electricity for keep hot（W)
+	constructor() {
+		super();
 
-	//construction setting
-	this.consName = "consCKrice";  	//code name of this consumption 
-	this.consCode = "CK";          	//short code to access consumption, only set main consumption user for itemize
-	this.title = "rice cooker";			//consumption title name
-	this.orgCopyNum = 0;            //original copy number in case of countable consumption, other case set 0
-	this.groupID = "4";							//number code in items
-	this.color = "#ffe4b5";					//color definition in graph
-	this.countCall = "";						//how to point n-th equipment
+		this.wattOrdinal = 30;				//electricity for keep hot（W)
 
-	this.sumConsName = "consCKsum";		//code name of consumption sum up include this
-	this.sumCons2Name = "";						//code name of consumption related to this
+		//construction setting
+		this.consName = "consCKrice";  	//code name of this consumption 
+		this.consCode = "CK";          	//short code to access consumption, only set main consumption user for itemize
+		this.title = "rice cooker";			//consumption title name
+		this.orgCopyNum = 0;            //original copy number in case of countable consumption, other case set 0
+		this.groupID = "4";							//number code in items
+		this.color = "#ffe4b5";					//color definition in graph
+		this.countCall = "";						//how to point n-th equipment
 
-	//guide message in input page
-	this.inputGuide = "how to use rice cooker";
-};
-D6.consCKrice.init();
+		this.sumConsName = "consCKsum";		//code name of consumption sum up include this
+		this.sumCons2Name = "";						//code name of consumption related to this
 
+		//guide message in input page
+		this.inputGuide = "how to use rice cooker";
+	}
 
-D6.consCKrice.precalc = function () {
-	this.clear();
+	precalc() {
+		this.clear();
 
-	//prepare input value
-	this.person = this.input("i001", 3);			//person number
-	this.frequency = this.input("i802", 5);		//frequency of cooking
-	this.time = this.input("i820", 6);				//keep hot time
-};
+		//prepare input value
+		this.person = this.input("i001", 3);			//person number
+		this.frequency = this.input("i802", 5);		//frequency of cooking
+		this.time = this.input("i820", 6);				//keep hot time
+	}
 
-D6.consCKrice.calc = function () {
-	//monthly electricity consumption kWh/month
-	this.electricity = this.wattOrdinal * this.time * 30 / 1000;
-};
+	calc() {
+		//monthly electricity consumption kWh/month
+		this.electricity = this.wattOrdinal * this.time * 30 / 1000;
+	}
 
-D6.consCKrice.calcMeasure = function () {
-};
+	calcMeasure() {
+	}
 
+}
 

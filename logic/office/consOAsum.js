@@ -11,7 +11,7 @@
 *								2012/08/27 switch形式に変更
 */
 
-D6.consOAsum = Object.create( ConsBase );
+D6.consOAsum = new ConsBase();
 DC = D6.consOAsum;
 
 

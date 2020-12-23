@@ -63,7 +63,7 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 		}
 		D6.logicList = D6.scenario.getLogicList();
 	}
-	var consList = D6.consList;
+	//var consList = D6.consList;
 
 	// step 2 : Implementation of consumption class -----------
 	//
@@ -79,11 +79,11 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 		if ( tlogic.sumConsName == "consTotal" || tlogic.consName == "consTotal" ) {
 				
 			//fisrt set to consList
-			consList[ D6.consCount ] = tlogic;
+			D6.consList[ D6.consCount ] = tlogic;
 				
 			//set another access path
-			D6.consShow[ tlogic.consCode ] = consList[ D6.consCount ];
-			D6.consListByName[tlogic.consName].push( consList[ D6.consCount ] );
+			D6.consShow[ tlogic.consCode ] = tlogic;
+			D6.consListByName[tlogic.consName].push( tlogic );
 			D6.consCount++;
 		}
 	}
@@ -97,21 +97,21 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 		//implement by each equips/rooms
 		if ( tlogic.sumConsName != "consTotal" && tlogic.consName != "consTotal" ) {
 			if ( tlogic.orgCopyNum == 0 ) {
-				consList[D6.consCount] = tlogic;
-				D6.consListByName[tlogic.consName].push( consList[ D6.consCount ] );
+				D6.consList[D6.consCount] = tlogic;
+				D6.consListByName[tlogic.consName].push( tlogic);
 				D6.consCount++;
 			} else {
 				for ( j = 0 ; j <= tlogic.orgCopyNum ; j++ ) {		// #0 is residue			
 					//implementation in consList
-					consList[D6.consCount] = Object.create( tlogic );	// set copy
+					D6.consList[D6.consCount] = Object.create( tlogic );	// set copy
 					//consList[D6.consCount].setsubID( j );
-					consList[D6.consCount].subID = j;
-					if ( consList[D6.consCount].titleList ){
-						consList[D6.consCount].title = consList[D6.consCount].titleList[j];
+					D6.consList[D6.consCount].subID = j;
+					if ( D6.consList[D6.consCount].titleList ){
+						D6.consList[D6.consCount].title = D6.consList[D6.consCount].titleList[j];
 					}
 								
 					//another access path
-					D6.consListByName[tlogic.consName].push( consList[ D6.consCount ] );
+					D6.consListByName[tlogic.consName].push( D6.consList[ D6.consCount ] );
 					D6.consCount++;
 				}
 			}
@@ -124,15 +124,15 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 	var partCons;		//partition side classes to this class
 	var partCons2nd;	//2nd partition side classes to this class
 
-	for ( i=0 ; i< consList.length ; i++ ){
+	for ( i=0 ; i< D6.consList.length ; i++ ){
 		//create relation by each cons in consList
-		cons = consList[i];
+		cons = D6.consList[i];
 		cons.measures = [];
 		cons.partCons = [];
 
 		//get instance of sum side class
-		cons.sumCons = this.getTargetConsList( cons.sumConsName );
-		cons.sumCons2 = this.getTargetConsList( cons.sumCons2Name );
+		cons.sumCons = D6.getTargetConsList( cons.sumConsName );
+		cons.sumCons2 = D6.getTargetConsList( cons.sumCons2Name );
 
 		//get instance of part side class
 		//    part side is not defined in this class definition, so check each
@@ -140,9 +140,9 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 		partCons = [];
 		partCons2nd = [];
 
-		for ( j=0 ; j<consList.length ; j++ ) {
+		for ( j=0 ; j<D6.consList.length ; j++ ) {
 			//check each cons in consList which is part side
-			partconsTemp = consList[j];
+			partconsTemp = D6.consList[j];
 
 			// if sum part is defined as this class
 			if ( partconsTemp.sumConsName === cons.consName ) {
@@ -211,8 +211,8 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 	this.mesCount = 0;			//counter of measures 
 
 	//add measures to each cons class
-	for ( i in consList ){
-		this.addMeasureEachCons( consList[i] );
+	for ( i in D6.consList ){
+		this.addMeasureEachCons( D6.consList[i] );
 	}
 
 	// in case of calculate by months, questions should be divided to months
@@ -297,8 +297,7 @@ D6.setscenario = function( prohibitQuestions, allowedQuestions, defInput ){
 D6.addMeasureEachCons = function( cons ) {
 	for ( var mesname in D6.scenario.defMeasures ) {
 		if ( cons.consName != D6.scenario.defMeasures[mesname].refCons ) continue;
-		this.measureList[this.mesCount] = Object.create(MeasureBase);
-		this.measureList[this.mesCount].Constructor( cons, D6.scenario.defMeasures[mesname], this.mesCount );
+		this.measureList[this.mesCount] = new MeasureBase(cons, D6.scenario.defMeasures[mesname], this.mesCount);
 		cons.measures[mesname] = this.measureList[this.mesCount];
 		this.mesCount++;
 	}
