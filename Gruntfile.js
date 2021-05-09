@@ -66,7 +66,7 @@ module.exports = function(grunt){
 				files:{
 					"develop/d6office_core.js" :
 					[	
-						//"logic/d6facade.js",
+						"logic/d6facade.js",
 						"logic/areaset/*.js",
 						"logic/base/objectcreate.js",
 						"logic/base/energy.js",
