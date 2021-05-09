@@ -24,11 +24,11 @@
  */
 
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 //Inherited class of D6.consCRsum
-class ConsCRsum extends ConsBase{
-	constructor(){
+class ConsCRsum extends ConsBase {
+	constructor() {
 		super();
 
 		this.performanceNow = 10;			//now performance km/L
@@ -36,10 +36,10 @@ class ConsCRsum extends ConsBase{
 		this.performanceElec = 8;			//electric car performance(km/kWh)
 		this.publicRate = 0.6;				//available rate to change public traffic
 		this.walkRate = 0.2;				//available rate to change walk/bicycle
-	
+
 		this.reduceRateEcoDrive = 0.15;		//reduce rate by eco driving
 		this.reduceRatePublic = 0.7;		//reduce rate by bus 
-	
+
 		//construction setting
 		this.consName = "consCRsum";    	//code name of this consumption 
 		this.consCode = "CR";            	//short code to access consumption, only set main consumption user for itemize
@@ -48,34 +48,34 @@ class ConsCRsum extends ConsBase{
 		this.groupID = "8";					//number code in items
 		this.color = "#ee82ee";				//color definition in graph
 		this.countCall = "";				//how to point n-th equipment
-	
+
 		this.sumConsName = "consTotal";		//code name of consumption sum up include this
 		this.sumCons2Name = "";				//code name of consumption related to this
-	
+
 		//guide message in input page
 		this.inputGuide = "How to use cars, automobile";
 	}
 
-	precalc(){
+	precalc() {
 		this.clear();
 
 		this.priceCar = D6.consShow["TO"].priceCar;		//car charge
-		this.carNum = this.input( "i901", -1 );			//number of cars
-		if ( this.carNum == 0 && D6.consShow["TO"].noPriceData.car ) {
+		this.carNum = this.input("i901", -1);			//number of cars
+		if (this.carNum == 0 && D6.consShow["TO"].noPriceData.car) {
 			this.car = 0;
 			D6.consShow["TO"].priceCar = 0;
 		} else {
-			this.car =  this.priceCar /D6.Unit.price.car;	//monthly gasoline L/month
+			this.car = this.priceCar / D6.Unit.price.car;	//monthly gasoline L/month
 		}
 	}
 
-	calc(){
+	calc() {
 
 	}
 
 	calcMesures() {
 		//mCRecoDrive
-		this.measures["mCRecoDrive"].calcReduceRate( this.reduceRateEcoDrive );
+		this.measures["mCRecoDrive"].calcReduceRate(this.reduceRateEcoDrive);
 
 	}
 }

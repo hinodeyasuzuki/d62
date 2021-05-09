@@ -18,6 +18,116 @@
  * 
  */
 
+var D6 = D6 || {};
+
+// fix cons class parameters 
+D6.scenario.fix_consParams =function(){
+	//cons definition
+	D6.consAC.title = "部屋空調";
+	D6.consAC.countCall = "部屋目";
+
+	D6.consACcool.title = "部屋冷房";
+	D6.consACcool.addable = "冷暖房する部屋";
+	D6.consACcool.countCall = "部屋目";
+	D6.consACcool.inputGuide = "部屋ごとの冷房の使い方について";
+
+	D6.consACheat.title = "部屋暖房";
+	D6.consACheat.addable = "冷暖房する部屋";
+	D6.consACheat.countCall = "部屋目";
+	D6.consACheat.inputGuide = "部屋ごとの暖房の使い方について";
+
+	D6.consCKcook.title = "調理";
+	D6.consCKcook.inputGuide = "コンロを中心とした調理の使い方について";
+
+	D6.consCKpot.title = "保温";
+	D6.consCKpot.inputGuide = "ポットなど保温器具の使い方について";
+
+	D6.consCKrice.title = "炊飯";
+	D6.consCKrice.inputGuide = "炊飯の使い方について";
+
+	D6.consCKsum.title = "調理";
+	D6.consCKsum.inputGuide = "調理関連の使い方について";
+
+	D6.consCOsum.title = "冷房";
+	D6.consCOsum.inputGuide = "家全体での冷房の使い方について";
+
+	D6.consCR.title = "車";
+	D6.consCR.addable = "車";
+	D6.consCR.countCall = "台目";
+	D6.consCR.inputGuide = "保有する車ごとの性能・使い方について";
+
+	D6.consCRsum.title = "車";
+	D6.consCRsum.inputGuide = "車・バイクの使い方について";
+
+	D6.consCRtrip.title = "移動";
+	D6.consCRtrip.countCall = "ヶ所目";
+	D6.consCRtrip.addable = "移動先";
+	D6.consCRtrip.inputGuide = "移動先ごとの車等の使い方について";
+
+	D6.consDRsum.title = "掃除洗濯";
+	D6.consDRsum.inputGuide = "掃除機、洗濯機や衣類乾燥機の使い方について";
+
+	D6.consEnergy.title = "全般エネルギー設定";
+	D6.consEnergy.inputGuide =
+		"家全体でのエネルギーの使い方や、1ヶ月あたりの光熱費について";
+
+	D6.consHTcold.title = "寒冷地";
+	D6.consHTcold.inputGuide = "寒冷地での暖房の使い方について";
+
+	D6.consHTsum.title = "暖房";
+	D6.consHTsum.inputGuide = "家全体での暖房の使い方について";
+
+	D6.consHWdishwash.title = "食器洗い";
+	D6.consHWdishwash.inputGuide = "食器洗いの使い方について";
+
+	D6.consHWdresser.title = "洗面";
+	D6.consHWdresser.inputGuide = "洗面でのお湯の使い方について";
+
+	D6.consHWshower.title = "シャワー";
+	D6.consHWshower.inputGuide = "シャワーの使い方について";
+
+	D6.consHWsum.title = "給湯"; // consumption title for person
+	D6.consHWsum.inputGuide = "給湯全般の使い方について"; // guidance in question
+
+	D6.consHWtoilet.title = "トイレ";
+	D6.consHWtoilet.inputGuide = "トイレの水や保温の使い方について";
+
+	D6.consHWtub.title = "浴槽";
+	D6.consHWtub.inputGuide = "浴槽のお湯の使い方について";
+
+	D6.consLI.title = "照明";
+	D6.consLI.addable = "照明する部屋";
+	D6.consLI.countCall = "部屋目";
+	D6.consLI.inputGuide = "個別部屋の照明の使い方について";
+
+	D6.consLIsum.title = "照明";
+	D6.consLIsum.inputGuide = "家全体での照明の使い方について";
+
+	D6.consRF.title = "冷蔵庫";
+	D6.consRF.addable = "冷蔵庫";
+	D6.consRF.countCall = "台目";
+	D6.consRF.inputGuide = "個別の冷蔵庫の使い方について";
+
+	D6.consRFsum.title = "冷蔵庫";
+	D6.consRFsum.inputGuide = "家全体での冷蔵庫の使い方について";
+
+	D6.consSeason.titleList = ["", "冬", "春秋", "夏"]; //season name
+	D6.consSeason.inputGuide =
+		"季節ごとの1ヶ月あたりの光熱費について。おおよその値でご記入ください。";
+
+	D6.consTotal.title = "全体";
+	D6.consTotal.inputGuide = "地域や家の基本情報について";
+
+	D6.consTV.title = "テレビ";
+	D6.consTV.addable = "テレビ";
+	D6.consTV.countCall = "台目";
+	D6.consTV.inputGuide = "個別のテレビの使い方について";
+
+	D6.consTVsum.title = "テレビ";
+	D6.consTVsum.inputGuide = "家全体のテレビの使い方について";
+
+};
+
 // D6.scenario.areafix
 // called by diagnosis.js  just after create scenario
 //
@@ -130,112 +240,6 @@ D6.scenario.areafix = function() {
 	D6.scenario.defEasyQues[0].title = "簡易入力";
 	D6.scenario.defEasyQues[1].title = "行動チェック入力";
 
-	/*
-	//TODO　まだ構築されていない
-	//cons definition
-	D6.consAC.title = "部屋空調";
-	D6.consAC.countCall = "部屋目";
-
-	D6.consACcool.title = "部屋冷房";
-	D6.consACcool.addable = "冷暖房する部屋";
-	D6.consACcool.countCall = "部屋目";
-	D6.consACcool.inputGuide = "部屋ごとの冷房の使い方について";
-
-	D6.consACheat.title = "部屋暖房";
-	D6.consACheat.addable = "冷暖房する部屋";
-	D6.consACheat.countCall = "部屋目";
-	D6.consACheat.inputGuide = "部屋ごとの暖房の使い方について";
-
-	D6.consCKcook.title = "調理";
-	D6.consCKcook.inputGuide = "コンロを中心とした調理の使い方について";
-
-	D6.consCKpot.title = "保温";
-	D6.consCKpot.inputGuide = "ポットなど保温器具の使い方について";
-
-	D6.consCKrice.title = "炊飯";
-	D6.consCKrice.inputGuide = "炊飯の使い方について";
-
-	D6.consCKsum.title = "調理";
-	D6.consCKsum.inputGuide = "調理関連の使い方について";
-
-	D6.consCOsum.title = "冷房";
-	D6.consCOsum.inputGuide = "家全体での冷房の使い方について";
-
-	D6.consCR.title = "車";
-	D6.consCR.addable = "車";
-	D6.consCR.countCall = "台目";
-	D6.consCR.inputGuide = "保有する車ごとの性能・使い方について";
-
-	D6.consCRsum.title = "車";
-	D6.consCRsum.inputGuide = "車・バイクの使い方について";
-
-	D6.consCRtrip.title = "移動";
-	D6.consCRtrip.countCall = "ヶ所目";
-	D6.consCRtrip.addable = "移動先";
-	D6.consCRtrip.inputGuide = "移動先ごとの車等の使い方について";
-
-	D6.consDRsum.title = "掃除洗濯";
-	D6.consDRsum.inputGuide = "掃除機、洗濯機や衣類乾燥機の使い方について";
-
-	D6.consEnergy.title = "全般エネルギー設定";
-	D6.consEnergy.inputGuide =
-		"家全体でのエネルギーの使い方や、1ヶ月あたりの光熱費について";
-
-	D6.consHTcold.title = "寒冷地";
-	D6.consHTcold.inputGuide = "寒冷地での暖房の使い方について";
-
-	D6.consHTsum.title = "暖房";
-	D6.consHTsum.inputGuide = "家全体での暖房の使い方について";
-
-	D6.consHWdishwash.title = "食器洗い";
-	D6.consHWdishwash.inputGuide = "食器洗いの使い方について";
-
-	D6.consHWdresser.title = "洗面";
-	D6.consHWdresser.inputGuide = "洗面でのお湯の使い方について";
-
-	D6.consHWshower.title = "シャワー";
-	D6.consHWshower.inputGuide = "シャワーの使い方について";
-
-	D6.consHWsum.title = "給湯"; // consumption title for person
-	D6.consHWsum.inputGuide = "給湯全般の使い方について"; // guidance in question
-
-	D6.consHWtoilet.title = "トイレ";
-	D6.consHWtoilet.inputGuide = "トイレの水や保温の使い方について";
-
-	D6.consHWtub.title = "浴槽";
-	D6.consHWtub.inputGuide = "浴槽のお湯の使い方について";
-
-	D6.consLI.title = "照明";
-	D6.consLI.addable = "照明する部屋";
-	D6.consLI.countCall = "部屋目";
-	D6.consLI.inputGuide = "個別部屋の照明の使い方について";
-
-	D6.consLIsum.title = "照明";
-	D6.consLIsum.inputGuide = "家全体での照明の使い方について";
-
-	D6.consRF.title = "冷蔵庫";
-	D6.consRF.addable = "冷蔵庫";
-	D6.consRF.countCall = "台目";
-	D6.consRF.inputGuide = "個別の冷蔵庫の使い方について";
-
-	D6.consRFsum.title = "冷蔵庫";
-	D6.consRFsum.inputGuide = "家全体での冷蔵庫の使い方について";
-
-	D6.consSeason.titleList = ["", "冬", "春秋", "夏"]; //season name
-	D6.consSeason.inputGuide =
-		"季節ごとの1ヶ月あたりの光熱費について。おおよその値でご記入ください。";
-
-	D6.consTotal.title = "全体";
-	D6.consTotal.inputGuide = "地域や家の基本情報について";
-
-	D6.consTV.title = "テレビ";
-	D6.consTV.addable = "テレビ";
-	D6.consTV.countCall = "台目";
-	D6.consTV.inputGuide = "個別のテレビの使い方について";
-
-	D6.consTVsum.title = "テレビ";
-	D6.consTVsum.inputGuide = "家全体のテレビの使い方について";
-*/
 	D6.Unit.name = {
 		electricity: "電気",
 		nightelectricity: "夜間電気",
@@ -275,28 +279,28 @@ ex.	D6.scenario.defInput["i242"] = {  cons:"consACheat",  title:"部屋の寒さ
 	};
 */
 
-D6.scenario.defMeasures['mTOsolar'] = { mid:"1",  name:"mTOsolar",  title:"太陽光発電を設置する",  easyness:"0.5",  refCons:"consTotal",  titleShort:"太陽光発電", level:"",  figNum:"25",  lifeTime:"20",  price:"400000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"発電で余った電気は、FIT制度により電力会社に買い取ってもらうことができ、2020年度は1kWhあたり21円になります。パネルを設置するだけで発電がされ、モーターなど稼働する部分がないために寿命が長く、維持管理も比較的少なくて済みます。交流に変換をする「コンディショナー」と呼ばれる装置は10年程度ごとに交換が必要になります。<br>　また、太陽光発電装置を導入すると、電気を売る様子が表示される装置が設置されます。電気をどれだけ発電できたのか、家庭でどれだけ消費したのかが表示され、機種によっては時間帯別に表示されるものもあります。販売できた金額も表示され、より多く販売するために自然と電気の使用量が減る効果も出てきます。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mTOhems'] = { mid:"2",  name:"mTOhems",  title:"HEMS装置を設置する",  easyness:"1",  refCons:"consTotal",  titleShort:"HEMS装置", level:"",  figNum:"3",  lifeTime:"20",  price:"200000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"HEMS(Home Energy Management Sysytem)とは、家庭で使っている電気を時間ごとに細かく把握したり、エアコンなどの家電製品を、省エネのために自動制御したりできるシステムです。電気の使い方などの特徴をチェックすると、どんなことをすれば省エネにつながるか、ポイントが見えてきます。表示されるグラフをもとに、いつ電気の消費が多いのか、何が原因なのか、考えてみてください。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mTOsolarSmall'] = { mid:"3",  name:"mTOsolarSmall",  title:"ベランダに太陽光パネルを置く",  easyness:"2",  refCons:"consTotal",  titleShort:"ベランダ太陽光", level:"",  figNum:"25",  lifeTime:"10",  price:"50000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"太陽光発電パネルを屋根に設置するのではなく、小型のものをベランダなどに置くことで、一部の照明などの用途に使うことができます。既成品として販売されていることもありますが、自分で作ることもできます。材料は、インターネット通販やホームセンターなどで調達できます。<br>　晴れた日にはふとんを干すような感覚で、日光にあててバッテリーを充電させ、充電された分で活用することができます。曇りの日などは、電気を使うことができない場合があります。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHWecocute'] = { mid:"101",  name:"mHWecocute",  title:"給湯器をエコキュートに買い換える",  easyness:"2",  refCons:"consHWsum",  titleShort:"エコキュート", level:"",  figNum:"8",  lifeTime:"10",  price:"400000",  roanShow:"1",  standardType:"電気温水器",  subsidy :"",  advice:"エコキュート(R)（自然冷媒ヒートポンプ給湯器）は、エアコンの室外機のような装置がついており、外気の熱を利用してお湯を沸かすため、電気温水器より3倍以上効率がよくなります。貯湯槽にためたお湯を使い切るような、家族人数が多く、毎日欠かさずお風呂に入る家庭にはお勧めです。<br>　また、ふだんのお湯の使い方を考慮して控えめに沸かす設定をすると、さらに省エネにつながります。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHWecojoze'] = { mid:"102",  name:"mHWecojoze",  title:"給湯器をエコジョーズ（潜熱回収型ガス給湯器）に買い換える",  easyness:"2",  refCons:"consHWsum",  titleShort:"エコジョーズ", level:"",  figNum:"10",  lifeTime:"10",  price:"200000",  roanShow:"",  standardType:"既存型",  subsidy :"",  advice:"エコジョーズ(R)（潜熱回収型）は、水蒸気として逃げていた熱も回収する仕組みのため、既存のガス給湯器に比べて効率が1割以上向上しています。既存のガス給湯器とほぼ同じ形ですが、熱回収をするために少し大型になっており、また熱を回収する際に発生する水を流すドレンもついています。ガス会社によってはエコジョーズ料金により、ガス代が割り引かれる場合もあります。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHWecofeel'] = { mid:"103",  name:"mHWecofeel",  title:"給湯器をエコフィール（潜熱回収型灯油給湯器）に買い換える",  easyness:"1",  refCons:"consHWsum",  titleShort:"エコフィール", level:"",  figNum:"10",  lifeTime:"10",  price:"250000",  roanShow:"",  standardType:"既存型",  subsidy :"",  advice:"エコフィール(R)（潜熱回収型）は、水蒸気として逃げていた熱も回収する仕組みのため、効率が1割以上向上しています。既存の灯油ボイラーとほぼ同じ形ですが、熱回収をするために少し大型になっており、また熱を回収する際に発生する水を流すドレンもついています。灯油ではなくガスのタイプは「エコジョース」といいます。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHWenefarm'] = { mid:"105",  name:"mHWenefarm",  title:"給湯器をエネファーム（燃料電池）に買い換える",  easyness:"0.5",  refCons:"consHWsum",  titleShort:"エネファーム", level:"5",  figNum:"10",  lifeTime:"10",  price:"1200000",  roanShow:"1",  standardType:"エコジョーズ",  subsidy :"",  advice:"エネファーム(R)は、燃料電池で発電をしながらお湯をわかす効率がよい装置です。家庭で消費する電気の分だけ発電を行い、発生した余熱をお湯としてためて利用することができます。電気やお湯をたくさん使う家庭で、大きな省エネ効果が期待できます。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mTOsolar'] = { mid:"1",  name:"mTOsolar",  title:"太陽光発電を設置する",  easyness:"0.5",  refCons:"consTotal",  titleShort:"太陽光発電", level:"",  figNum:"25",  lifeTime:"20",  price:"400000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"発電で余った電気は、FIT制度により電力会社に買い取ってもらうことができ、2021年度に設置した場合は1kWhあたり19円で10年間買取がされます。パネルを設置するだけで発電がされ、モーターなど稼働する部分がないために寿命が長く、維持管理も比較的少なくて済みます。交流に変換をする「コンディショナー」と呼ばれる装置は10年程度ごとに交換が必要になります。<br>　また、太陽光発電装置を導入すると、電気を売る様子が表示される装置が設置されます。電気をどれだけ発電できたのか、家庭でどれだけ消費したのかが表示され、機種によっては時間帯別に表示されるものもあります。販売できた金額も表示され、より多く販売するために自然と電気の使用量が減る効果も出てきます。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mTOhems'] = { mid:"2",  name:"mTOhems",  title:"HEMS装置を設置する",  easyness:"1",  refCons:"consTotal",  titleShort:"HEMS装置", level:"",  figNum:"3",  lifeTime:"20",  price:"200000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"HEMS(Home Energy Management Sysytem：ヘムス)とは、家庭で使っている電気を時間ごとに細かく把握したり、エアコンなどの家電製品を、省エネのために自動制御したりできるシステムです。電気の使い方などの特徴をチェックすると、どんなことをすれば省エネにつながるか、ポイントが見えてきます。表示されるグラフをもとに、いつ電気の消費が多いのか、何が原因なのか、考えてみてください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mTOsolarSmall'] = { mid:"3",  name:"mTOsolarSmall",  title:"ベランダに太陽光パネルを置く",  easyness:"2",  refCons:"consTotal",  titleShort:"ベランダ太陽光", level:"",  figNum:"25",  lifeTime:"10",  price:"50000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"太陽光発電パネルを屋根に設置するのではなく、小型のものをベランダなどに置くことで、一部の照明などの用途に使うことができます。既成品として販売されていることもありますが、自分で部品を購入して作ることもできます。太陽光パネル（20～200W）、充放電コントローラー、車用バッテリー、インバーターを組み合わせることで動作し、インターネット通販やホームセンターなどで調達できます。<br>　晴れた日にはふとんを干すような感覚で、日光にあててバッテリーを充電させ、充電された分で活用することができます。曇りの日などは、電気を使うことができない場合があります。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWecocute'] = { mid:"101",  name:"mHWecocute",  title:"給湯器をエコキュートに買い換える",  easyness:"2",  refCons:"consHWsum",  titleShort:"エコキュート", level:"",  figNum:"8",  lifeTime:"10",  price:"400000",  roanShow:"1",  standardType:"電気温水器",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。",  advice:"エコキュート(R)（自然冷媒ヒートポンプ給湯器）は、エアコンの室外機のような装置がついており、外気の熱を利用してお湯を沸かすため、電気温水器より3倍以上効率がよくなります。貯湯槽にためたお湯を使い切るような、家族人数が多く、毎日欠かさずお風呂に入る家庭にはお勧めです。<br>　また、ふだんのお湯の使い方を考慮して控えめに沸かす設定をすると、さらに省エネにつながります。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWecojoze'] = { mid:"102",  name:"mHWecojoze",  title:"給湯器をエコジョーズ（潜熱回収型ガス給湯器）に買い換える",  easyness:"2",  refCons:"consHWsum",  titleShort:"エコジョーズ", level:"",  figNum:"10",  lifeTime:"10",  price:"200000",  roanShow:"",  standardType:"既存型",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。",  advice:"エコジョーズ(R)（潜熱回収型）は、水蒸気として逃げていた熱も回収する仕組みのため、既存のガス給湯器に比べて効率が1割以上向上しています。既存のガス給湯器とほぼ同じ形で置き換えが可能です。熱を回収する際に発生する水を流すドレンがついており、マンションなど排水口が近くにない場合には、工事が必要となる場合があります。ガス会社によってはエコジョーズ料金により、ガス代が割り引かれる場合もあります。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWecofeel'] = { mid:"103",  name:"mHWecofeel",  title:"給湯器をエコフィール（潜熱回収型灯油給湯器）に買い換える",  easyness:"1",  refCons:"consHWsum",  titleShort:"エコフィール", level:"",  figNum:"10",  lifeTime:"10",  price:"250000",  roanShow:"",  standardType:"既存型",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。",  advice:"エコフィール(R)（潜熱回収型）は、水蒸気として逃げていた熱も回収する仕組みのため、効率が1割以上向上しています。既存の灯油ボイラーとほぼ同じ形で、交換ができます。灯油ではなくガスのタイプは「エコジョース」といいます。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWenefarm'] = { mid:"105",  name:"mHWenefarm",  title:"給湯器をエネファーム（燃料電池）に買い換える",  easyness:"0.5",  refCons:"consHWsum",  titleShort:"エネファーム", level:"5",  figNum:"10",  lifeTime:"10",  price:"1200000",  roanShow:"1",  standardType:"エコジョーズ",  subsidy :"",  advice:"エネファーム(R)は、燃料電池で発電をしながらお湯をわかす効率がよい装置です。家庭で消費する電気の分だけ発電を行い、発生した余熱をお湯としてためて利用することができます。電気やお湯をたくさん使う家庭で、大きな省エネ効果が期待できます。SOFCタイプは、さらに発電効率が高くなってり、お湯の発生量が少ないため、比較的お湯を使わない家庭でも効果がでます。発電を行うため、停電時にも一定の電気を取り出すことが可能となっています。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mHWsolarHeater'] = { mid:"106",  name:"mHWsolarHeater",  title:"太陽熱温水器（自然循環式）を設置して利用する",  easyness:"1",  refCons:"consHWsum",  titleShort:"太陽熱温水器", level:"",  figNum:"9",  lifeTime:"10",  price:"400000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"暖かい時期の晴れた日なら、太陽の熱で沸かしたお湯だけでお風呂に入ることができます。冬でも加温することで利用することができ、お湯のエネルギー消費を大幅に減らせます。比較的簡単なしくみでお湯をわかすことができ、有効な温暖化対策として、世界中で利用が拡大しています。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHWsolarSystem'] = { mid:"107",  name:"mHWsolarSystem",  title:"ソーラーシステム（強制循環式）を設置して利用する",  easyness:"1",  refCons:"consHWsum",  titleShort:"ソーラーシステム", level:"",  figNum:"9",  lifeTime:"10",  price:"600000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"貯湯タンクを地上に置いて利用する太陽熱温水器です。屋根にタンクがないので、負荷がかかりません。暖かい時期の晴れた日なら、太陽の熱で沸かしたお湯だけでお風呂に入ることができます。冬でも加温することで利用することができ、お湯のエネルギー消費を大幅に減らせます。比較的簡単なしくみでお湯をわかすことができ、有効な温暖化対策として、世界中で利用が拡大しています。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWsolarSystem'] = { mid:"107",  name:"mHWsolarSystem",  title:"ソーラーシステム（強制循環式）を設置して利用する",  easyness:"1",  refCons:"consHWsum",  titleShort:"ソーラーシステム", level:"",  figNum:"9",  lifeTime:"10",  price:"600000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。",  advice:"貯湯タンクを地上に置いて利用する太陽熱温水器です。屋根にタンクがないので、負荷がかかりません。暖かい時期の晴れた日なら、太陽の熱で沸かしたお湯だけでお風呂に入ることができます。冬でも加温することで利用することができ、お湯のエネルギー消費を大幅に減らせます。比較的簡単なしくみでお湯をわかすことができ、有効な温暖化対策として、世界中で利用が拡大しています。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mHWshowerHead'] = { mid:"108",  name:"mHWshowerHead",  title:"節水シャワーヘッドを取り付けて利用する",  easyness:"5",  refCons:"consHWshower",  titleShort:"節水シャワーヘッド", level:"",  figNum:"11",  lifeTime:"10",  price:"2000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"シャワーの持ち手（ヘッド）の部分を取り替えることができるようになっています。お湯が出る穴を小さくしてあり、勢いよくお湯が出てくるほか、手元で止水できるものもあり、3割程度お湯の利用を減らすことができます。ホームセンターや家電量販店などで購入できます。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWshowerTime'] = { mid:"109",  name:"mHWshowerTime",  title:"シャワーの利用を1人1日1分短くする",  easyness:"4",  refCons:"consHWshower",  titleShort:"シャワー1人1分短縮", level:"",  figNum:"11",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"シャワーのエネルギー消費はとても大きく、お湯を出している状態で、テレビ300台分のエネルギーが消費されます。少し止めるだけでも大きな削減になります。身体を洗っているときには止めるなど、利用時間を減らすよう気を付けましょう。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWshowerTime30'] = { mid:"110",  name:"mHWshowerTime30",  title:"シャワーの利用時間を3割短くする",  easyness:"3",  refCons:"consHWshower",  titleShort:"シャワー3割短縮", level:"",  figNum:"11",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"シャワーのエネルギー消費はとても大きく、お湯を出している状態で、テレビ300台分のエネルギーが消費されます。少し止めるだけでも大きな削減になります。身体を洗っているときには止めるなど、利用時間を減らすよう気を付けましょう。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWkeep'] = { mid:"111",  name:"mHWkeep",  title:"風呂に家族が続けて入り追い焚きをしない",  easyness:"3",  refCons:"consHWtub",  titleShort:"風呂の保温をしない", level:"",  figNum:"12",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"追い焚きでは、風呂のお湯をいちど外に出し、給湯器まで送る必要があります。この間に冷えてしまい、余分なエネルギーがかかります。追い焚き機能を使わずに、続けてはいることが大きな削減になります。また浴槽に蓋をすることでも、冷めにくくすることもできます。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWsaveMode'] = { mid:"112",  name:"mHWsaveMode",  title:"エコキュートを「節約モード」に設定する",  easyness:"3",  refCons:"consHWsum",  titleShort:"給湯節約モード", level:"",  figNum:"8",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"エコキュートは夜間に沸かす湯量の設定ができるようになっています。お湯切れがないように余裕に沸かすと、保温時のロスが大きくなります。通常の使い方をする日で、特に湯切れなどない場合には、節約モードに設定することで、省エネになります。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWstopAutoKeep'] = { mid:"113",  name:"mHWstopAutoKeep",  title:"自動保温を続けるのでなく、次の人が入る直前に沸かし直す",  easyness:"3",  refCons:"consHWtub",  titleShort:"自動保温をしない", level:"",  figNum:"12",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"自動保温では、頻繁に風呂のお湯を屋外の給湯器まで送り出して温めるため、配管部分の熱の無駄が大きくなります。続けて入ることで保温しなくてもすみますが、時間があいて冷めてしまう場合には自動保温をせず、後から入る直前に温め直すことで省エネになります。",   lifestyle:"1",   season:"wss"};
-D6.scenario.defMeasures['mHWinsulation'] = { mid:"114",  name:"mHWinsulation",  title:"断熱型の浴槽にリフォームする",  easyness:"1",  refCons:"consHWtub",  titleShort:"断熱浴槽", level:"",  figNum:"12",  lifeTime:"10",  price:"600000",  roanShow:"",  standardType:"普及型",  subsidy :"",  advice:"浴槽が発泡スチロールなどの断熱材で覆われており、お湯が冷めにくくなっているタイプが増えています。浴槽のリフォーム工事が必要になりますが、冷めにくい分、追い焚きをしなくてすみます。あわせて、浴室もユニットバスにすると、浴室全体からの熱も逃げにくくなります。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWinsulation'] = { mid:"114",  name:"mHWinsulation",  title:"断熱型の浴槽にリフォームする",  easyness:"1",  refCons:"consHWtub",  titleShort:"断熱浴槽", level:"",  figNum:"12",  lifeTime:"10",  price:"600000",  roanShow:"",  standardType:"普及型",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。",  advice:"浴槽が発泡スチロールなどの断熱材で覆われており、お湯が冷めにくくなっているタイプが増えています。浴槽のリフォーム工事が必要になりますが、冷めにくい分、追い焚きをしなくてすみます。あわせて、浴室もユニットバスにすると、浴室全体からの熱も逃げにくくなります。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mHWonlyShower'] = { mid:"115",  name:"mHWonlyShower",  title:"夏場はシャワーだけですませて浴槽にお湯を張らない",  easyness:"3",  refCons:"consHWtub",  titleShort:"夏に浴槽のお湯をためない", level:"",  figNum:"11",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"浴槽のお湯の量は、シャワーを使っている時間に換算すると10～20分に相当します。自動湯張りをせずに、浴槽のお湯だけを使って体を洗う使い方ではかえってエネルギー消費が増える場合もありますが、シャワーを併用している場合には浴槽の分が削減になります。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWdishTank'] = { mid:"116",  name:"mHWdishTank",  title:"食器洗いでお湯を流しっぱなしにしない",  easyness:"2",  refCons:"consHWdishwash",  titleShort:"食器流し洗い", level:"",  figNum:"13",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"洗剤で洗っているときにはお湯を止めるなど、なるべくお湯を出す時間を短く工夫してください。油汚れは古布等で先にふき取っておくと、すすぎも早く済みます。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWdishWater'] = { mid:"117",  name:"mHWdishWater",  title:"水が冷たくない時期には水で食器を洗う",  easyness:"2",  refCons:"consHWdishwash",  titleShort:"食器水洗い", level:"",  figNum:"13",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"暖かい季節には、お湯を使わなくても十分すすぐことができます。たとえば食器を洗うのにお湯を10分使う場合、約50リットルのお湯が消費されます。油汚れは古布等でふき取っておくなど工夫することで、すすぎも速くすみます。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mCKdishWasher'] = { mid:"118",  name:"mCKdishWasher",  title:"食器洗い乾燥機を使う",  easyness:"2",  refCons:"consHWdishwash",  titleShort:"食器洗浄機", level:"",  figNum:"15",  lifeTime:"10",  price:"80000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"食器をお湯で流し洗いするのに比べると、お湯をためて洗浄しているため、食器洗浄乾燥機のほうが省エネとなります。なおお湯ではなく水で洗う場合には、食器洗浄機よりも省エネとなります。手洗いで工夫するのも有効な方法です。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mHWtap'] = { mid:"119",  name:"mHWtap",  title:"台所・洗面所に節湯水栓を設置する",  easyness:"2",  refCons:"consHWsum",  titleShort:"節湯水栓", level:"",  figNum:"13",  lifeTime:"20",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"手元ですぐ止められるようにしたり、シングルレバーを左に向けないとお湯がでないしくみにするなど、使い勝手は同じでも、お湯の消費量を2割以上減らせる機器があります。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHWreplaceToilet5'] = { mid:"120",  name:"mHWreplaceToilet5",  title:"節水トイレを設置する",  easyness:"1",  refCons:"consHWtoilet",  titleShort:"節水トイレ", level:"",  figNum:"19",  lifeTime:"10",  price:"30000",  roanShow:"",  standardType:"既存型",  subsidy :"",  advice:"トイレ本体を工事して交換する必要がありますが、水の量を以前よりも半分以下に抑えることができます。以前は13リットル程度必要だったものが、4-6リットル程度で使えるようになっており、水道代を大きく削減できます。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHWreplaceToilet5'] = { mid:"120",  name:"mHWreplaceToilet5",  title:"節水トイレを設置する",  easyness:"1",  refCons:"consHWtoilet",  titleShort:"節水トイレ", level:"",  figNum:"19",  lifeTime:"10",  price:"30000",  roanShow:"",  standardType:"既存型",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。",  advice:"トイレ本体を工事して交換する必要がありますが、水の量を以前よりも半分以下に抑えることができます。以前は13リットル程度必要だったものが、4-6リットル程度で使えるようになっており、水道代を大きく削減できます。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mHWreplaceToilet'] = { mid:"121",  name:"mHWreplaceToilet",  title:"瞬間式の温水洗浄便座に買い替える",  easyness:"1",  refCons:"consHWtoilet",  titleShort:"瞬間式便座", level:"",  figNum:"19",  lifeTime:"10",  price:"30000",  roanShow:"",  standardType:"既存型",  subsidy :"",  advice:"新製品では省エネ機能があり、ふたを開けた瞬間に温めるタイプなど、消費電力が少なくてすみます。カタログに表示されている年間消費電力量を参考に省エネ型を選んでください。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mHWtemplatureToilet'] = { mid:"122",  name:"mHWtemplatureToilet",  title:"保温便座の温度設定を下げる",  easyness:"3",  refCons:"consHWtoilet",  titleShort:"便座温度調節", level:"",  figNum:"19",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"寒くない時期は保温を切ったり、温度設定を低めに設定することで省エネができます。便座にカバーをかけると、冷たさを感じにくくなります。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHWcoverTilet'] = { mid:"123",  name:"mHWcoverTilet",  title:"保温洗浄便座のふたをしめる",  easyness:"3",  refCons:"consHWtoilet",  titleShort:"便座のふたを閉める", level:"",  figNum:"19",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"便座のふたを上げた状態にしておくと、保温の熱が逃げやすく、消費電力が増えます。用を終えたら、ふたを閉めることで省エネになります。寒くなければ、保温をしないようにすることも省エネにつながります。",   lifestyle:"1",   season:"wss"};
@@ -308,12 +312,12 @@ D6.scenario.defMeasures['mCOsunCut'] = { mid:"205",  name:"mCOsunCut",  title:"�
 D6.scenario.defMeasures['mCOtemplature'] = { mid:"206",  name:"mCOtemplature",  title:"冷房の温度設定を控えめ（28℃）にする",  easyness:"3",  refCons:"consACcool",  titleShort:"冷房設定温度", level:"",  figNum:"1",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"省エネを考えた冷房設定温度の目安は28℃以上です。「涼しく感じるようにする」のではなく、「暑すぎないようにする」程度に考えてみてください。暑さの感じ方には個人差があるので無理をする必要はありませんが、扇風機を活用したり、薄着をするなどして工夫をしてみてください。窓をあけて風が入ると涼しく感じますし、風鈴の音なども、涼しく感じさせてくれます。設定温度を1℃控えめにすることで、CO2排出量や光熱費をおよそ1割削減することができます。また季節の終わりには、早めに冷房器具を使わないようにすることも効果的です。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHTtemplature'] = { mid:"207",  name:"mHTtemplature",  title:"厚着をして暖房の温度設定を控えめ（20℃）にする",  easyness:"3",  refCons:"consACheat",  titleShort:"暖房設定温度", level:"",  figNum:"3",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"省エネを考えた暖房設定温度の目安は20℃以下です。「暖かく感じるようにする」のではなく「寒くないようにする」程度に考えてみてください。寒さの感じ方には個人差があるので無理をする必要はありませんが、厚着をしたり、暖まる食事をとるなどして、工夫をしてみてください。設定温度を1℃控えめにすることで、CO2排出量や光熱費をおよそ1割削減することができます。また季節の終わりには、早めに冷暖房器具を使うのを止めることも効果的です。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHTwindowSheet'] = { mid:"208",  name:"mHTwindowSheet",  title:"暖房時に、窓用の断熱シートを貼る",  easyness:"3",  refCons:"consACheat",  titleShort:"窓断熱シート", level:"",  figNum:"4",  lifeTime:"3",  price:"3000",  roanShow:"",  standardType:"",  subsidy :"",  advice:"窓用の断熱シート（いわゆるプチプチシートのようなエアクションタイプのもの）は、ホームセンター等で売られています。窓をきれいに拭いてから、霧吹きをかけ、その水だけで窓に貼り付けることができます。断熱効果があるだけでなく、結露も抑えることができます。窓から吹き下ろしてくる冷たい風も和らぎ、快適性も向上します。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHTdouble'] = { mid:"209",  name:"mHTdouble",  title:"窓・サッシを複層ガラスにする",  easyness:"1",  refCons:"consACheat",  titleShort:"複層ガラス", level:"5",  figNum:"4",  lifeTime:"30",  price:"100000",  roanShow:"",  standardType:"",  subsidy :"家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らぎ、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHTlowe'] = { mid:"210",  name:"mHTlowe",  title:"窓・サッシを樹脂枠low-Eガラスにする",  easyness:"1",  refCons:"consACheat",  titleShort:"樹脂枠low-Eガラス", level:"",  figNum:"4",  lifeTime:"30",  price:"150000",  roanShow:"",  standardType:"",  subsidy :"家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らぎ、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHTuchimado'] = { mid:"211",  name:"mHTuchimado",  title:"内窓をとりつける",  easyness:"2",  refCons:"consACheat",  titleShort:"内窓", level:"5",  figNum:"4",  lifeTime:"30",  price:"60000",  roanShow:"",  standardType:"",  subsidy :"家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、現在の窓やサッシの内側に追加して「内窓」をつけることでより熱が逃げにくくなります。内窓は比較的工事費が安く、約1時間で工事も完了し、結露防止や防犯にも効果があります。詳しくは工務店などに相談してください。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHTdoubleGlassAll'] = { mid:"212",  name:"mHTdoubleGlassAll",  title:"全ての部屋の窓ガラスを複層ガラスに置き換える",  easyness:"1",  refCons:"consHTsum",  titleShort:"全居室を複層ガラスに", level:"",  figNum:"4",  lifeTime:"30",  price:"100000",  roanShow:"",  standardType:"",  subsidy :"家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らいだり、冬の朝方の寒さが改善されたりなど、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHTuchimadoAll'] = { mid:"213",  name:"mHTuchimadoAll",  title:"全ての部屋に内窓をとりつける",  easyness:"1",  refCons:"consHTsum",  titleShort:"全居室を内窓に", level:"",  figNum:"4",  lifeTime:"30",  price:"100000",  roanShow:"",  standardType:"",  subsidy :"家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、現在の窓やサッシの内側に追加して「内窓」をつけることでより熱が逃げにくくなります。内窓は比較的工事費が安く、約1時間で工事も完了し、結露防止や防犯にも効果があります。窓から吹き下ろしてくる冷たい風も和ら、冬の朝方の寒さが改善されたりなど、快適性も向上します。詳しくは工務店などに相談してください。",   lifestyle:"",   season:"wss"};
-D6.scenario.defMeasures['mHTloweAll'] = { mid:"214",  name:"mHTloweAll",  title:"全ての部屋の窓・サッシを樹脂枠low-Eガラスにする",  easyness:"1",  refCons:"consHTsum",  titleShort:"全居室を樹脂枠low-Eガラスに", level:"",  figNum:"4",  lifeTime:"30",  price:"150000",  roanShow:"",  standardType:"",  subsidy :"家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らいだり、冬の朝方の寒さが改善されたりなど、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHTdouble'] = { mid:"209",  name:"mHTdouble",  title:"窓・サッシを複層ガラスにする",  easyness:"1",  refCons:"consACheat",  titleShort:"複層ガラス", level:"5",  figNum:"4",  lifeTime:"30",  price:"100000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らぎ、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHTlowe'] = { mid:"210",  name:"mHTlowe",  title:"窓・サッシを樹脂枠low-Eガラスにする",  easyness:"1",  refCons:"consACheat",  titleShort:"樹脂枠low-Eガラス", level:"",  figNum:"4",  lifeTime:"30",  price:"150000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らぎ、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHTuchimado'] = { mid:"211",  name:"mHTuchimado",  title:"内窓をとりつける",  easyness:"2",  refCons:"consACheat",  titleShort:"内窓", level:"5",  figNum:"4",  lifeTime:"30",  price:"60000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、現在の窓やサッシの内側に追加して「内窓」をつけることでより熱が逃げにくくなります。内窓は比較的工事費が安く、約1時間で工事も完了し、結露防止や防犯にも効果があります。詳しくは工務店などに相談してください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHTdoubleGlassAll'] = { mid:"212",  name:"mHTdoubleGlassAll",  title:"全ての部屋の窓ガラスを複層ガラスに置き換える",  easyness:"1",  refCons:"consHTsum",  titleShort:"全居室を複層ガラスに", level:"",  figNum:"4",  lifeTime:"30",  price:"100000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らいだり、冬の朝方の寒さが改善されたりなど、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHTuchimadoAll'] = { mid:"213",  name:"mHTuchimadoAll",  title:"全ての部屋に内窓をとりつける",  easyness:"1",  refCons:"consHTsum",  titleShort:"全居室を内窓に", level:"",  figNum:"4",  lifeTime:"30",  price:"100000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、現在の窓やサッシの内側に追加して「内窓」をつけることでより熱が逃げにくくなります。内窓は比較的工事費が安く、約1時間で工事も完了し、結露防止や防犯にも効果があります。窓から吹き下ろしてくる冷たい風も和ら、冬の朝方の寒さが改善されたりなど、快適性も向上します。詳しくは工務店などに相談してください。",   lifestyle:"",   season:"wss"};
+D6.scenario.defMeasures['mHTloweAll'] = { mid:"214",  name:"mHTloweAll",  title:"全ての部屋の窓・サッシを樹脂枠low-Eガラスにする",  easyness:"1",  refCons:"consHTsum",  titleShort:"全居室を樹脂枠low-Eガラスに", level:"",  figNum:"4",  lifeTime:"30",  price:"150000",  roanShow:"",  standardType:"",  subsidy :"グリーン住宅ポイントの対象で、5万ポイント以上の断熱工事や機器導入を行うとポイントが発行されます。家の窓全体の断熱工事をする場合、工事にかかった費用に応じて、固定資産税の控除や、ローン残高に応じた所得税控除の制度があります。",  advice:"暖房時は窓やサッシから逃げる熱の割合が多く、通常のシングルガラスを複層ガラスに取り替えることで熱の逃げ方を半分程度に抑えることができます。省エネだけでなく、結露がつきにくくなるというメリットもあります。窓から吹き下ろしてくる冷たい風も和らいだり、冬の朝方の寒さが改善されたりなど、快適性も向上します。家屋に応じた手法がありますので、工務店などに相談してください。",   lifestyle:"",   season:"wss"};
 D6.scenario.defMeasures['mACfilter'] = { mid:"215",  name:"mACfilter",  title:"エアコンのフィルターを掃除する",  easyness:"2",  refCons:"consACheat",  titleShort:"フィルター掃除", level:"5",  figNum:"1",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"エアコンは1ヶ月利用するごとにフィルター掃除するのが望ましいです。フィルターの目が詰まると、送風が弱くなり、特に暖房での効率が大きく落ちてしまいます。特にキッチンを含む部屋では、油煙がつきやすいのでこまめに掃除してください。最近のエアコンでは、自動的にフィルターを掃除する機種もあります。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHTtime'] = { mid:"216",  name:"mHTtime",  title:"暖房の使用時間を1時間短くする",  easyness:"3",  refCons:"consACheat",  titleShort:"暖房1時間短縮", level:"",  figNum:"3",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"暖房はつい長い時間つけっぱなしにしがちです。暖かくなったら止めるようにしましょう。就寝前や外出時などは30分前に止めるのも一つの方法です。また、人がいない部屋を暖房するのは無駄ですので、なるべく切るようにしましょう。",   lifestyle:"1",   season:"wss"};
 D6.scenario.defMeasures['mHTpartialHeating'] = { mid:"217",  name:"mHTpartialHeating",  title:"こたつやホットカーペットを活用して、部屋暖房を控える",  easyness:"2",  refCons:"consACheat",  titleShort:"こたつ・ホットカーペット", level:"",  figNum:"3",  lifeTime:"",  price:"",  roanShow:"",  standardType:"",  subsidy :"",  advice:"こたつやホットカーペットなどの部分暖房は、身体の近くだけを温めるので、消費エネルギーが少なくなっています。部屋暖房の設定温度を大きく下げても、同じ快適性を維持できます。特に、吹き抜け構造だったり、暖房部屋から階段が上階に続いている構造の場合、せっかく温めた空気が天井に抜けてしまい、部屋を温めるのに効率が悪くなります。こうした場合には、足元を温める暖房も検討してみてください。靴下をはいたり、厚着をすることも効果的です。<br>　こたつやホットカーペットを使う場合には、床との間に断熱シートを敷いたり、こたつの掛け布団も厚めにすると、より消費電力を減らせます。",   lifestyle:"1",   season:"wss"};

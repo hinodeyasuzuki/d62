@@ -23,12 +23,12 @@
  */
 
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 //Inherited class of ConsBase
-class ConsHWdresser extends ConsBase{
+class ConsHWdresser extends ConsBase {
 
-	constructor(){
+	constructor() {
 		super();
 
 		//construction setting
@@ -49,8 +49,8 @@ class ConsHWdresser extends ConsBase{
 
 
 	calc() {
-		this.copy( this.sumCons );
-		this.multiply( this.sumCons.consHWdresserRate );
+		this.copy(this.sumCons);
+		this.multiply(this.sumCons.consHWdresserRate);
 	}
 
 	calcMeasure() {

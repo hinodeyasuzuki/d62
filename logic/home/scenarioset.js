@@ -37,7 +37,7 @@ D6.scenario = {
 	//		construct consumption class and set to logicList[]
 	// return
 	//		logicList[]
-	getLogicList: function() {
+	getLogicList: function () {
 		var logicList = {};
 
 		// in case of create new consumption class, write here to use in D6
@@ -53,7 +53,7 @@ D6.scenario = {
 		logicList["consHWtoilet"] = D6.consHWtoilet = new ConsHWtoilet();
 		logicList["consCOsum"] = D6.consCOsum = new ConsCOsum();
 		logicList["consACcool"] = D6.consACcool = new ConsACcool();
-		logicList["consHTsum"] = D6.consHTsum = new ConsHTsum2();		//TODO overrideでメイン側を変更しないといけない
+		logicList["consHTsum"] = D6.consHTsum = new ConsHTsum();
 		logicList["consHTcold"] = D6.consHTcold = new ConsHTcold();
 		logicList["consACheat"] = D6.consACheat = new ConsACheat();
 		logicList["consAC"] = D6.consAC = new ConsAC();
@@ -68,12 +68,19 @@ D6.scenario = {
 		logicList["consCR"] = D6.consCR = new ConsCR();
 		logicList["consCRtrip"] = D6.consCRtrip = new ConsCRtrip();
 		logicList["consCKpot"] = D6.consCKpot = new ConsCKpot();
-		logicList["consCKcook"] = D6.consCKcook = new ConsCKcook(); 
+		logicList["consCKcook"] = D6.consCKcook = new ConsCKcook();
 		logicList["consCKrice"] = D6.consCKrice = new ConsCKrice();
 		logicList["consCKsum"] = D6.consCKsum = new ConsCKsum();
 		logicList["consOTother"] = D6.consOTother = new ConsOTother();
 
+		///fix in scenarofix.js
+		D6.scenario.fix_consParams();
+
 		return logicList;
+	},
+
+	//fix in scenariofix.js
+	fix_consParams: function () {
 	},
 
 	//setDefs() -------------------------------------------------------
@@ -86,7 +93,7 @@ D6.scenario = {
 	//		defQuesOrder[]: 	series of question
 	//		defEquipment[]: 	setting of equipments --not use now--
 	//		defEquipmentSize[]: setting of equipment size --not use now--
-	setDefs: function() {
+	setDefs: function () {
 		var defMeasures = {};
 		var defInput = {};
 		var defSelectValue = {};
@@ -252,7 +259,7 @@ D6.scenario = {
 		this.defEquipmentSize = defEquipmentSize;
 
 		//set area and person to calculate average, heat load etc.
-		D6.area.setCalcBaseParams = function() {
+		D6.area.setCalcBaseParams = function () {
 			D6.area.setPersonArea(
 				D6.doc.data.i001,
 				D6.doc.data.i021,
@@ -261,7 +268,7 @@ D6.scenario = {
 		};
 
 		//get seasonal parameters
-		D6.area.getSeasonParamCommon = function() {
+		D6.area.getSeasonParamCommon = function () {
 			return D6.area.getSeasonParam(D6.area.area);
 		};
 	}

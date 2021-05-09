@@ -4,21 +4,20 @@ D6 common design
 *********************************************************************/
 
 /*--layout----------------------------------------------------------*/
+
 body {
   font-size: 80%;
   padding: 0px;
-
   -moz-user-select: none;
   -ms-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
-
-  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+  -webkit-touch-callout: none;
+  /* Disable Android and iOS callouts*/
   margin: 1px;
 }
 
-#header {
-}
+#header {}
 
 #headerMenu {
   font-size: 1.2em;
@@ -57,7 +56,9 @@ div.topmessage {
   font-size: 1.4em;
   background-color: LightCyan;
 }
+
 /*--common----------------------------------------------------------*/
+
 h1 {
   margin: 0px;
   margin-bottom: 0px;
@@ -112,6 +113,7 @@ td {
 td.right {
   text-align: right;
 }
+
 td.left {
   text-align: left;
 }
@@ -124,20 +126,22 @@ div.subtitle {
 .center {
   text-align: center;
 }
+
 .left {
   text-align: left;
 }
+
 .right {
   text-align: right;
 }
 
 /*** buttons *******/
+
 a:visited {
   color: #00f;
 }
 
-a:hover,
-a:focus {
+a:hover, a:focus {
   color: #5a9aba;
 }
 
@@ -146,8 +150,7 @@ a.button {
   text-decoration: none;
 }
 
-button,
-.button {
+button, .button {
   padding: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -181,6 +184,7 @@ button,
   padding: 20px;
   font-size: 1.8em;
 }
+
 button:hover {
   color: #fafafa;
   background: #009800 !important;
@@ -200,6 +204,7 @@ span.selected {
 }
 
 /***   alert  ***/
+
 div.alert {
   width: 90%;
   text-align: center;
@@ -226,8 +231,8 @@ div.info {
 }
 
 /*========== tub menu =========== */
-#tab,
-ul.submenu {
+
+#tab, ul.submenu {
   overflow: hidden;
 }
 
@@ -237,8 +242,7 @@ ul.submenu {
   list-style-type: none;
 }
 
-#tab li,
-#tabcontents li ul.submenu li {
+#tab li, #tabcontents li ul.submenu li {
   background: #afa;
   padding: 5px 10px;
   float: left;
@@ -248,16 +252,12 @@ ul.submenu {
   border: solid 2px #afa;
 }
 
-#tab li:hover,
-#tabcontents li ul.submenu li:hover,
-#tab li:focus,
-#tabcontents li ul.submenu li:focus {
+#tab li:hover, #tabcontents li ul.submenu li:hover, #tab li:focus, #tabcontents li ul.submenu li:focus {
   background: #dfd;
   border: solid 2px #dfd;
 }
 
-#tab li.select,
-#tabcontents li ul.submenu li.select {
+#tab li.select, #tabcontents li ul.submenu li.select {
   background: #efe;
   border: solid 2px #383;
   border-bottom: solid 2px #efe;
@@ -272,6 +272,7 @@ ul {
   margin-bottom: 0px;
   padding: 0px;
 }
+
 li {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -286,8 +287,8 @@ ul.submenucontents {
 }
 
 /*=========== input area　=========== */
-input,
-select {
+
+input, select {
   width: 150px;
 }
 
@@ -295,8 +296,7 @@ input[type="checkbox"] {
   width: 20px;
 }
 
-table.demandtable input,
-table.demandtable select {
+table.demandtable input, table.demandtable select {
   width: 65px;
 }
 
@@ -305,6 +305,7 @@ table.demandtable td {
 }
 
 /* =========== tooltips for question =========== */
+
 td.qtitle {
   position: relative;
 }
@@ -341,28 +342,25 @@ td.qtitle:hover .tool-tips {
 }
 
 /*=========== already written　=========== */
+
 .written {
   background-color: #ffff88;
 }
 
 /*=========== result　=========== */
-div#graph,
-div#average,
-div#cons,
-div#measure {
+
+div#graph, div#average, div#cons, div#measure {
   padding: 10px;
 }
 
-div#graph tr,
-div#average tr,
-div#cons tr,
-div#measure tr {
+div#graph tr, div#average tr, div#cons tr, div#measure tr {
   background-color: #ffffff;
 }
 
 tr.messelected {
   background-color: #ffff88 !important;
 }
+
 td.conscolor {
   border-left: 5px solid;
 }
@@ -372,6 +370,7 @@ table#itemize.limit tr:nth-child(n + 16) {
 }
 
 /* =========== dialog ============ */
+
 #lean_overlay {
   position: fixed;
   z-index: 100;
@@ -407,8 +406,7 @@ div#modal-contents img {
   max-width: 200px;
 }
 
-.dimple-axis-y .dimple-custom-gridline,
-.dimple-axis-y .dimple-custom-axis-line {
+.dimple-axis-y .dimple-custom-gridline, .dimple-axis-y .dimple-custom-axis-line {
   display: none;
 }
 
@@ -417,9 +415,9 @@ div#modal-contents img {
 }
 
 /* printer */
+
 @media only print {
-  span.button,
-  button {
+  span.button, button {
     display: none;
   }
   .step {
@@ -428,38 +426,30 @@ div#modal-contents img {
 }
 
 /* =========== smart phone ============ */
+
 @media only screen and (max-width: 600px) {
   #contents {
     padding: 0px;
     margin: 0px;
   }
-
   div.widthhalf {
     width: 95%;
     min-width: initial;
   }
-
-  div.graph,
-  div.result,
-  div.mesmenu,
-  div.measure,
-  div.leftmenu {
+  div.graph, div.result, div.mesmenu, div.measure, div.leftmenu {
     width: 100% !important;
   }
-
   .large {
     width: 95%;
     min-width: initial;
     font-size: 110%;
   }
-
   #leanModalDialog {
     position: relative !important;
     top: 20px !important;
     width: 100%;
     height: initial;
   }
-
   h1 {
     font-size: 200%;
   }
@@ -469,21 +459,16 @@ div#modal-contents img {
   table {
     font-size: 90%;
   }
-
   #tabcontents li {
     padding: 3px;
   }
-
-  #step span,
-  #step button {
+  #step span, #step button {
     padding-left: 5px;
     padding-right: 5px;
   }
-
   #headerMenu {
     padding-left: 0px;
   }
-
   div#modal-contents img {
     max-width: 50%;
   }

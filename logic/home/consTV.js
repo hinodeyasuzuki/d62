@@ -24,14 +24,14 @@
  */
 
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 //Inherited class of D6.consTVsum
 class ConsTV extends ConsTVsum {
 
 	constructor() {
 		super();
-		
+
 		//construction setting
 		this.consName = "consTV";           //code name of this consumption 
 		this.consCode = "";                 //short code to access consumption, only set main consumption user for itemize
@@ -52,57 +52,57 @@ class ConsTV extends ConsTVsum {
 	precalc() {
 		this.clear();
 
-		this.size = this.input( "i631"+this.subID, 32 );	//size inch
-		this.year = this.input( "i632"+this.subID, 6 );		//year to use
+		this.size = this.input("i631" + this.subID, 32);	//size inch
+		this.year = this.input("i632" + this.subID, 6);		//year to use
 
 		//time to use hour/day
-		if ( this.subID == 1 ) {
-			this.useTime =this.input( "i633"+this.subID, 8.5 );
+		if (this.subID == 1) {
+			this.useTime = this.input("i633" + this.subID, 8.5);
 		} else {
 			//set 0 if not first one and not fill input
-			this.useTime =this.input( "i633"+this.subID, 0 );
+			this.useTime = this.input("i633" + this.subID, 0);
 		}
-		
+
 		//equipment data set
 		var d = new Date();
-		this.nowEquip = this.equip( d.getFullYear() - this.year, this.size );
-		this.newEquip = this.equip( d.getFullYear(), this.size );
+		this.nowEquip = this.equip(d.getFullYear() - this.year, this.size);
+		this.newEquip = this.equip(d.getFullYear(), this.size);
 		this.nowWatt = this.nowEquip.pf2;
 		this.newWatt = this.newEquip.pf1;
 	}
 
 	calc() {
 		//reduce rate by replace
-		this.reduceRateReplace = ( 1 - this.newWatt / this.nowWatt);
+		this.reduceRateReplace = (1 - this.newWatt / this.nowWatt);
 
 		//electricity kWh/month
-		this.electricity =  this.useTime * this.nowWatt / 1000 * 30;
+		this.electricity = this.useTime * this.nowWatt / 1000 * 30;
 	}
 
 	calc2nd() {
 		//in case of residue #0
-		if ( this.subID == 0 ){
+		if (this.subID == 0) {
 			this.electricity = this.sumCons.electricity;
 			var cons = D6.consListByName[this.consName];
-			for( var i=1 ; i< cons.length ; i++ ){
+			for (var i = 1; i < cons.length; i++) {
 				this.electricity -= cons[i].electricity;
 			}
 		}
 	}
 
 	calcMeasure() {
-		if ( this.subID == 0 && D6.consListByName[this.consName][1].electricity > 0 ) return;
+		if (this.subID == 0 && D6.consListByName[this.consName][1].electricity > 0) return;
 
 		//mTVtime
-		if ( this.useTime > 2 ) {
-			this.measures["mTVtime"].calcReduceRate( 1 / ( this.useTime - 1 ) );
+		if (this.useTime > 2) {
+			this.measures["mTVtime"].calcReduceRate(1 / (this.useTime - 1));
 		}
 
 		//mTVbright
-		this.measures["mTVbright"].calcReduceRate( this.reduceRateBright );
+		this.measures["mTVbright"].calcReduceRate(this.reduceRateBright);
 
 		//mTVreplace
-		this.measures["mTVreplace"].calcReduceRate( this.reduceRateReplace );
+		this.measures["mTVreplace"].calcReduceRate(this.reduceRateReplace);
 
 	}
 }

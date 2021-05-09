@@ -24,8 +24,8 @@
  */
 
 //resolve D6
-var D6 = D6||{};
- 
+var D6 = D6 || {};
+
 //Inherited class of D6.consLIsum
 class ConsLI extends ConsLIsum {
 
@@ -53,21 +53,21 @@ class ConsLI extends ConsLIsum {
 		this.clear();
 
 		// room name
-		var roomNames = [ "", "玄関", "門灯", "廊下", "トイレ", "脱衣所", "風呂", "居室" ];
+		var roomNames = ["", "玄関", "門灯", "廊下", "トイレ", "脱衣所", "風呂", "居室"];
 		this.rid = this.input("i511" + this.subID, 0);					//room ID
-		this.mesTitlePrefix = this.rid ? roomNames[this.rid] 
+		this.mesTitlePrefix = this.rid ? roomNames[this.rid]
 			: this.mesTitlePrefix;										//set room name
 
-		this.type =this.input( "i512" + this.subID, 2 );				//type of light
-		this.watt =this.input( "i513" + this.subID, 0 );				//electricity W/tube
-		this.num =this.input( "i514" + this.subID, 0 );					//tube number
-		this.time =this.input( "i515" + this.subID, this.lightTime );	//time to use hour/day
+		this.type = this.input("i512" + this.subID, 2);				//type of light
+		this.watt = this.input("i513" + this.subID, 0);				//electricity W/tube
+		this.num = this.input("i514" + this.subID, 0);					//tube number
+		this.time = this.input("i515" + this.subID, this.lightTime);	//time to use hour/day
 	}
 
 	calc() {
 		//in case of no electricity input
-		if ( !(this.watt > 0) ) {
-			if ( this.type <= 2 ) {
+		if (!(this.watt > 0)) {
+			if (this.type <= 2) {
 				//fluorescent lump 
 				this.watt = 60;
 			} else {
@@ -75,25 +75,25 @@ class ConsLI extends ConsLIsum {
 				this.watt = 100;
 			}
 		}
-		this.electricity = this.watt * this.time * this.num / 1000 * 365 / 12;	
+		this.electricity = this.watt * this.time * this.num / 1000 * 365 / 12;
 	}
 
 	calc2nd() {
-		if ( this.subID == 0 ){
+		if (this.subID == 0) {
 			//in case of residue
 			this.electricity = this.sumCons.electricity;
 			var cons = D6.consListByName[this.consName];
-			for( var i=1 ; i< cons.length ; i++ ){
+			for (var i = 1; i < cons.length; i++) {
 				this.electricity -= cons[i].electricity;
 			}
 
 			//lighttype in consLIsum
-			if ( this.lightType == 1 ) {
+			if (this.lightType == 1) {
 				this.type = 1;
-			} else if (this.lightType == 3 ) {
+			} else if (this.lightType == 3) {
 				this.type = 5;
 			} else {
-				this.type = 2;			
+				this.type = 2;
 			}
 			this.watt = this.sumWatt;
 			this.num = 1;
@@ -103,48 +103,48 @@ class ConsLI extends ConsLIsum {
 	calcMeasure() {
 		var rejectSelect = false;
 		//var mes;
-		
+
 		//can or not install good light
 		if (
-			this.isSelected( "mLILED" )
-			|| this.isSelected( "mLIceilingLED" )
-			|| this.isSelected( "mLIsensor" )
+			this.isSelected("mLILED")
+			|| this.isSelected("mLIceilingLED")
+			|| this.isSelected("mLIsensor")
 		) {
 			rejectSelect = true;
 		}
 
 		//mLILED
-		if ( ( this.type == 5 || this.type == 6 ) 
-			|| this.watt < 20 
+		if ((this.type == 5 || this.type == 6)
+			|| this.watt < 20
 			|| rejectSelect
 		) {
 		} else {
-			if ( this.type == 1 ) {
-				this.measures["mLILED"].calcReduceRate( this.reduceRateLED );
-			} else if ( this.type == 2 || this.type == 3  ) {
-				this.measures["mLILED"].calcReduceRate( 
-					( this.reduceRateLED - this.reduceRateBulb ) / this.reduceRateLED );
+			if (this.type == 1) {
+				this.measures["mLILED"].calcReduceRate(this.reduceRateLED);
+			} else if (this.type == 2 || this.type == 3) {
+				this.measures["mLILED"].calcReduceRate(
+					(this.reduceRateLED - this.reduceRateBulb) / this.reduceRateLED);
 			}
 		}
 
 		//mLIceilingLED
-		if ( this.type == 3 
-			&& this.watt * this.num > 50 
+		if (this.type == 3
+			&& this.watt * this.num > 50
 			&& !rejectSelect
 		) {
-			this.measures["mLIceilingLED"].calcReduceRate( this.reduceRateCeiling );
+			this.measures["mLIceilingLED"].calcReduceRate(this.reduceRateCeiling);
 		}
 
 		//mLIsensor
-		if ( this.rid >= 1 && this.rid <= 3 ) {
-			this.measures["mLIsensor"].electricity = 
-				( this.outdoorWatt * this.outdoorTime + this.sensorWatt * 24 ) 
+		if (this.rid >= 1 && this.rid <= 3) {
+			this.measures["mLIsensor"].electricity =
+				(this.outdoorWatt * this.outdoorTime + this.sensorWatt * 24)
 				* 365 / 1000 / 12;
 		}
 
 		//mLItime
-		if ( this.time >= 2 ) {
-			this.measures["mLItime"].calcReduceRate( 1 / ( this.time - 1 ) );
+		if (this.time >= 2) {
+			this.measures["mLItime"].calcReduceRate(1 / (this.time - 1));
 		}
 	}
 

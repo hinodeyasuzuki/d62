@@ -12,7 +12,7 @@
  *								2011/01/21 original PHP version
  *								2011/05/06 ported to ActionScript3
  * 								2016/04/12 ported to JavaScript
- * 								2016/04/12 devide file from consHEAT.js
+ * 								2016/04/12 devide file from sumCons.js
  * 								2017/12/10 ver.1.0 set functions
  * 								2018/03/14 			global setting fix
  * 
@@ -56,14 +56,13 @@ class ConsACheat extends ConsHTsum {
 
 		//link to consAC
 		this.ac = D6.consListByName["consAC"][this.subID];
-		this.consHeat = Object.getPrototypeOf(this);
 
 		//parameters
 		this.heatSpace = this.input("i212" + this.subID, 13);			//size of room (m2)
-		this.heatEquip = this.input("i231" + this.subID, this.consHeat.heatEquip);	//equipment for heating
-		this.heatTime = this.input("i233" + this.subID, this.consHeat.heatTime);	//heating time ( hour/day )
-		this.heatTemp = this.input("i234" + this.subID, this.consHeat.heatTemp);	//temperature setting( degree-C )
-		this.heatMonth = this.input("i235" + this.subID, this.consHeat.heatMonth);	//heating month
+		this.heatEquip = this.input("i231" + this.subID, this.sumCons.heatEquip);	//equipment for heating
+		this.heatTime = this.input("i233" + this.subID, this.sumCons.heatTime);	//heating time ( hour/day )
+		this.heatTemp = this.input("i234" + this.subID, this.sumCons.heatTemp);	//temperature setting( degree-C )
+		this.heatMonth = this.input("i235" + this.subID, this.sumCons.heatMonth);	//heating month
 		this.windowArea = this.input("i213" + this.subID, -1);		//window size (m2)
 		this.windowPerf = this.input("i214" + this.subID, -1);		//window insulation level
 
@@ -71,7 +70,7 @@ class ConsACheat extends ConsHTsum {
 
 	calc() {
 		//calculate heat load ( kcal/month in heating days )
-		var heatKcal = this.calcHeatLoad(this.heatSpace, this.heatTime, this.heatMonth, this.heatTemp);
+		var heatKcal = this.calcHeatLoad(this.heatSpace, this.heatTime, this.heatMonth, this.heatTemp, this.sumCons.heatMonth);
 
 		//calculate annual energy from heating season monthly one.
 		heatKcal *= this.heatMonth / 12;
@@ -80,7 +79,7 @@ class ConsACheat extends ConsHTsum {
 		//guess heat equipment
 		if (this.heatEquip <= 0) {
 			//use house total
-			this.heatEquip = this.consHeat.heatEquip;
+			this.heatEquip = this.sumCons.heatEquip;
 		}
 
 		//guess main energy source

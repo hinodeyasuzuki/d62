@@ -19,12 +19,12 @@
  * 
  * 
  */
- 
-//resolve D6
-var D6 = D6||{};
 
-	
-	
+//resolve D6
+var D6 = D6 || {};
+
+
+
 // toHalfWidth(strVal)  change double width charactor------------------
 //
 // parameters
@@ -32,7 +32,7 @@ var D6 = D6||{};
 // return
 //		halfVal replaced value
 //
-D6.toHalfWidth = function(strVal){
+D6.toHalfWidth = function (strVal) {
 	/*
 	if ( !strVal ) return strVal;
 	var halfVal = strVal.replace(/[！-～]/g,
@@ -46,7 +46,7 @@ D6.toHalfWidth = function(strVal){
 	return strVal;
 };
 
-	
+
 // ObjArraySort(ary, key, order )  object sort ------------------
 //
 // parameters
@@ -58,14 +58,14 @@ D6.toHalfWidth = function(strVal){
 //
 //	set "ary" sorted
 //
-D6.ObjArraySort = function(ary, key, order) {
+D6.ObjArraySort = function (ary, key, order) {
 	var reverse = 1;
-	if(order && order.toLowerCase() == "desc") 
+	if (order && order.toLowerCase() == "desc")
 		reverse = -1;
-	ary.sort(function(a, b) {
-		if(a[key] < b[key])
+	ary.sort(function (a, b) {
+		if (a[key] < b[key])
 			return -1 * reverse;
-		else if(a[key] == b[key])
+		else if (a[key] == b[key])
 			return 0;
 		else
 			return 1 * reverse;

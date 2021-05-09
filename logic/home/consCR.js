@@ -27,9 +27,9 @@
 var D6 = D6 || {};
 
 //Inherited class of D6.consCRsum
-class ConsCR extends ConsCRsum{
+class ConsCR extends ConsCRsum {
 
-	constructor(){
+	constructor() {
 		super();
 
 		this.consName = "consCR"; 		//code name of this consumption
@@ -40,11 +40,11 @@ class ConsCR extends ConsCRsum{
 		this.color = "#ee82ee"; 			//color definition in graph
 		this.countCall = "th car"; 		//how to point n-th equipment
 		this.addable = "vehicle";
-	
+
 		//consCR is sub aggrigation, consCRtrip is connected to  consCRsum
 		this.sumConsName = ""; 						//code name of consumption sum up include this
 		this.sumCons2Name = "consCRsum"; 	//code name of consumption related to this
-	
+
 		//guide message in input page
 		this.inputGuide = "the performance and use of each car";
 	}
@@ -54,13 +54,13 @@ class ConsCR extends ConsCRsum{
 
 		this.carType = this.input("i911" + this.subID, 1); //type of car
 		this.performance = this.input("i912" + this.subID, 12); //performance km/L
-	
+
 		// car user
 		this.user = this.input("i913" + this.subID, this.subID + this.countCall);
 		this.ecoTier = this.input("i914" + this.subID, 3); //eco tier
 	}
 
-	calc(){		
+	calc() {
 	}
 
 	calc2nd() {
@@ -86,7 +86,7 @@ class ConsCR extends ConsCRsum{
 				//recalculate by rate of destination consumption, and calculated by gasoline
 				this.car *= this.sumCons2.car / trsum;
 			}
-		}	
+		}
 	}
 
 	calcMeasure() {

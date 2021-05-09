@@ -26,7 +26,7 @@
 var D6 = D6 || {};
 
 //Inherited class of D6.consCRsum
-class ConsHWdishwash extends ConsBase{
+class ConsHWdishwash extends ConsBase {
 
 	constructor() {
 		super();

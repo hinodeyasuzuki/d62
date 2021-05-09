@@ -27,9 +27,9 @@
 var D6 = D6 || {};
 
 //Inherited class of D6.consCOsum
-class ConsACcool extends ConsCOsum{
+class ConsACcool extends ConsCOsum {
 
-	constructor () {
+	constructor() {
 		super();
 
 		//construction setting

@@ -27,7 +27,7 @@ var D6 = D6 || {};
 //		mesid : measure sequence id
 // return
 //		ret: subset of measureBase class
-D6.getMeasureDetail= function( mesid ) {
+D6.getMeasureDetail = function (mesid) {
 	var ret = {};
 	var mes = D6.measureList[mesid];
 
@@ -49,7 +49,7 @@ D6.getMeasureDetail= function( mesid ) {
 	ret.cons.car = mes.cons.car;
 	ret.cons.kerosene = mes.cons.kerosene;
 	ret.cons.water = mes.cons.water;
-	
+
 	return ret;
 };
 
@@ -59,41 +59,40 @@ D6.getMeasureDetail= function( mesid ) {
 // maxPrice		not show over than this price
 // notSelected 	1:only not select
 //
-D6.getMeasure = function( consName, maxPrice, notSelected )
-{
+D6.getMeasure = function (consName, maxPrice, notSelected) {
 	//cannot set default in function for IE
-	if(typeof maxPrice === "undefined") maxPrice = 100000000;
-	if(typeof notSelected === "undefined") notSelected = 0;
+	if (typeof maxPrice === "undefined") maxPrice = 100000000;
+	if (typeof notSelected === "undefined") notSelected = 0;
 
 	var ret = [];
-	var i=0;
+	var i = 0;
 	var mes;
 	//var count = 0;
 	var mesidArray = [];
-	for ( var cid in D6.measureList ) {
-		mesidArray.push( D6.measureList[cid] );
+	for (var cid in D6.measureList) {
+		mesidArray.push(D6.measureList[cid]);
 	}
-	D6.ObjArraySort( mesidArray, D6.sortTarget );
+	D6.ObjArraySort(mesidArray, D6.sortTarget);
 
-	for ( var mid in mesidArray ) {
+	for (var mid in mesidArray) {
 		cid = mesidArray[mid].mesID;
 		mes = D6.measureList[cid];
 
 		// not to show defined in EXCEL
-		if ( mes.title == "" || mes.title.substr(0,1)=="#" ) continue;
-			
+		if (mes.title == "" || mes.title.substr(0, 1) == "#") continue;
+
 		var partc = D6.consListByName[consName][0].partCons;
 		var relation = false;
-		for( var pc in partc ){
-			if ( mes[partc[pc].consName] ) relation = true;
+		for (var pc in partc) {
+			if (mes[partc[pc].consName]) relation = true;
 		}
 
 		// directly defined in partCons
-		if ( mes[consName] ) relation = true;
+		if (mes[consName]) relation = true;
 
 		// skip
-		if ( mes.selected && notSelected == 1 ) continue;
-		if ( mes.priceNew > maxPrice ) continue;
+		if (mes.selected && notSelected == 1) continue;
+		if (mes.priceNew > maxPrice) continue;
 
 		ret[i] = {};
 
@@ -122,41 +121,41 @@ D6.getMeasure = function( consName, maxPrice, notSelected )
 		ret[i].disable = mes.disable;			//consTotal
 		ret[i].relation = mes.relation;
 
-		if ( mes.cons.color || mes.cons.consName=="consTOTAL"){
+		if (mes.cons.color || mes.cons.consName == "consTOTAL") {
 			ret[i].color = mes.cons.color;
 		} else {
 			ret[i].color = mes.cons.sumCons.color;
 		}
-			
+
 		i++;
 	}
 
 	return ret;
 };
-	
-D6.getMeasure_title= function( mes ) {
-	if ( mes.cons.consName =="consOTother" ){
+
+D6.getMeasure_title = function (mes) {
+	if (mes.cons.consName == "consOTother") {
 		return mes.title;
 	} else {
-		return ( mes.cons.targetCall ? ( mes.cons.targetCall + ":" ) : 
-			( mes.subID ? ( mes.subID + mes.cons.countCall + ":" ) : "" ) ) 
+		return (mes.cons.targetCall ? (mes.cons.targetCall + ":") :
+			(mes.subID ? (mes.subID + mes.cons.countCall + ":") : ""))
 			+ mes.title;
 	}
 };
 
-D6.getMeasure_titleShort= function( mes ) {
-	if ( mes.cons.consName =="consOTother" ){
+D6.getMeasure_titleShort = function (mes) {
+	if (mes.cons.consName == "consOTother") {
 		return mes.title;
 	} else {
-		return  mes.titleShort + ( mes.cons.targetCall ? "(" +  mes.cons.targetCall + ")"  : 
-			( mes.subID ? "(" + mes.subID + mes.cons.countCall + ")"  : "" ) ) ;
+		return mes.titleShort + (mes.cons.targetCall ? "(" + mes.cons.targetCall + ")" :
+			(mes.subID ? "(" + mes.subID + mes.cons.countCall + ")" : ""));
 	}
 };
 
 
 // common data
 //
-D6.getMeasuresDetailCommon = function( mes ){
+D6.getMeasuresDetailCommon = function (mes) {
 	var ret = {};
 	ret.title = D6.getMeasure_title(mes);
 	ret.titleShort = D6.getMeasure_titleShort(mes);
@@ -212,7 +211,7 @@ D6.getMeasuresDetailCommon = function( mes ){
 	ret.water = mes.water;
 
 	ret.notShowCost = mes.notShowCost;
-	
+
 	return ret;
 };
 

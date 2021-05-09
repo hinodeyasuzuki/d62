@@ -28,7 +28,7 @@ var D6 = D6 || {};
 
 //Inherited class of ConsBase
 class ConsCOsum extends ConsBase {
-	constructor(){
+	constructor() {
 		super();
 
 		this.coolLoadUnit_Wood = 220;			//standard wood house cool load（W/m2）

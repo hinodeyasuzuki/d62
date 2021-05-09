@@ -74,12 +74,12 @@ D6.viewparam = {};
 D6.debugMode = false;
 
 //constructor
-D6.construct = function(a, b, c) {
+D6.construct = function (a, b, c) {
 	D6.setscenario(a, b, c);
 };
 
 //calculate
-D6.calculateAll = function() {
+D6.calculateAll = function () {
 	D6.area.setCalcBaseParams();
 	//D6.calcCons();
 	D6.calcAverage();

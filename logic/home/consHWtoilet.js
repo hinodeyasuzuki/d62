@@ -23,8 +23,8 @@
  */
 
 //resolve D6
-var D6 = D6||{};
- 
+var D6 = D6 || {};
+
 //Inherited class of ConsBase
 class ConsHWtoilet extends ConsBase {
 
@@ -33,8 +33,8 @@ class ConsHWtoilet extends ConsBase {
 
 		this.warmerElec_kWh_y = 200;		//hot seat of toilet electricity kWh/year
 		this.resudeRateGoodSheat = 0.5;		//reduce rate by saving type 
-		this.resudeRateTemplature= 0.2;		//reduce rate by temperature set 
-		this.resudeRateCover= 0.1;			//reduce rate by use cover 
+		this.resudeRateTemplature = 0.2;		//reduce rate by temperature set 
+		this.resudeRateCover = 0.1;			//reduce rate by use cover 
 		this.water_m3_d = 0.1;				//flush water use in toilet m3/day/person
 
 		//construction setting
@@ -57,48 +57,48 @@ class ConsHWtoilet extends ConsBase {
 	precalc() {
 		this.clear();
 
-		this.person =this.input( "i001", 3 );			//person
-		this.keepSeason =this.input( "i131", 2 );		//use heating 1:everyday - 4 don't use
-		this.keepTemp =this.input( "i132", 2 );			//temperature 1:high - 3low, 4 don't know
-		this.savingToilet = this.input( "i133", 2 );	//use demand heat type
-		this.coverToilet = this.input( "i134", 1 );		//cover use
+		this.person = this.input("i001", 3);			//person
+		this.keepSeason = this.input("i131", 2);		//use heating 1:everyday - 4 don't use
+		this.keepTemp = this.input("i132", 2);			//temperature 1:high - 3low, 4 don't know
+		this.savingToilet = this.input("i133", 2);	//use demand heat type
+		this.coverToilet = this.input("i134", 1);		//cover use
 	}
 
-	calc() {	
-		this.electricity = this.warmerElec_kWh_y / 12 
-							* (4-this.keepSeason)/3
-							* (this.keepTemp == 1 ? 1.1 : (this.keepTemp == 3 ? 0.9 : 1) )
-							* (this.savingToilet == 1 ? 0.5 : 1 )
-							* (this.coverToilet == 2 ? 1.1 : 1 );
-		this.water = this.water_m3_d * this.person *30;
+	calc() {
+		this.electricity = this.warmerElec_kWh_y / 12
+			* (4 - this.keepSeason) / 3
+			* (this.keepTemp == 1 ? 1.1 : (this.keepTemp == 3 ? 0.9 : 1))
+			* (this.savingToilet == 1 ? 0.5 : 1)
+			* (this.coverToilet == 2 ? 1.1 : 1);
+		this.water = this.water_m3_d * this.person * 30;
 	}
 
-	calcMeasure() {		
+	calcMeasure() {
 		//var mes;
-		
+
 		//mHWreplaceToilet5
-		this.measures[ "mHWreplaceToilet5" ].copy( this );
-		this.measures[ "mHWreplaceToilet5" ].water = this.water_m3_d * this.person *30 / 2;
+		this.measures["mHWreplaceToilet5"].copy(this);
+		this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 / 2;
 
 		//mHWreplaceToilet
-		if ( this.savingToilet != 1 || this.keepSeason != 4 ) {
-			this.measures[ "mHWreplaceToilet" ].calcReduceRate( this.resudeRateGoodSheat );
+		if (this.savingToilet != 1 || this.keepSeason != 4) {
+			this.measures["mHWreplaceToilet"].calcReduceRate(this.resudeRateGoodSheat);
 		}
-			
+
 		//mHWtemplatureToilet
-		if ( this.isSelected( "mHWreplaceToilet" ) || this.savingToilet == 1 ) {
+		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1) {
 		} else {
-			if ( this.keepTemp == 1 ) {
-				this.measures[ "mHWtemplatureToilet" ].calcReduceRate( this.resudeRateTemplature );
-			} else if ( this.keepTemp == 2 ) {
-				this.measures[ "mHWtemplatureToilet" ].calcReduceRate( this.resudeRateTemplature/2 );
+			if (this.keepTemp == 1) {
+				this.measures["mHWtemplatureToilet"].calcReduceRate(this.resudeRateTemplature);
+			} else if (this.keepTemp == 2) {
+				this.measures["mHWtemplatureToilet"].calcReduceRate(this.resudeRateTemplature / 2);
 			}
 		}
 
 		//mHWcoverTilet
-		if ( this.isSelected( "mHWreplaceToilet" )|| this.savingToilet == 1 || this.coverToilet == 1 ) {
+		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1 || this.coverToilet == 1) {
 		} else {
-			this.measures[ "mHWcoverTilet" ].calcReduceRate( this.resudeRateCover );
+			this.measures["mHWcoverTilet"].calcReduceRate(this.resudeRateCover);
 		}
 	}
 

@@ -53,16 +53,16 @@ function graphItemizeCommon(ret, targetname) {
 
 	$("#" + targetname).html(
 		"<h3>" +
-			titles[ret.yaxis] +
-			(hideAverage != 1
-				? ":" +
-				  ret.averageCaption +
-				  captionCompareAverage +
-				  "（" +
-				  ret.consTitle +
-				  "）"
-				: "") +
-			"</h3>"
+		titles[ret.yaxis] +
+		(hideAverage != 1
+			? ":" +
+			ret.averageCaption +
+			captionCompareAverage +
+			"（" +
+			ret.consTitle +
+			"）"
+			: "") +
+		"</h3>"
 	);
 
 	// use dimple
@@ -140,7 +140,7 @@ function graphItemizeCommon(ret, targetname) {
 	// reverse regend: first, store a copy of the original _getEntries method.
 	myLegend._getEntries_old = myLegend._getEntries;
 	// now override the method
-	myLegend._getEntries = function() {
+	myLegend._getEntries = function () {
 		return myLegend._getEntries_old.apply(this, arguments).reverse();
 	};
 
@@ -148,7 +148,7 @@ function graphItemizeCommon(ret, targetname) {
 	chart.setBounds(60, 10, wid - 150, hei - 70); //left margin, top margin, width, height
 	var barAxis = chart.addSeries(captionItem, dimple.plot.bar);
 	//label
-	barAxis.afterDraw = function(shape, data) {
+	barAxis.afterDraw = function (shape, data) {
 		var s = d3.select(shape),
 			rect = {
 				x: parseFloat(s.attr("x")),
@@ -212,17 +212,17 @@ function graphItemizeCommon(ret, targetname) {
 	}
 	var comment = lang.itemizecomment(
 		ret.ord[0] +
-			"（" +
-			rat[0] +
-			"%）、" +
-			ret.ord[1] +
-			"（" +
-			rat[1] +
-			"%）、" +
-			ret.ord[2] +
-			"（" +
-			rat[2] +
-			"%）",
+		"（" +
+		rat[0] +
+		"%）、" +
+		ret.ord[1] +
+		"（" +
+		rat[1] +
+		"%）、" +
+		ret.ord[2] +
+		"（" +
+		rat[2] +
+		"%）",
 		Math.round(ratsum)
 	);
 	$("#" + targetname + "comment").html(comment);
@@ -331,7 +331,7 @@ function graphEnergy(averageData) {
 
 	var s = chart.addSeries("user", dimple.plot.bar);
 	//label
-	s.afterDraw = function(shape, data) {
+	s.afterDraw = function (shape, data) {
 		var s = d3.select(shape),
 			rect = {
 				x: parseFloat(s.attr("x")),
@@ -413,7 +413,7 @@ function graphCO2averageCommon(averageData, target) {
 
 	var s = chart.addSeries("user", dimple.plot.bar);
 	//label
-	s.afterDraw = function(shape, data) {
+	s.afterDraw = function (shape, data) {
 		var s = d3.select(shape),
 			rect = {
 				x: parseFloat(s.attr("x")),

@@ -18,9 +18,9 @@
  * rankIn100()					get rank				
  * 
  */
- 
+
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 /*
  * calcAverage()  get avearage consumption ------------------
@@ -33,7 +33,7 @@ var D6 = D6||{};
  * set D6.average.consList[]
  *
  */
-D6.calcAverage = function(){
+D6.calcAverage = function () {
 	// 基本は全体だけだが、用途別にも平均値を算出するため
 	// 値をでフォルト値にして計算する（灯油だけ補正がかかる）
 
@@ -41,7 +41,7 @@ D6.calcAverage = function(){
 	this.calcCons();				//and calculate, then get average
 	this.average.consList = {};
 
-	for( var c in this.consShow ) {
+	for (var c in this.consShow) {
 		this.average.consList[c] = {};
 		this.average.consList[c].co2 = this.consShow[c].co2;
 		this.average.consList[c].co2Original = this.consShow[c].co2Original;
@@ -58,7 +58,7 @@ D6.calcAverage = function(){
 		this.average.consList[c].costOriginal = this.consShow[c].costOriginal;
 		this.average.consList[c].jules = this.consShow[c].jules;
 		this.average.consList[c].title = this.consShow[c].title;
-		if (c=="TO"){
+		if (c == "TO") {
 			this.average.consList[c].priceEle = this.consShow[c].priceEle;
 			this.average.consList[c].priceGas = this.consShow[c].priceGas;
 			this.average.consList[c].priceKeros = this.consShow[c].priceKeros;
@@ -69,7 +69,7 @@ D6.calcAverage = function(){
 	//this.calcCons();				//and calculate　単体で呼ばれることはないため不要
 };
 
-	
+
 
 /* rankIn100(ratio)  calculate rank by ratio to average ------------------
  * 130410うちエコ診断
@@ -79,13 +79,13 @@ D6.calcAverage = function(){
  * return
  *		rank 	number 1-100 in 100 
  */
-D6.rankIn100 = function( ratio ){
+D6.rankIn100 = function (ratio) {
 	var ret;
 	var i;
-	var th = [ 0.0, 0.3, 0.5, 0.6, 0.8, 1.0, 1.3, 1.5, 1.8, 2.1, 2.4, 3.0, 4.0 ];
-	var thrank = [ 0.50, 0.99, 4.68, 9.63, 27.32, 50, 71.86, 81.96, 91.01, 95.47, 97.56, 99.34, 100.19 ];
+	var th = [0.0, 0.3, 0.5, 0.6, 0.8, 1.0, 1.3, 1.5, 1.8, 2.1, 2.4, 3.0, 4.0];
+	var thrank = [0.50, 0.99, 4.68, 9.63, 27.32, 50, 71.86, 81.96, 91.01, 95.47, 97.56, 99.34, 100.19];
 
-	if ( ratio < th[0] ) {
+	if (ratio < th[0]) {
 		ret = 1;
 		return ret;
 	}
@@ -93,10 +93,10 @@ D6.rankIn100 = function( ratio ){
 	//4倍以上初期値
 	ret = 100;
 
-	for ( i=1 ; i<th.length ; i++ ) {
-		if ( ratio < th[i] ) {
-			ret = ( ( ratio - th[i-1] ) * thrank[i] + ( th[i] - ratio ) *  thrank[i-1] )
-					/ ( th[i] - th[i-1] );
+	for (i = 1; i < th.length; i++) {
+		if (ratio < th[i]) {
+			ret = ((ratio - th[i - 1]) * thrank[i] + (th[i] - ratio) * thrank[i - 1])
+				/ (th[i] - th[i - 1]);
 			break;
 		}
 	}
@@ -104,4 +104,4 @@ D6.rankIn100 = function( ratio ){
 	return Math.round(ret);
 };
 
-	
+

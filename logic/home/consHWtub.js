@@ -23,8 +23,8 @@
  */
 
 //resolve D6
-var D6 = D6||{};
- 
+var D6 = D6 || {};
+
 //Inherited class of ConsBase
 class ConsHWtub extends ConsBase {
 
@@ -51,24 +51,24 @@ class ConsHWtub extends ConsBase {
 	}
 
 	calc() {
-		this.copy( this.sumCons );
-		this.multiply( this.sumCons.consHWtubRate );
+		this.copy(this.sumCons);
+		this.multiply(this.sumCons.consHWtubRate);
 	}
 
 	calcMeasure() {
 		//mHWinsulation
-		this.measures[ "mHWinsulation" ].calcReduceRate( this.sumCons.reduceRateInsulation );
+		this.measures["mHWinsulation"].calcReduceRate(this.sumCons.reduceRateInsulation);
 
 		//mHWkeep
-		this.measures[ "mHWkeep" ].calcReduceRate( this.sumCons.reduceRateTabKeep );
+		this.measures["mHWkeep"].calcReduceRate(this.sumCons.reduceRateTabKeep);
 
 		//mHWstopAutoKeep 
-		if ( this.sumCons.keepMethod > 5 )  {
-			this.measures[ "mHWstopAutoKeep" ].calcReduceRate( this.sumCons.reduceRateTabKeep * this.autoKeepRate );
+		if (this.sumCons.keepMethod > 5) {
+			this.measures["mHWstopAutoKeep"].calcReduceRate(this.sumCons.reduceRateTabKeep * this.autoKeepRate);
 		}
 
 		//mHWonlyShower
-		this.measures[ "mHWonlyShower" ].calcReduceRate(  this.sumCons.reduceRateStopTabSummer );
+		this.measures["mHWonlyShower"].calcReduceRate(this.sumCons.reduceRateStopTabSummer);
 	}
 }
 

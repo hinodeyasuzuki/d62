@@ -24,8 +24,8 @@
 var D6 = D6 || {};
 
 //Inherited class of Energy
-class ConsBase extends Energy{
-	constructor(){
+class ConsBase extends Energy {
+	constructor() {
 		//----------- declare instanses ---------------------------
 		super();
 
@@ -69,17 +69,17 @@ class ConsBase extends Energy{
 	}
 
 	// pre calculation
-	precalc(){
+	precalc() {
 		this.clear();
 	}
 
 	// calculation
-	calc(){
+	calc() {
 		this.clear();
 	}
 
 	//dummy definition, main routine is defined in each consumption class
-	calc2nd(){
+	calc2nd() {
 	}
 
 	//calculation adjust
@@ -91,7 +91,7 @@ class ConsBase extends Energy{
 	}
 
 	//dummy definition, add adjust
-	calcAdjustStrategy(energyAdj) {}
+	calcAdjustStrategy(energyAdj) { }
 
 	// in case of monthly calculation
 	consSumMonth(source, month) {
@@ -105,7 +105,7 @@ class ConsBase extends Energy{
 	//--------- calculation of each measures ---------------------------------
 
 	//main calculation of measures , defined in each classes
-	calcMeasure() {}
+	calcMeasure() { }
 
 	//measures initialize, fit to consumption
 	calcMeasureInit() {
@@ -223,38 +223,38 @@ class ConsBase extends Energy{
 		}
 
 		//Cross reduction when use hot water heating in case of consHWsupply
-		if ( this.consName=="consHWsupply"){
+		if (this.consName == "consHWsupply") {
 			var mulmargin = Object.create(margin);
-			if ( D6.consHTsum.useHW ){
+			if (D6.consHTsum.useHW) {
 				// Use House Heating - fix consHTsum
 				//	hotwaterHeatingRate of mulmargin
 				mulmargin.multiply(this.hotwaterHeatingRate);
-				D6.consHTsum.add( mulmargin );
+				D6.consHTsum.add(mulmargin);
 				D6.consHTsum.calcCO2();		//calculate CO2, cost and energy
 				D6.consHTsum.calcCost();
 				D6.consHTsum.calcJules();
-		
-			} else{
+
+			} else {
 				//Use Room partial heating
-				var ht =  D6.consListByName["consACheat"];
+				var ht = D6.consListByName["consACheat"];
 				var en = 0;
 
 				//Add co2 of hot water heating 
-				for( var k in ht){
-					if( k && ht[k].useHW){
+				for (var k in ht) {
+					if (k && ht[k].useHW) {
 						en += ht[k].co2;
 					}
 				}
 				//reduction
 				var submargin = new Energy();
 				submargin.clear();
-				if ( en ){
-					for( k in ht){
-						if( k && ht[k].useHW){
+				if (en) {
+					for (k in ht) {
+						if (k && ht[k].useHW) {
 							mulmargin = Object.create(margin);
 							mulmargin.multiply(ht[k].co2 / en);
 							submargin.add(mulmargin);
-							ht[k].add( mulmargin );
+							ht[k].add(mulmargin);
 							ht[k].calcCO2();		//calculate CO2, cost and energy
 							ht[k].calcCost();
 							ht[k].calcJules();
@@ -262,12 +262,12 @@ class ConsBase extends Energy{
 					}
 				}
 				// sum up each room
-				D6.consHTsum.add(submargin );
+				D6.consHTsum.add(submargin);
 				D6.consHTsum.calcCO2();		//calculate CO2, cost and energy
 				D6.consHTsum.calcCost();
 				D6.consHTsum.calcJules();
 			}
-		} 
+		}
 	}
 
 	//calclate to sub part reduction, take rate of each sub consumption for consern

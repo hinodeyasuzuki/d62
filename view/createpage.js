@@ -25,7 +25,7 @@
 //  global
 //		pageMode 	"m1" then not show after selection
 
-var createInputPage = function(res) {
+var createInputPage = function (res) {
 	var consName = res.consName;
 	var subName = res.subName;
 	var page = {};
@@ -133,7 +133,7 @@ var createInputPage = function(res) {
 //	return
 //		page			input page html with buttons
 //
-var createInputButtonPageOne = function(res) {
+var createInputButtonPageOne = function (res) {
 	if (!res) return "";
 	var page = "<h2>" + res.title;
 	page += lang.QuestionNumber(res.numques, res.nowques) + "</h2>";
@@ -156,7 +156,7 @@ var createInputButtonPageOne = function(res) {
 // createPageList(res) ---------------------------------
 //		consumption select page for smartphone
 //
-var createPageList = function(res) {
+var createPageList = function (res) {
 	var checked = "";
 	var page = "<p>分野を指定して、詳細の入力をすることができます。</p>";
 	page +=
@@ -218,7 +218,7 @@ var createPageList = function(res) {
 //		mes.costTotalChangeOriginal		payback yen/year
 //	return
 //		modalHtml result written in html
-var createModalPage = function(mes) {
+var createModalPage = function (mes) {
 	var ret = getMeasureComment(mes);
 	var modalHtml = "<h2>" + mes.title + "</h2>";
 	modalHtml +=
@@ -283,7 +283,7 @@ var createModalPage = function(mes) {
 		modalHtml += "<p>CODE: " + mes.measureName + " in " + mes.consName + "</p>";
 	}
 
-	document.onkeydown = function(e) {
+	document.onkeydown = function (e) {
 		if (e.keyCode == 27) {
 			//ESC key
 			$("#lean_overlay").hide();
@@ -303,7 +303,7 @@ var createModalPage = function(mes) {
 //		ret[1]	CO2 reduction
 //		ret[2]  cost comment
 //		ret[3]	advice
-var getMeasureComment = function(mes) {
+var getMeasureComment = function (mes) {
 	var ret = [];
 
 	// caption to call total
@@ -389,7 +389,7 @@ var getMeasureComment = function(mes) {
 	return ret;
 };
 
-var createEnergyAverage = function(ave) {
+var createEnergyAverage = function (ave) {
 	var good = "";
 	var goodcount = 0;
 	var bad = "";
@@ -453,7 +453,7 @@ var createEnergyAverage = function(ave) {
 //		notshowafter 1/0 show table of after saving
 // return
 //		ret  compare to average table written in html show CO2 and cost
-var showAverageTable = function(dat) {
+var showAverageTable = function (dat) {
 	var youcall = "";
 	var youcount = "";
 	var same = "";
@@ -531,7 +531,7 @@ var showAverageTable = function(dat) {
 
 //createCompareComment( you, av, target )
 //
-var createCompareComment = function(same, you, av, target, rank100) {
+var createCompareComment = function (same, you, av, target, rank100) {
 	var youcount;
 	if (targetMode == 1) {
 		//home
@@ -569,7 +569,7 @@ var createCompareComment = function(same, you, av, target, rank100) {
 // 		target: consumption list as array
 // return
 //		itemized table written in html, show energy consumption and CO2
-var showItemizeTable = function(target) {
+var showItemizeTable = function (target) {
 	var ret =
 		"<table id='itemize' width='100%'><tr><th>" +
 		lang.itemname +
@@ -655,7 +655,7 @@ var showItemizeTable = function(target) {
 // 		target: consumption list as array
 // return
 //		itemized table written in html, show energy consumption and CO2
-var showItemizeTableSort = function(target) {
+var showItemizeTableSort = function (target) {
 	var ret =
 		"<table id='itemize'><tr><th>" +
 		lang.itemname +
@@ -718,7 +718,7 @@ var showItemizeTableSort = function(target) {
 //		measures array table in html
 // global
 //		showMeasureTable_Max   : list size
-var showMeasureTable = function(mesArray) {
+var showMeasureTable = function (mesArray) {
 	var ret =
 		"<table id='itemize' class='limit' width='100%'><tr><th width='60%'>" +
 		lang.measure +
@@ -739,7 +739,7 @@ var showMeasureTable = function(mesArray) {
 	var countCons = {};
 	var maxMesCount = 3; //measures in same group in case of listricted output
 
-	var isProhivitedMeasure = function(mname) {
+	var isProhivitedMeasure = function (mname) {
 		if (prohibitMeasures.length <= 0) {
 			if (allowedMeasures.length <= 0) {
 				return false;
@@ -817,8 +817,8 @@ var showMeasureTable = function(mesArray) {
 				mes.title +
 				(mes.conssubID > 0
 					? "(" +
-					  (mes.consmesTitlePrefix ? mes.consmesTitlePrefix : mes.conssubID) +
-					  ")"
+					(mes.consmesTitlePrefix ? mes.consmesTitlePrefix : mes.conssubID) +
+					")"
 					: "") +
 				(debugMode ? " " + mes.consconsName : "") +
 				"</a></td>";
@@ -886,7 +886,7 @@ var showMeasureTable = function(mesArray) {
 //		pdata.data[][][6]	turn off time
 // result
 //		combo to input equip and usage pattern
-var showDemandSumupPage = function(pdata) {
+var showDemandSumupPage = function (pdata) {
 	var page = {};
 	var res = pdata.data;
 	var title = pdata.title;
@@ -950,7 +950,7 @@ var showDemandSumupPage = function(pdata) {
 //		res[i]	input text component in each hour
 //  result
 //		demand input table and titile written in html
-var showDemandLogPage = function(res) {
+var showDemandLogPage = function (res) {
 	var page = {};
 	var ad = "";
 
@@ -970,7 +970,7 @@ var showDemandLogPage = function(res) {
 //		rescommon	return value common
 //  result
 //		message written in html
-var showMeasureTotalMessage = function(rescommon) {
+var showMeasureTotalMessage = function (rescommon) {
 	var html = "";
 	var redco2 = rescommon.co2Original - rescommon.co2;
 	var redcost = rescommon.costOriginal - rescommon.cost;
@@ -987,7 +987,7 @@ var showMeasureTotalMessage = function(rescommon) {
 //leanModalSet()-------------------------------------------
 //		design set for leanModal
 //
-var leanModalSet = function() {
+var leanModalSet = function () {
 	// use leanModal
 	$("a[rel*=leanModal]").leanModal({
 		top: 50, // top position
@@ -999,14 +999,14 @@ var leanModalSet = function() {
 // showModal(id) ----------------------------------------
 //		detail measures result as modal dialog for PC
 //
-var showModal = function(id) {
+var showModal = function (id) {
 	var param = {};
 	param.mid = id;
 	startCalc("modal", param);
 };
 
 // need in Chrome
-function tabset() {}
+function tabset() { }
 
 // priceRound(num)------------------------------------------
 //		make round value
@@ -1015,7 +1015,7 @@ function tabset() {}
 //	return
 //		rounded string with commma
 //
-var priceRound = function(num) {
+var priceRound = function (num) {
 	var price;
 	if (num > 10000) {
 		price = this.comma3(Math.round(num / 100) * 100);
@@ -1033,7 +1033,7 @@ var priceRound = function(num) {
 //		num : number
 //	return
 //		rounded string with comma
-var comma3 = function(num) {
+var comma3 = function (num) {
 	var n;
 	var l;
 	var m = "";
@@ -1051,7 +1051,7 @@ var comma3 = function(num) {
 //escapeHtml(string)----------------------------------------
 //		sanitize html script
 //
-var escapeHtml = (function(String) {
+var escapeHtml = (function (String) {
 	var escapeMap = {
 		"&": "&amp;",
 		"'": "&#x27;",
@@ -1071,7 +1071,7 @@ var escapeHtml = (function(String) {
 	reg = new RegExp(escapeReg, "g");
 	return function escapeHtml(str) {
 		str = str === null || str === undefined ? "" : "" + str;
-		return str.replace(reg, function(match) {
+		return str.replace(reg, function (match) {
 			return escapeMap[match];
 		});
 	};
@@ -1079,13 +1079,13 @@ var escapeHtml = (function(String) {
 
 // initial language set
 // semi crypt
-var languageset = function() {
+var languageset = function () {
 	//rot13 decode
 	function rot13(str) {
 		var i = [];
 		i = str.split("");
 		return i.map
-			.call(i, function(char) {
+			.call(i, function (char) {
 				x = char.charCodeAt(0);
 				if ((65 <= x && x < 78) || (97 <= x && x < 110)) {
 					return String.fromCharCode(x + 13);
@@ -1117,10 +1117,10 @@ var languageset = function() {
 };
 
 //object sort
-var ObjArraySort = function(ary, key, order) {
+var ObjArraySort = function (ary, key, order) {
 	var reverse = 1;
 	if (order && order.toLowerCase() == "desc") reverse = -1;
-	ary.sort(function(a, b) {
+	ary.sort(function (a, b) {
 		if (a[key] < b[key]) return -1 * reverse;
 		else if (a[key] == b[key]) return 0;
 		else return 1 * reverse;
@@ -1137,7 +1137,7 @@ base64.PADCHAR = "=";
 base64.ALPHA =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-base64.makeDOMException = function() {
+base64.makeDOMException = function () {
 	// sadly in FF,Safari,Chrome you can't make a DOMException
 	var e, tmp;
 
@@ -1154,14 +1154,14 @@ base64.makeDOMException = function() {
 		ex.name = ex.description = "INVALID_CHARACTER_ERR";
 
 		// Safari/Chrome output format
-		ex.toString = function() {
+		ex.toString = function () {
 			return "Error: " + ex.name + ": " + ex.message;
 		};
 		return ex;
 	}
 };
 
-base64.getbyte64 = function(s, i) {
+base64.getbyte64 = function (s, i) {
 	// This is oddly fast, except on Chrome/V8.
 	//  Minimal or no improvement in performance by using a
 	//   object with properties mapping chars to value (eg. 'A': 0)
@@ -1172,7 +1172,7 @@ base64.getbyte64 = function(s, i) {
 	return idx;
 };
 
-base64.decode = function(s) {
+base64.decode = function (s) {
 	// convert to string
 	s = "" + s;
 	var getbyte64 = base64.getbyte64;
@@ -1207,22 +1207,22 @@ base64.decode = function(s) {
 	}
 
 	switch (pads) {
-	case 1:
-		b10 =
+		case 1:
+			b10 =
 				(getbyte64(s, i) << 18) |
 				(getbyte64(s, i + 1) << 12) |
 				(getbyte64(s, i + 2) << 6);
-		x.push(String.fromCharCode(b10 >> 16, (b10 >> 8) & 0xff));
-		break;
-	case 2:
-		b10 = (getbyte64(s, i) << 18) | (getbyte64(s, i + 1) << 12);
-		x.push(String.fromCharCode(b10 >> 16));
-		break;
+			x.push(String.fromCharCode(b10 >> 16, (b10 >> 8) & 0xff));
+			break;
+		case 2:
+			b10 = (getbyte64(s, i) << 18) | (getbyte64(s, i + 1) << 12);
+			x.push(String.fromCharCode(b10 >> 16));
+			break;
 	}
 	return x.join("");
 };
 
-base64.getbyte = function(s, i) {
+base64.getbyte = function (s, i) {
 	var x = s.charCodeAt(i);
 	if (x > 255) {
 		throw base64.makeDOMException();
@@ -1230,7 +1230,7 @@ base64.getbyte = function(s, i) {
 	return x;
 };
 
-base64.encode = function(s) {
+base64.encode = function (s) {
 	if (arguments.length !== 1) {
 		throw new SyntaxError("Not enough arguments");
 	}
@@ -1257,31 +1257,31 @@ base64.encode = function(s) {
 		x.push(alpha.charAt(b10 & 0x3f));
 	}
 	switch (s.length - imax) {
-	case 1:
-		b10 = getbyte(s, i) << 16;
-		x.push(
-			alpha.charAt(b10 >> 18) +
-					alpha.charAt((b10 >> 12) & 0x3f) +
-					padchar +
-					padchar
-		);
-		break;
-	case 2:
-		b10 = (getbyte(s, i) << 16) | (getbyte(s, i + 1) << 8);
-		x.push(
-			alpha.charAt(b10 >> 18) +
-					alpha.charAt((b10 >> 12) & 0x3f) +
-					alpha.charAt((b10 >> 6) & 0x3f) +
-					padchar
-		);
-		break;
+		case 1:
+			b10 = getbyte(s, i) << 16;
+			x.push(
+				alpha.charAt(b10 >> 18) +
+				alpha.charAt((b10 >> 12) & 0x3f) +
+				padchar +
+				padchar
+			);
+			break;
+		case 2:
+			b10 = (getbyte(s, i) << 16) | (getbyte(s, i + 1) << 8);
+			x.push(
+				alpha.charAt(b10 >> 18) +
+				alpha.charAt((b10 >> 12) & 0x3f) +
+				alpha.charAt((b10 >> 6) & 0x3f) +
+				padchar
+			);
+			break;
 	}
 	return x.join("");
 };
 
 //over15show() -----------------------------------------
 //		show measures more than 15
-var over15show = function() {
+var over15show = function () {
 	showOver15 = true;
 	$("#itemize").removeClass("limit");
 };

@@ -23,6 +23,7 @@
  * 
  */
 
+var D6 = D6 || {};
 
 //Inherited class of ConsBase
 class ConsTotal extends ConsBase {
@@ -290,7 +291,7 @@ class ConsTotal extends ConsBase {
 			} else {
 				pvSellUnitPrice = 24;
 			}
-		} else if (this.solarYear >= 2020 && this.solarYear<2024) {
+		} else if (this.solarYear >= 2020 && this.solarYear < 2024) {
 			pvSellUnitPrice = 21;
 		} else if (this.solarYear < 2100) {
 			//estimate
@@ -305,11 +306,11 @@ class ConsTotal extends ConsBase {
 				Math.max(
 					0,
 					this.priceEle -
-						this.priceEleSell +
-						this.solarSaleRatio * generateEle * pvSellUnitPrice -
-						priceBase
+					this.priceEleSell +
+					this.solarSaleRatio * generateEle * pvSellUnitPrice -
+					priceBase
 				) /
-					this.averagePriceElec;
+				this.averagePriceElec;
 			this.electricity = this.grossElectricity - generateEle;
 		} else {
 			//not installed
@@ -388,8 +389,8 @@ class ConsTotal extends ConsBase {
 			var solar_priceDown =
 				solar_generate_kWh * this.solarSaleRatio * pvSellUnitPrice +
 				solar_generate_kWh *
-					(1 - this.solarSaleRatio) *
-					D6.Unit.price.electricity;
+				(1 - this.solarSaleRatio) *
+				D6.Unit.price.electricity;
 
 			// saving by visualize display
 			var solar_priceVisualize =

@@ -27,10 +27,10 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-class ConsCKcook extends ConsBase{
+class ConsCKcook extends ConsBase {
 	constructor() {
 		super();
-		
+
 		this.consEnergyStat = 840000; //statistical cooking energy (kcal/year) EDMC Japan
 		this.efficentEL = 2; //coefficient of IH compare to heat type
 

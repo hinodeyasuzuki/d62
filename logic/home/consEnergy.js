@@ -25,7 +25,7 @@
  */
 
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 //Inherited class of D6.consCRsum
 class ConsEnergy extends ConsBase {
@@ -49,7 +49,7 @@ class ConsEnergy extends ConsBase {
 		this.inputGuide = "the use of energy of the whole house, monthly bills";
 
 		// add instance combined to this class
-		this.partConsName = [		
+		this.partConsName = [
 		];
 	}
 

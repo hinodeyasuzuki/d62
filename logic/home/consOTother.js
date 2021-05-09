@@ -17,7 +17,7 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-class ConsOTother extends ConsBase{
+class ConsOTother extends ConsBase {
 
 	//initialize
 	constructor() {
@@ -38,7 +38,7 @@ class ConsOTother extends ConsBase{
 		this.inputGuide = "usage of other electronics";
 
 		//機器の情報
-		//0:名前 1:ワット数　2:使用時間（時間/日）　3:使用日(日/年）→初期値　4:コメント
+		//0:名前 1:ワット数 2:使用時間（時間/日） 3:使用日(日/年）→初期値 4:コメント
 		this.eq_list = [
 			[
 				"ノートパソコン",

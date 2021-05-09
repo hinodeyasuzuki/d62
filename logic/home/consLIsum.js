@@ -24,8 +24,8 @@
  */
 
 //resolve D6
-var D6 = D6||{};
- 
+var D6 = D6 || {};
+
 //Inherited class of ConsBase
 class ConsLIsum extends ConsBase {
 
@@ -58,48 +58,48 @@ class ConsLIsum extends ConsBase {
 		this.wattLivingBulb = 300;			//watt to use bulb in living
 		this.wattLivingFlue = 70;			//watt to use fluorescent light in living
 		this.wattLivingLED = 40;			//watt to use LED in living
-		
+
 		this.outdoorWatt = 150;				//sensor light (W)
 		this.outdoorTime = 0.5;				//sensor light time hour
 		this.sensorWatt = 2;				//sensor standby（W)
-		
+
 		//reduce rate to change bulb to fluorescent light
-		this.reduceRateBulb = 1 - this.preformanceBulb/this.performanceFlueciend;
+		this.reduceRateBulb = 1 - this.preformanceBulb / this.performanceFlueciend;
 
 		//reduce rate to change fluorescent light to LED
-		this.reduceRateCeiling = 1 - this.performanceFlueciend/this.performanceLED;	
+		this.reduceRateCeiling = 1 - this.performanceFlueciend / this.performanceLED;
 
 		//reduce rate to change bulb to LED
-		this.reduceRateLED = 1 - this.preformanceBulb/this.performanceLED;
+		this.reduceRateLED = 1 - this.preformanceBulb / this.performanceLED;
 
 	}
 
 
-	precalc(){
+	precalc() {
 		this.clear();
 
-		this.person =this.input( "i001", 3 );			//person
-		this.lightType =this.input( "i501", 2 );		//living light 1bulb 2fluorescent 3LED
-		this.otherRate =this.input( "i502", 3 );		//other room light use
-		this.houseSize =D6.consShow["TO"].houseSize;	//floor size
+		this.person = this.input("i001", 3);			//person
+		this.lightType = this.input("i501", 2);		//living light 1bulb 2fluorescent 3LED
+		this.otherRate = this.input("i502", 3);		//other room light use
+		this.houseSize = D6.consShow["TO"].houseSize;	//floor size
 	}
 
 	calc() {
 		//living consumption kWh/month
-		if( this.lightType == 1 ) {
+		if (this.lightType == 1) {
 			this.sumWatt = this.wattLivingBulb;
-		} else if ( this.lightType == 3 ) {
+		} else if (this.lightType == 3) {
 			this.sumWatt = this.wattLivingLED;
 		} else {
 			this.sumWatt = this.wattLivingFlue;
 		}
-		this.electricity =  this.sumWatt * this.lightTime / 1000 * 30;
+		this.electricity = this.sumWatt * this.lightTime / 1000 * 30;
 
 		//other than living room, 0.2 times of living
-		this.electricity *= ( Math.max( this.houseSize - 20, 0 ) / 20 * 0.2  + 1 );
-		
+		this.electricity *= (Math.max(this.houseSize - 20, 0) / 20 * 0.2 + 1);
+
 		//consumption used in no person room, assume half time to living
-		this.electricity *= ( Math.max( this.houseSize - 20, 0 ) / 20 * 0.5 * (this.otherRate / 10)  + 1 );
+		this.electricity *= (Math.max(this.houseSize - 20, 0) / 20 * 0.5 * (this.otherRate / 10) + 1);
 
 	}
 
@@ -109,11 +109,11 @@ class ConsLIsum extends ConsBase {
 		this.clear();
 
 		//sum up all room
-		for( var id in this.partCons ) {
-			this.add( this.partCons[id] );
+		for (var id in this.partCons) {
+			this.add(this.partCons[id]);
 		}
 		//maximum of total consumption and sum of rooms
-		if ( electricity > this.electricity ){
+		if (electricity > this.electricity) {
 			this.electricity = electricity;
 		}
 	}

@@ -32,7 +32,7 @@ class ConsRF extends ConsRFsum {
 	//initialize
 	constructor() {
 		super();
-		
+
 		this.consYear = 650; //ordinal electricity consumption per year(kWh/year)
 		this.consYearAdvanced = 300; //energy saving type (kWh/year)
 		this.reduceRateWall = 0.1; //reduction rate through make space between wall and refrigerator
@@ -70,6 +70,8 @@ class ConsRF extends ConsRFsum {
 		var d = new Date();
 		this.nowEquip = this.equip(d.getFullYear() - this.year, this.size);
 		this.newEquip = this.equip(d.getFullYear(), this.size);
+
+		this.count = this.input("i701", 1);		//number of refragerator
 	}
 
 	calc() {

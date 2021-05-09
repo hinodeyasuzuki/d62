@@ -27,7 +27,7 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-class ConsCKrice extends ConsBase{
+class ConsCKrice extends ConsBase {
 
 	constructor() {
 		super();

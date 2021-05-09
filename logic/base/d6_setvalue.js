@@ -17,36 +17,36 @@
  * measureAdd()					set select flag and not calculate 
  * measureDelete()				clear select flag and not calculate 
  */
- 
-//resolve D6
-var D6 = D6||{};
 
-	
+//resolve D6
+var D6 = D6 || {};
+
+
 // inSet(id, val)  input data setter ------------------
 //
 // parameters
 //		id		input id, permit include equip/room code 'ixxxyy'
 //		val		input value
 //
-D6.inSet = function ( id, val ){
-	var inpIdDef = id.substr( 0,4 );
-	if ( !D6.scenario.defInput[inpIdDef] ){
+D6.inSet = function (id, val) {
+	var inpIdDef = id.substr(0, 4);
+	if (!D6.scenario.defInput[inpIdDef]) {
 		console.log("ERROR: inSet input code: " + id + " val:" + val);
 		return;
 	}
-	if ( D6.scenario.defInput[inpIdDef].varType == "String" || 
+	if (D6.scenario.defInput[inpIdDef].varType == "String" ||
 		D6.scenario.defInput[inpIdDef].varType == "Boolean"
-	) {	
+	) {
 		//set data
 		D6.doc.data[id] = val;
 	} else {
 		//string data set
 		val = D6.toHalfWidth(val);
-		D6.doc.data[id] = parseFloat( val ) ? parseFloat( val ) : 0;
+		D6.doc.data[id] = parseFloat(val) ? parseFloat(val) : 0;
 	}
 };
 
-	
+
 // measureAdd(mesId) set select flag and not calculate --------
 //
 // parameters
@@ -54,10 +54,10 @@ D6.inSet = function ( id, val ){
 // return
 //		none
 //
-D6.measureAdd = function( mesId ) {
+D6.measureAdd = function (mesId) {
 	var gid;
 	var ret = "";
-		
+
 	gid = this.measureList[mesId].groupID;
 	this.measureList[mesId].selected = true;
 	this.isOriginal = false;
@@ -74,9 +74,9 @@ D6.measureAdd = function( mesId ) {
 // return
 //		none
 //
-D6.measureDelete = function( mesId ) {
+D6.measureDelete = function (mesId) {
 	var gid;
-	var ret ="";
+	var ret = "";
 
 	this.measureList[mesId].selected = false;
 	gid = this.measureList[mesId].groupID;

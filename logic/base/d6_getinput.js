@@ -41,7 +41,7 @@ var D6 = D6 || {};
 //		ret.combos[] 		input components html list
 //		ret.addlist[]		addable equipment/room list
 //
-D6.getInputPage = function( consName,subName ) {
+D6.getInputPage = function (consName, subName) {
 	var ret = {};
 	var group = {};			//group name
 	var groupAddable = {};		//countable consumption list such as rooms/equipments
@@ -56,7 +56,7 @@ D6.getInputPage = function( consName,subName ) {
 	var addlist = {};
 
 	//create input data for smartphone 
-	for( var c in D6.scenario.defEasyQues ){
+	for (var c in D6.scenario.defEasyQues) {
 		var q = D6.scenario.defEasyQues[c];
 		subcode = q.cname;
 		group[q.cname] = q.title;
@@ -69,21 +69,21 @@ D6.getInputPage = function( consName,subName ) {
 		combos[q.cname][subcode] = [];
 
 		//only same to consName
-		for( var i in q.ques ) {
+		for (var i in q.ques) {
 			definp = D6.scenario.defInput[q.ques[i]];
-			if ( !definp && D6.debugMode ) console.log( "defEasyQues error no " + q.ques[i] + " in scenarioset" );
+			if (!definp && D6.debugMode) console.log("defEasyQues error no " + q.ques[i] + " in scenarioset");
 			subgroup[q.cname][subcode] = q.title;
 			subguide[q.cname][subcode] = "";
-			if ( definp.varType == "String" ) {
-				combos[q.cname][subcode].push( this.createTextArea( q.ques[i] ) );
+			if (definp.varType == "String") {
+				combos[q.cname][subcode].push(this.createTextArea(q.ques[i]));
 			} else {
-				combos[q.cname][subcode].push( this.createComboBox( q.ques[i] ) );
+				combos[q.cname][subcode].push(this.createComboBox(q.ques[i]));
 			}
 		}
 	}
 
 	//create input data for PC
-	for( var c in D6.consShow ) {
+	for (var c in D6.consShow) {
 		//check all consumption 
 		var cname = D6.consShow[c].consName;
 		group[cname] = D6.consShow[c].title;
@@ -94,63 +94,65 @@ D6.getInputPage = function( consName,subName ) {
 		combos[cname] = {};
 
 		// all check in doc.data.defInput[]
-		for( var i in D6.doc.data ) {
-			definp = D6.scenario.defInput[i.substr(0,4)];
+		for (var i in D6.doc.data) {
+			definp = D6.scenario.defInput[i.substr(0, 4)];
 			cons = D6.logicList[definp.cons];
-				
+
 			// condition to add this.cons 
-			if ( cons.consName == cname 
-				|| ( cons.sumConsName == cname 
+			if (cons.consName == cname
+				|| (cons.sumConsName == cname
 					&& cons.sumConsName != "consTotal"
 				)
-				|| ( cons.sumCons2Name == cname 
+				|| (cons.sumCons2Name == cname
 					&& cons.sumCons2Name != "consTotal"
 				)
 				|| cons.inputDisp == cname
 			) {
-				if( i.length == 4 ) {	//consumption name is 4 or more length
+				if (i.length == 4) {	//consumption name is 4 or more length
 					//not countable 
 					subid = 0;
 					subcode = cons.consName;
 				} else {
 					//countable
-					subid = i.substr(4,2);
-					if ( subid == 0 ) continue;
+					subid = i.substr(4, 2);
+					if (subid == 0) continue;
 					subcode = cons.consName + subid;
 				}
 
 				//make subgroup 
-				if ( subgroup[cname][subcode] == undefined ) {
-					if( subid == 0) {
+				if (subgroup[cname][subcode] == undefined) {
+					if (subid == 0) {
 						subgroup[cname][subcode] = cons.title;
 					} else {
-						if( D6.viewparam.countfix_pre_after == 1 ) {
-							subgroup[cname][subcode] = cons.countCall +( cons.titleList ? cons.titleList[subid] : subid );
+						if (D6.viewparam.countfix_pre_after == 1) {
+							subgroup[cname][subcode] = cons.countCall + (cons.titleList ? cons.titleList[subid] : subid);
 						} else {
-							subgroup[cname][subcode] = ( cons.titleList ? cons.titleList[subid] : subid ) + cons.countCall;
+							subgroup[cname][subcode] = (cons.titleList ? cons.titleList[subid] : subid) + cons.countCall;
 						}
 					}
 					subguide[cname][subcode] = cons.inputGuide;
 					combos[cname][subcode] = [];
 				}
-				
+
 				// make addlist such as countable equipment or room  
-				if ( cons.addable ){
-					if ( addlist[cname].indexOf(cons.consName) < 0 ){
-						addlist[cname].push( cons.consName );
-						groupAddable[cname].push( 
-							{ "consName" : cons.consName,
-								"caption" : cons.addable } );
+				if (cons.addable) {
+					if (addlist[cname].indexOf(cons.consName) < 0) {
+						addlist[cname].push(cons.consName);
+						groupAddable[cname].push(
+							{
+								"consName": cons.consName,
+								"caption": cons.addable
+							});
 					}
 				}
 
-				if ( consName != cname ) continue;
-		
+				if (consName != cname) continue;
+
 				//create combobox
-				if ( definp.varType == "String" ) {
-					combos[cname][subcode].push( this.createTextArea( i ) );
+				if (definp.varType == "String") {
+					combos[cname][subcode].push(this.createTextArea(i));
 				} else {
-					combos[cname][subcode].push( this.createComboBox( i ) );
+					combos[cname][subcode].push(this.createComboBox(i));
 				}
 			}
 		}
@@ -163,7 +165,7 @@ D6.getInputPage = function( consName,subName ) {
 	ret.subguide = subguide;
 	ret.combos = combos;
 	ret.consName = consName;
-	if ( !D6.logicList[consName] )consName = "consTotal";
+	if (!D6.logicList[consName]) consName = "consTotal";
 	ret.title = D6.logicList[consName].title;
 	ret.subName = subName;
 	return ret;
@@ -177,50 +179,49 @@ D6.getInputPage = function( consName,subName ) {
 //		onlyCombo : create only combobox and not wrap table style
 // return
 //		disp : combobox html
-D6.createComboBox = function( inpId, onlyCombo )
-{
+D6.createComboBox = function (inpId, onlyCombo) {
 	var disp = "";
-	var selid = "sel" + inpId.substr( 1,3 );
-	var inpIdDef = inpId.substr( 0,4 );
+	var selid = "sel" + inpId.substr(1, 3);
+	var inpIdDef = inpId.substr(0, 4);
 	var svalue = D6.scenario.defSelectValue[selid];
 	var sdata = D6.scenario.defSelectData[selid];
 
-	if ( !sdata || sdata[0] == "" ) {
+	if (!sdata || sdata[0] == "") {
 		// in case of selection is not defined
-		return this.createTextArea( inpId, onlyCombo );
+		return this.createTextArea(inpId, onlyCombo);
 	}
 	var smax = svalue.length;
 	var sel = D6.doc.data[inpId];
-	var selectedclass = ( sel != -1 ) ? " class='written' " : "";
+	var selectedclass = (sel != -1) ? " class='written' " : "";
 
 	var title = D6.scenario.defInput[inpIdDef].title;
 	// not to show defined in EXCEL
-	if ( title == "" || title.substr(0,1)=="#" ) return "";
+	if (title == "" || title.substr(0, 1) == "#") return "";
 
-	if ( !onlyCombo ){
+	if (!onlyCombo) {
 		// create as table include question
 		disp += "<tr><td class='qtitle' width='50%'>";
 		disp += title;
-		disp += "<div class='tool-tips'>" + D6.scenario.defInput[inpIdDef].text 
-			+ (D6.debugMode ? " " + inpId : "" ) + "</div>";
+		disp += "<div class='tool-tips'>" + D6.scenario.defInput[inpIdDef].text
+			+ (D6.debugMode ? " " + inpId : "") + "</div>";
 		disp += "</td><td>";
 	}
-		
+
 	//create combobox(select)
-	disp += "<select title='"+D6.scenario.defInput[inpIdDef].title+"' name='" + inpId + "' id='" + inpId + "'";
+	disp += "<select title='" + D6.scenario.defInput[inpIdDef].title + "' name='" + inpId + "' id='" + inpId + "'";
 	disp += " onchange='inchange(\"" + inpId + "\");'";
 	disp += selectedclass;
 	disp += " >";
-	for ( var i=0 ; i<smax ; i++ ){
-		if ( svalue[i] ) {
+	for (var i = 0; i < smax; i++) {
+		if (svalue[i]) {
 			disp += "<option value='" + sdata[i] + "' ";
-			if ( sdata[i] == sel ) disp += "selected ";
-			disp += ">" + (D6.debugMode ? sdata[i] + " " : "" ) + svalue[i] + "</option>";
+			if (sdata[i] == sel) disp += "selected ";
+			disp += ">" + (D6.debugMode ? sdata[i] + " " : "") + svalue[i] + "</option>";
 		}
 	}
 	disp += "</select>";
-		
-	if ( !onlyCombo ){
+
+	if (!onlyCombo) {
 		disp += "</td></tr>";
 	}
 	return disp;
@@ -233,81 +234,78 @@ D6.createComboBox = function( inpId, onlyCombo )
 //		onlyCombo : create only textbox and not wrap table style
 // return
 //		disp : textbox html
-D6.createTextArea = function( inpId, onlyCombo )
-{
+D6.createTextArea = function (inpId, onlyCombo) {
 	var disp = "";
-	var selid = "sel" + inpId.substr( 1,3 );
-	var inpIdDef = inpId.substr( 0,4 );
+	var selid = "sel" + inpId.substr(1, 3);
+	var inpIdDef = inpId.substr(0, 4);
 	var val = D6.doc.data[inpId];
-	var selectedclass = ( val != "" && val != -1 ) ? " class='written' " : "";
+	var selectedclass = (val != "" && val != -1) ? " class='written' " : "";
 	var alignright = (D6.scenario.defInput[inpIdDef].varType == "Number");
 
-	if ( !onlyCombo ){
+	if (!onlyCombo) {
 		disp += "<tr><td class='qtitle'>";
 		disp += D6.scenario.defInput[inpIdDef].title;
-		disp += "<div class='tool-tips' >" + D6.scenario.defInput[inpIdDef].text  
-			+ (D6.debugMode ? " " + inpId : "" ) + "</div>";
+		disp += "<div class='tool-tips' >" + D6.scenario.defInput[inpIdDef].text
+			+ (D6.debugMode ? " " + inpId : "") + "</div>";
 		disp += "</td><td>";
 	}
 
-	disp += "<input type='text' title='"+D6.scenario.defInput[inpIdDef].title+"' name='" + inpId + "' id='" + inpId + "' " + selectedclass 
-			+ ( alignright ? "style='text-align:right;'" : "") 
-			+ " onchange='inchange(\"" + inpId + "\");'"
-			+ (val && val!=-1 ? " value='" + this.escapeHtml(val) + "'" : "" )
-			+ ">";
+	disp += "<input type='text' title='" + D6.scenario.defInput[inpIdDef].title + "' name='" + inpId + "' id='" + inpId + "' " + selectedclass
+		+ (alignright ? "style='text-align:right;'" : "")
+		+ " onchange='inchange(\"" + inpId + "\");'"
+		+ (val && val != -1 ? " value='" + this.escapeHtml(val) + "'" : "")
+		+ ">";
 
-	if ( !onlyCombo ){
+	if (!onlyCombo) {
 		disp += D6.scenario.defInput[inpIdDef].unit + "</td></tr>";
 	}
 	return disp;
 };
-	
+
 
 // tfHandlerCombo( name ) ------------------------------------------------
 //		set data to Input[] from combobox
-D6.tfHandlerCombo = function( name ) {
-	return function( e ) {
+D6.tfHandlerCombo = function (name) {
+	return function (e) {
 		Input[name] = e.target.value;
-		e.target.removeEventListener( Event.ENTER_FRAME, arguments.callee );
+		e.target.removeEventListener(Event.ENTER_FRAME, arguments.callee);
 	};
 };
 
-	
+
 // parameters used in button view
 D6.nowQuesCode = 0;		//now question code "i" + num
 D6.nowQuesID = -1;			//now index in series of questions
 D6.quesOrder = [];			//question code list
-	
+
 //getFirstQues() --------------------------------------------
 //		return first question data, for smartphone
-D6.getFirstQues = function(consName, subName)
-{
+D6.getFirstQues = function (consName, subName) {
 	var definp;
 
-	if ( consName == "easy01") {
-		if ( Array.isArray(subName) ) {
+	if (consName == "easy01") {
+		if (Array.isArray(subName)) {
 			this.quesOrder = subName;
 		} else {
 			this.quesOrder = D6.scenario.defQuesOrder;
 		}
 	} else {
-		for( var i in D6.doc.data ) {
-			definp = D6.scenario.defInput[i.substr(0,4)];
-			if ( definp.cons == subName ) {
-				this.quesOrder.push( i );
+		for (var i in D6.doc.data) {
+			definp = D6.scenario.defInput[i.substr(0, 4)];
+			if (definp.cons == subName) {
+				this.quesOrder.push(i);
 			}
 		}
 	}
 	this.nowQuesID = 0;
-	this.nowQuesCode =  this.quesOrder[this.nowQuesID];
+	this.nowQuesCode = this.quesOrder[this.nowQuesID];
 	return this.getQues(this.nowQuesCode);
 };
 
 
 //getNextQues() --------------------------------------------
 //		return next question data, for smartphone
-D6.getNextQues = function()
-{
+D6.getNextQues = function () {
 	this.nowQuesID++;
 	this.nowQuesCode = this.quesOrder[this.nowQuesID];
 	return this.getQues(this.nowQuesCode);
@@ -315,11 +313,10 @@ D6.getNextQues = function()
 
 //getPrevQues() --------------------------------------------
 //		return previous question data, for smartphone
-D6.getPrevQues = function()
-{
+D6.getPrevQues = function () {
 	this.nowQuesID--;
-	if ( this.nowQuesID < 0) this.nowQuesID = 0;
-	this.nowQuesCode =  this.quesOrder[this.nowQuesID];
+	if (this.nowQuesID < 0) this.nowQuesID = 0;
+	this.nowQuesCode = this.quesOrder[this.nowQuesID];
 
 	return this.getQues(this.nowQuesCode);
 };
@@ -340,21 +337,21 @@ D6.getPrevQues = function()
 //		ret.defSelectData		list of data
 //		ret.selected			selected value
 //		ret.consTitle			related consumption name
-D6.getQues = function( id ){
+D6.getQues = function (id) {
 	var ret = {};
-	if ( this.isEndOfQues() ) {
+	if (this.isEndOfQues()) {
 		ret.info = "end";
 	} else {
 		ret.info = "continue";
 		ret.id = id;
 		ret.numques = this.quesOrder.length;
-		ret.nowques = this.nowQuesID+1;
-			
-		var def = D6.scenario.defInput[id.substr(0,4)];
+		ret.nowques = this.nowQuesID + 1;
+
+		var def = D6.scenario.defInput[id.substr(0, 4)];
 		ret.title = def.title;
 		ret.text = def.text;
 		ret.unit = def.unit;
-			
+
 		var sel = def.inputType;
 		ret.defSelectValue = D6.scenario.defSelectValue[sel];
 		ret.defSelectData = D6.scenario.defSelectData[sel];
@@ -369,8 +366,8 @@ D6.getQues = function( id ){
 // return 
 //		ret.queslist[] 		question list
 //
-D6.getQuesList = function() {
-	var ret = [];	
+D6.getQuesList = function () {
+	var ret = [];
 	ret.queslist = D6.doc.data;
 	return ret;
 };
@@ -379,10 +376,9 @@ D6.getQuesList = function() {
 //		check if end of series of questions, for smartphone
 // return
 //		true: end of question 
-D6.isEndOfQues = function()
-{
+D6.isEndOfQues = function () {
 	var ret = false;
-	if ( this.nowQuesID+1 > this.quesOrder.length ) {
+	if (this.nowQuesID + 1 > this.quesOrder.length) {
 		ret = true;
 	}
 	return ret;
@@ -409,7 +405,7 @@ D6.escapeHtml = function (String) {
 	}
 	escapeReg += "]";
 	reg = new RegExp(escapeReg, "g");
-	return function escapeHtml (str) {
+	return function escapeHtml(str) {
 		str = (str === null || str === undefined) ? "" : "" + str;
 		return str.replace(reg, function (match) {
 			return escapeMap[match];

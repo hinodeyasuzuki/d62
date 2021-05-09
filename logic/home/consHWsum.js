@@ -28,10 +28,10 @@ var D6 = D6 || {};
 //Inherited class of ConsBase
 class ConsHWsum extends ConsBase {
 
-		//initialize-------------------------------
+	//initialize-------------------------------
 	constructor() {
 		super();
-		
+
 		//construction setting
 		this.consName = "consHWsum"; 			//code name of this consumption
 		this.consCode = "HW"; 						//short code to access consumption, only set main consumption user for itemize

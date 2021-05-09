@@ -23,18 +23,18 @@ var D6 = D6 || {};
 D6.doc =
 {
 	//define variables
-	data : [],								//input values
-	equip : [],								//equiment price
+	data: [],								//input values
+	equip: [],								//equiment price
 
 	// clear values
 	//		dialog:false not to show dialog
-	clear : function( dialog ) {
+	clear: function (dialog) {
 		var answer;
 		var AreaOrgBackup;
 
 		//show dialog
-		if ( dialog ){
-			if ( answer == "CANCEL" ) {
+		if (dialog) {
+			if (answer == "CANCEL") {
 				return;
 			}
 		}
@@ -50,10 +50,10 @@ D6.doc =
 		this.data["Area"] = AreaOrgBackup;
 	},
 
-	
+
 	// serialize prepare for saving
 	//
-	serialize :  function() {
+	serialize: function () {
 		var saveData = "";
 		var temp = "";
 		var tempg = "";
@@ -62,65 +62,60 @@ D6.doc =
 		var i = 0;
 		var Input = this.data;
 
-		for ( prop in Input )
-		{
-			if (D6.scenario.defInput[prop.substr(0,4)].defaultValue == Input[prop] ) continue;
+		for (prop in Input) {
+			if (D6.scenario.defInput[prop.substr(0, 4)].defaultValue == Input[prop]) continue;
 			temp = "" + Input[prop];
 
 			//in case of string
-			if ( typeof( Input[prop] ) == "string" ) {
+			if (typeof (Input[prop]) == "string") {
 				// double width to single width charactor
-				while ( temp.indexOf( " " ) != -1)
-				{
-					i = temp.indexOf( " " );
-					temp = temp.substring( 0, i - 1 ) + "_" + temp.substring( i + 1, 2000);
+				while (temp.indexOf(" ") != -1) {
+					i = temp.indexOf(" ");
+					temp = temp.substring(0, i - 1) + "_" + temp.substring(i + 1, 2000);
 				}
 				// change ',' to '~'
-				while ( temp.indexOf( "," ) != -1 )
-				{
-					i = temp.indexOf( "," );
-					temp = temp.substring( 0, i - 1 ) + "~" + temp.substring( i + 1, 2000);
+				while (temp.indexOf(",") != -1) {
+					i = temp.indexOf(",");
+					temp = temp.substring(0, i - 1) + "~" + temp.substring(i + 1, 2000);
 				}
 			}
 			saveData = saveData + prop + "=" + temp + ",";
 		}
 
 		//save room/equipment number
-		for ( prop in D6.logicList )
-		{
-			if ( D6.logicList[prop].orgCopyNum >= 1 ) {
+		for (prop in D6.logicList) {
+			if (D6.logicList[prop].orgCopyNum >= 1) {
 				saveData += prop + "=" + D6.logicList[prop].orgCopyNum + ",";
 			}
 		}
 
 		//serialize(mesSelId=00x00x0xx0xx...)
 		var sel = "";
-		for ( i=0 ; i < D6.measureList.length ; i++ )
-		{
-			if ( D6.measureList[i].selected ) {
+		for (i = 0; i < D6.measureList.length; i++) {
+			if (D6.measureList[i].selected) {
 				//code 5number 3 mesid + 2 groupid
 				temp = "000" + D6.measureList[i].mesdefID;
 				tempg = "00" + D6.measureList[i].subID;
-				sel += temp.substr( -3 ) + tempg.substr( -2 );
+				sel += temp.substr(-3) + tempg.substr(-2);
 				//initialcost 8num
 				tempi = "00000000" + D6.measureList[i].priceNew;
-				sel += tempi.substr( -8 );
+				sel += tempi.substr(-8);
 				//annual cost [ 8 up/ 9 down ] + 7num
-				if (  D6.measureList[i]. costChangeOriginal > 0 ){
-					sel += "9";					
+				if (D6.measureList[i].costChangeOriginal > 0) {
+					sel += "9";
 				} else {
 					sel += "8";
 				}
 				temp = "0000000" + Math.abs(Math.round(D6.measureList[i].costChangeOriginal));
-				sel += temp.substr( -7 );
+				sel += temp.substr(-7);
 				//annual co2 [ 8 up/ 9 down ] + 5num
-				if (  D6.measureList[i]. co2ChangeOriginal > 0 ){
-					sel += "9";					
+				if (D6.measureList[i].co2ChangeOriginal > 0) {
+					sel += "9";
 				} else {
 					sel += "8";
 				}
 				temp = "00000" + Math.abs(Math.round(D6.measureList[i].co2ChangeOriginal));
-				sel += temp.substr( -5 );
+				sel += temp.substr(-5);
 			}
 		}
 
@@ -128,7 +123,7 @@ D6.doc =
 
 		return saveData;
 	},
-	
+
 
 	//loadDataSet()  set data from file
 	//
@@ -138,7 +133,7 @@ D6.doc =
 	// result
 	//		mesSel: selected list of measure id  
 	//
-	loadDataSet : function ( loadData, addflag ) {
+	loadDataSet: function (loadData, addflag) {
 		var param;
 		var paramOne;
 		var val;
@@ -155,51 +150,47 @@ D6.doc =
 
 		//expanded to values 
 		param = loadData.split(",");
-		for ( i=0 ; i<param.length ; i++ )
-		{
-			if ( param[i] ) {
+		for (i = 0; i < param.length; i++) {
+			if (param[i]) {
 				paramOne = param[i].split("=");
 				vname = paramOne[0];				//ID
-				vnameDef = vname.substr( 0,4 );
+				vnameDef = vname.substr(0, 4);
 				val = paramOne[1];					//value
 			} else {
 				vname = "dummy";
 			}
 
-			if ( D6.logicList[vname] ) {
-				if ( parseInt(val) && parseInt(val) < 100 ) {
-					if ( !addflag ) {
+			if (D6.logicList[vname]) {
+				if (parseInt(val) && parseInt(val) < 100) {
+					if (!addflag) {
 						D6.logicList[vname].orgCopyNum = parseInt(val);
 					}
 				}
-			} else if ( indef[vnameDef] ) {
+			} else if (indef[vnameDef]) {
 				//in case of defined in valuable list
-				switch (  indef[vnameDef].varType ) {
+				switch (indef[vnameDef].varType) {
 				case "Number":
-					Input[vname] = parseFloat( val );
+					Input[vname] = parseFloat(val);
 					break;
 
 				case "String":
 					// convert '_' to ' '
-					j = val.indexOf( "_" );
-					while ( j != -1 )
-					{
-						val = val.substring( 0, j ) + " " + val.substring( j + 1, 200);
-						j = val.indexOf( "_" );
+					j = val.indexOf("_");
+					while (j != -1) {
+						val = val.substring(0, j) + " " + val.substring(j + 1, 200);
+						j = val.indexOf("_");
 					}
 					// convert '~' to ','
-					j = val.indexOf( "~" );
-					while ( j != -1 )
-					{
-						val = val.substring( 0, j ) + "," + val.substring( j + 1, 200);
-						j = val.indexOf( "~" );
+					j = val.indexOf("~");
+					while (j != -1) {
+						val = val.substring(0, j) + "," + val.substring(j + 1, 200);
+						j = val.indexOf("~");
 					}
 					// remove """
-					j = val.indexOf( "\"" );
-					while ( j != -1 )
-					{
-						val = val.substring( 0, j ) + val.substring( j + 1, 200);
-						j = val.indexOf( "\"" );
+					j = val.indexOf("\"");
+					while (j != -1) {
+						val = val.substring(0, j) + val.substring(j + 1, 200);
+						j = val.indexOf("\"");
 					}
 					//save to valuable
 					Input[vname] = val;
@@ -207,12 +198,12 @@ D6.doc =
 
 				default:
 					//boolian, nodata
-					if ( vname == "mesSelId" ) {
+					if (vname == "mesSelId") {
 						mesSel = val;
-						for ( j=0 ; j<mesSel.length ; j+=27 ) {
-							mesid = parseInt(mesSel.substr( j, 3 ));
-							subid = parseInt(mesSel.substr( j+3, 2 ));
-							for ( var k=0 ; k < D6.measureList.length ; k++ ) {
+						for (j = 0; j < mesSel.length; j += 27) {
+							mesid = parseInt(mesSel.substr(j, 3));
+							subid = parseInt(mesSel.substr(j + 3, 2));
+							for (var k = 0; k < D6.measureList.length; k++) {
 								if (D6.measureList[k].mesID == mesid && D6.measureList[k].subID == subid) {
 									D6.measureList[k].seleted = true;
 									break;
@@ -220,9 +211,9 @@ D6.doc =
 							}
 						}
 					} else {
-						if ( val == "true" ) {
+						if (val == "true") {
 							Input[vname] = true;
-						} else if ( val == "false" ) {
+						} else if (val == "false") {
 							Input[vname] = false;
 						}
 					}

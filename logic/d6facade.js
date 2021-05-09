@@ -74,7 +74,7 @@ D6.getAllResult(consName)			get total result
 
 */
 
-//TODO new result 180304 ==================================
+//new result 180304 ==================================
 // in order to create common facade call , as common
 //	command.command			text
 //	command.action_list		array

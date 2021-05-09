@@ -27,11 +27,11 @@
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
-class ConsCKsum extends ConsBase{
+class ConsCKsum extends ConsBase {
 
 	constructor() {
 		super();
-		
+
 		//construction setting
 		this.consName = "consCKsum";    	//code name of this consumption 
 		this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize

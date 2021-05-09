@@ -23,14 +23,14 @@
  */
 
 //resolve D6
-var D6 = D6||{};
- 
+var D6 = D6 || {};
+
 //Inherited class of ConsBase
 class ConsHWshower extends ConsBase {
 
 	constructor() {
 		super();
-		
+
 		//construction setting
 		this.consName = "consHWshower";   //code name of this consumption 
 		this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
@@ -51,25 +51,25 @@ class ConsHWshower extends ConsBase {
 	//calculate consumption
 	calc() {
 		//rate of shower 
-		this.copy( this.sumCons );
-		this.multiply( this.sumCons.consHWshowerRate );
+		this.copy(this.sumCons);
+		this.multiply(this.sumCons.consHWshowerRate);
 	}
 
 	calcMeasure() {
 		//mHWshowerHead
-		if ( this.sumCons.savingShower != 1 ){
-			this.measures[ "mHWshowerHead" ].calcReduceRate(  this.sumCons.reduceRateShowerHead );
+		if (this.sumCons.savingShower != 1) {
+			this.measures["mHWshowerHead"].calcReduceRate(this.sumCons.reduceRateShowerHead);
 		}
-		
+
 		//mHWshowerTime
-		if ( this.sumCons.showerMinutes / this.sumCons.person >= 5 
-			&& !this.isSelected( "mHWshowerTime30" )
-		){
-			this.measures[ "mHWshowerTime" ].calcReduceRate(  this.sumCons.reduceRateShowerTime );
+		if (this.sumCons.showerMinutes / this.sumCons.person >= 5
+			&& !this.isSelected("mHWshowerTime30")
+		) {
+			this.measures["mHWshowerTime"].calcReduceRate(this.sumCons.reduceRateShowerTime);
 		}
 
 		//mHWshowerTime30
-		this.measures[ "mHWshowerTime30" ].calcReduceRate(  0.3 );	
+		this.measures["mHWshowerTime30"].calcReduceRate(0.3);
 	}
 }
 

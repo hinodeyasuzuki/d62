@@ -18,7 +18,7 @@
  */
 
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 //Inherited class of ConsBase
 class ConsRFsum extends ConsBase {
@@ -26,6 +26,7 @@ class ConsRFsum extends ConsBase {
 	//initialize
 	constructor() {
 		super();
+
 		//construction setting
 		this.consName = "consRFsum";      	//code name of this consumption 
 		this.consCode = "RF";              	//short code to access consumption, only set main consumption user for itemize
@@ -44,8 +45,8 @@ class ConsRFsum extends ConsBase {
 
 
 	calc() {
-		this.clear();	
-		this.count =this.input( "i701", 1 );		//number of refragerator
+		this.clear();
+		this.count = this.input("i701", 1);		//number of refragerator
 	}
 
 	calcMeasure() {
@@ -62,52 +63,52 @@ class ConsRFsum extends ConsBase {
 	*		ret.pf1 : performance of good one
 	*		ret.pf2 : performance of ordninal one
 	*/
-	equip( year, size ) {
-		var sizeThreshold = [ 100, 200, 300, 400, 500, 1100 ];	//last is maxsize
+	equip(year, size) {
+		var sizeThreshold = [100, 200, 300, 400, 500, 1100];	//last is maxsize
 
 		//definition of equip [size][year][code]
 		//	code: pf1,pf2 performance 1 is good one
 		//				pr1,pr2 price 1 is good one
 		var defEquip = {
-			100 : {
-				1900 : { "pf1" : 300, "pf2" : 400, "pr1" : 50000, "pr2" : 40000 } ,
-				2005 : { "pf1" : 300, "pf2" : 400, "pr1" : 50000, "pr2" : 40000 } ,
-				2015 : { "pf1" : 250, "pf2" : 350, "pr1" : 50000, "pr2" : 40000 } ,
-				2030 : { "pf1" : 250, "pf2" : 350, "pr1" : 50000, "pr2" : 40000 }
+			100: {
+				1900: { "pf1": 300, "pf2": 400, "pr1": 50000, "pr2": 40000 },
+				2005: { "pf1": 300, "pf2": 400, "pr1": 50000, "pr2": 40000 },
+				2015: { "pf1": 250, "pf2": 350, "pr1": 50000, "pr2": 40000 },
+				2030: { "pf1": 250, "pf2": 350, "pr1": 50000, "pr2": 40000 }
 			},
-			200 : {
-				1900 : { "pf1" : 350, "pf2" : 450, "pr1" : 90000, "pr2" : 70000 } ,
-				2005 : { "pf1" : 350, "pf2" : 450, "pr1" : 90000, "pr2" : 70000 } ,
-				2015 : { "pf1" : 350, "pf2" : 450, "pr1" : 90000, "pr2" : 70000 } ,
-				2030 : { "pf1" : 350, "pf2" : 450, "pr1" : 90000, "pr2" : 70000 }
+			200: {
+				1900: { "pf1": 350, "pf2": 450, "pr1": 90000, "pr2": 70000 },
+				2005: { "pf1": 350, "pf2": 450, "pr1": 90000, "pr2": 70000 },
+				2015: { "pf1": 350, "pf2": 450, "pr1": 90000, "pr2": 70000 },
+				2030: { "pf1": 350, "pf2": 450, "pr1": 90000, "pr2": 70000 }
 			},
-			300 : {
-				1900 : { "pf1" : 500, "pf2" : 750, "pr1" : 120000, "pr2" : 100000 } ,
-				2005 : { "pf1" : 450, "pf2" : 550, "pr1" : 120000, "pr2" : 100000 } ,
-				2015 : { "pf1" : 350, "pf2" : 450, "pr1" : 90000, "pr2" : 70000 } ,
-				2030 : { "pf1" : 350, "pf2" : 450, "pr1" : 90000, "pr2" : 70000 }
+			300: {
+				1900: { "pf1": 500, "pf2": 750, "pr1": 120000, "pr2": 100000 },
+				2005: { "pf1": 450, "pf2": 550, "pr1": 120000, "pr2": 100000 },
+				2015: { "pf1": 350, "pf2": 450, "pr1": 90000, "pr2": 70000 },
+				2030: { "pf1": 350, "pf2": 450, "pr1": 90000, "pr2": 70000 }
 			},
-			400 : {
-				1900 : { "pf1" : 700, "pf2" : 950, "pr1" : 140000, "pr2" : 120000 } ,
-				1995 : { "pf1" : 650, "pf2" : 900, "pr1" : 140000, "pr2" : 120000 } ,
-				2015 : { "pf1" : 300, "pf2" : 550, "pr1" : 120000, "pr2" : 100000 } ,
-				2030 : { "pf1" : 300, "pf2" : 400, "pr1" : 120000, "pr2" : 100000 }
+			400: {
+				1900: { "pf1": 700, "pf2": 950, "pr1": 140000, "pr2": 120000 },
+				1995: { "pf1": 650, "pf2": 900, "pr1": 140000, "pr2": 120000 },
+				2015: { "pf1": 300, "pf2": 550, "pr1": 120000, "pr2": 100000 },
+				2030: { "pf1": 300, "pf2": 400, "pr1": 120000, "pr2": 100000 }
 			},
-			500 : {
-				1900 : { "pf1" : 900, "pf2" : 1300, "pr1" : 200000, "pr2" : 180000 } ,
-				1995 : { "pf1" : 900, "pf2" : 1200, "pr1" : 200000, "pr2" : 180000 } ,
-				2015 : { "pf1" : 300, "pf2" : 550, "pr1" : 160000, "pr2" : 140000 } ,
-				2030 : { "pf1" : 300, "pf2" : 400, "pr1" : 160000, "pr2" : 140000 }
+			500: {
+				1900: { "pf1": 900, "pf2": 1300, "pr1": 200000, "pr2": 180000 },
+				1995: { "pf1": 900, "pf2": 1200, "pr1": 200000, "pr2": 180000 },
+				2015: { "pf1": 300, "pf2": 550, "pr1": 160000, "pr2": 140000 },
+				2030: { "pf1": 300, "pf2": 400, "pr1": 160000, "pr2": 140000 }
 			},
-			1100 : {
-				1900 : { "pf1" : 1000, "pf2" : 1500, "pr1" : 220000, "pr2" : 200000 } ,
-				1995 : { "pf1" : 900, "pf2" : 1400, "pr1" : 220000, "pr2" : 200000 } ,
-				2015 : { "pf1" : 400, "pf2" : 750, "pr1" : 200000, "pr2" : 180000 } ,
-				2030 : { "pf1" : 400, "pf2" : 500, "pr1" : 200000, "pr2" : 180000 }
+			1100: {
+				1900: { "pf1": 1000, "pf2": 1500, "pr1": 220000, "pr2": 200000 },
+				1995: { "pf1": 900, "pf2": 1400, "pr1": 220000, "pr2": 200000 },
+				2015: { "pf1": 400, "pf2": 750, "pr1": 200000, "pr2": 180000 },
+				2030: { "pf1": 400, "pf2": 500, "pr1": 200000, "pr2": 180000 }
 			}
 		};
 
-		return this.getEquipParameters( year, size, sizeThreshold, defEquip );
+		return this.getEquipParameters(year, size, sizeThreshold, defEquip);
 	}
 
 }

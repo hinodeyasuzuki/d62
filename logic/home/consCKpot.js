@@ -66,7 +66,7 @@ class ConsCKpot extends ConsBase {
 	}
 
 	calcMeasure() {
-	};
+	}
 
 }
 

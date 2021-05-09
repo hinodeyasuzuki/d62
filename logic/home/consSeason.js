@@ -22,17 +22,17 @@
  */
 
 //resolve D6
-var D6 = D6||{};
+var D6 = D6 || {};
 
 //Inherited class of ConsBase
-D6.consSeason = new ConsBase();
+//D6.consSeason = new ConsBase();
 
 class ConsSeason extends ConsBase {
 
 	constructor() {
 		super();
 
-		this.titleList = ["","winter","spring/fall","summer"];	//season name
+		this.titleList = ["", "winter", "spring/fall", "summer"];	//season name
 
 		//construction setting
 		this.consName = "consSeason";   	//code name of this consumption 

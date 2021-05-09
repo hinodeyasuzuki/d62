@@ -29,7 +29,7 @@ var D6 = D6 || {};
 //Inherited class of D6.consTVsum
 class ConsTVsum extends ConsBase {
 
-		//初期設定値
+	//初期設定値
 	constructor() {
 		super();
 
