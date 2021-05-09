@@ -31,29 +31,29 @@ D6.scenario =
 		var logicList = new Array();
 
 		//分野設定を追加した場合にはここに記述する
-		logicList["consTotal"] = D6.consTotal;
-		logicList["consEnergy"] = D6.consEnergy;
-		logicList["consMonth"] = D6.consMonth;
-		logicList["consSeason"] = D6.consSeason;
-		logicList["consRM"] = D6.consRM;
-		logicList["consHWsum"] = D6.consHWsum;
-		logicList["consCOsum"] = D6.consCOsum;
-		logicList["consCO"] = D6.consCO;
-		logicList["consHTsum"] = D6.consHTsum;
-		logicList["consHT"] = D6.consHT;
-		logicList["consACsum"] = D6.consACsum;
-		logicList["consAC"] = D6.consAC;
-		logicList["consRFsum"] = D6.consRFsum;
-		logicList["consRF"] = D6.consRF;
-		logicList["consCKsum"] = D6.consCKsum;
-		logicList["consLIsum"] = D6.consLIsum;
-		logicList["consLI"] = D6.consLI;
-		logicList["consOAsum"] = D6.consOAsum;
-		logicList["consOTsum"] = D6.consOTsum;
-		logicList["consOT"] = D6.consOT;
-		logicList["consCRsum"] = D6.consCRsum;
-		logicList["consCR"] = D6.consCR;
-		logicList["consCRtrip"] = D6.consCRtrip;
+		logicList["consTotal"] = D6.consTotal = new ConsTotal();
+		logicList["consEnergy"] = D6.consEnergy = new ConsEnergy();
+		logicList["consMonth"] = D6.consMonth = new ConsMonth();
+		logicList["consSeason"] = D6.consSeason = new ConsSeason();
+		logicList["consRM"] = D6.consRM = new ConsRM();
+		logicList["consHWsum"] = D6.consHWsum = new ConsHWsum();
+		logicList["consCOsum"] = D6.consCOsum = new ConsCOsum();
+		logicList["consCO"] = D6.consCO = new ConsCO();
+		logicList["consHTsum"] = D6.consHTsum = new ConsHTsum();
+		logicList["consHT"] = D6.consHT = new ConsHT();
+		logicList["consACsum"] = D6.consACsum = new ConsACsum();
+		logicList["consAC"] = D6.consAC = new ConsAC();
+		logicList["consRFsum"] = D6.consRFsum = new ConsRFsum();
+		logicList["consRF"] = D6.consRF = new ConsRF();
+		logicList["consCKsum"] = D6.consCKsum = new ConsCKsum();
+		logicList["consLIsum"] = D6.consLIsum = new ConsLIsum();
+		logicList["consLI"] = D6.consLI = new ConsLI();
+		logicList["consOAsum"] = D6.consOAsum = new ConsOAsum();
+		logicList["consOTsum"] = D6.consOTsum = new ConsOTsum();
+		logicList["consOT"] = D6.consOT = new ConsOT();
+		logicList["consCRsum"] = D6.consCRsum = new ConsCRsum();
+		logicList["consCR"] = D6.consCR = new ConsCR();
+		logicList["consCRtrip"] = D6.consCRtrip = new ConsCRtrip();
 
 		//今後の展開準備　160619
 		// 定格消費電力の設定（最大でどこまでの契約になるのか）、その時点で使っている機器（現状の電力）

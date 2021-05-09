@@ -8,7 +8,7 @@
 */
 
 
-class consCKsum extends ConsBase {
+class ConsCKsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

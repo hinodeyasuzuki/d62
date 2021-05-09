@@ -10,7 +10,7 @@
 *								2011/10/21 照明簡易計算を実装
 */
 
-class consOTsum extends ConsBase {
+class ConsOTsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

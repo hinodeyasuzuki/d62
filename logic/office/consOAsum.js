@@ -12,7 +12,7 @@
 */
 
 
-class consOAsum extends ConsBase {
+class ConsOAsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

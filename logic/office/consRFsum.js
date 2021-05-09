@@ -12,7 +12,7 @@
 */
 
 
-class consRFsum extends ConsBase {
+class ConsRFsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

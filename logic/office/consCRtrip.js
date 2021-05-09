@@ -9,7 +9,7 @@
 *								2011/08/23 strategyとして整理
 */
 
-class consCRtrip extends consCRsum {
+class ConsCRtrip extends ConsCRsum {
 	//初期設定値
 	constructor() {
 		super();

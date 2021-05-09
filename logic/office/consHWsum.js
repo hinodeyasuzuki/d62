@@ -12,7 +12,7 @@
 */
 
 
-class consHWsum extends ConsBase {
+class ConsHWsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

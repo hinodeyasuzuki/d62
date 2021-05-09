@@ -12,7 +12,7 @@
 * 								2016/04/12 js
 */
 
-class consCO extends consCOsum {
+class ConsCO extends ConsCOsum {
 	//初期設定値
 	constructor() {
 		super();

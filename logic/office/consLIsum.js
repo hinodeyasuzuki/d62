@@ -11,7 +11,7 @@
 */
 
 
-class consLIsum extends ConsBase {
+class ConsLIsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-class consElecTime extends ConsBase {
+class ConsElecTime extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

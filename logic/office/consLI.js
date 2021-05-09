@@ -10,7 +10,7 @@
 *								2011/10/21 照明簡易計算を実装
 */
 
-class consLI extends consLIsum {
+class ConsLI extends ConsLIsum {
 	//初期設定値
 	constructor() {
 		super();

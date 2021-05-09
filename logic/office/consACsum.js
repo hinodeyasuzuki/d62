@@ -12,7 +12,7 @@
 */
 
 
-class consACsum extends ConsBase {
+class ConsACsum extends ConsBase {
 
 	//初期設定値
 	constructor() {
@@ -73,6 +73,7 @@ class consACsum extends ConsBase {
 		this.add(this.acCool);
 
 		//分割同士の結合の場合には自動化できないのでここで定義する
+		this.partCons = [];
 		this.partCons[0] = this.acHeat;
 		this.partCons[1] = this.acCool;
 	}

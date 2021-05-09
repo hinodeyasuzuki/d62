@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-class consEnergy extends ConsBase {
+class ConsEnergy extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

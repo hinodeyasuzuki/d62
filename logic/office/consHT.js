@@ -12,7 +12,7 @@
 */
 
 
-class consHT extends consHTsum {
+class ConsHT extends ConsHTsum {
 	//初期設定値
 	constructor() {
 		super();

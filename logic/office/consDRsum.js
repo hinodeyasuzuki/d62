@@ -10,7 +10,7 @@
 *								2011/10/21 洗濯乾燥簡易計算を実装
 */
 
-class consDRsum extends ConsBase {
+class ConsDRsum extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();

@@ -9,12 +9,12 @@
 */
 
 
-class consTotal extends ConsBase {
+class ConsTotal extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();
 
-		this.averagePriceElec;
+		this.averagePriceElec = 0;
 
 		this.seasonConsPattern = [1.4, 1, 1.2];	//業種ごとに設定
 
@@ -155,7 +155,7 @@ class consTotal extends ConsBase {
 
 		//平均電気代
 		var def = D6.area.elecPrice[this.contract];
-		averagePriceElec = (def[1] + def[2]) / 2;
+		this.averagePriceElec = (def[1] + def[2]) / 2;
 
 		//基本料金
 		var priceBase = def[4];

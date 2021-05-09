@@ -11,7 +11,7 @@
 */
 
 
-class consOT extends consOTsum {
+class ConsOT extends ConsOTsum {
 	//初期設定値
 	constructor() {
 		super();

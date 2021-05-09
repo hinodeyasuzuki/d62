@@ -60,7 +60,7 @@ class ConsTotal extends ConsBase {
 
 		this.noConsData = true; //flag of no input of fee
 
-		this.averagePriceElec;
+		this.averagePriceElec = 0;
 		this.room2size = [15, 15, 30, 50, 70, 100, 120, 150, 170]; //room number to housesize(m2)
 
 		this.seasonConsPattern = [1.4, 1, 1.2]; // consumption rate  - winter, spring, summer
@@ -309,8 +309,7 @@ class ConsTotal extends ConsBase {
 					this.priceEleSell +
 					this.solarSaleRatio * generateEle * pvSellUnitPrice -
 					priceBase
-				) /
-				this.averagePriceElec;
+				) / this.averagePriceElec;
 			this.electricity = this.grossElectricity - generateEle;
 		} else {
 			//not installed

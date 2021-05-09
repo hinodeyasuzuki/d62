@@ -7,7 +7,7 @@
 * @author Yasufumi SUZUKI 	2016/06/09
 */
 
-class consMonth extends ConsBase {
+class ConsMonth extends ConsBase {
 	//初期設定値
 	constructor() {
 		super();
