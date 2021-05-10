@@ -16,9 +16,14 @@ You can make your area/language software by support of Excel file
 
 ## Demo (git page)
 
+release(minified) code
 https://hinodeyasuzuki.github.io/d62/index.html
 
+Develop code
 https://hinodeyasuzuki.github.io/d62/index_develop.html
+
+diagnosis for office
+https://hinodeyasuzuki.github.io/d62/index_biz.html
 
 
 ## Other Demo
