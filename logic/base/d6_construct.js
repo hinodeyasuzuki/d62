@@ -272,13 +272,19 @@ D6.setscenario = function (prohibitQuestions, allowedQuestions, defInput) {
 	//set easy question list
 	var ilist = [];
 	if (D6.scenario.defEasyQues) {
-		for (i in D6.scenario.defEasyQues[0].ques) {
-			if (isProhivitedQuestion(D6.scenario.defEasyQues[0].ques[i])) continue;
-			ilist.push(D6.scenario.defEasyQues[0].ques[i]);
-		}
-		D6.scenario.defEasyQues[0].ques = [];
-		for (i in ilist) {
-			D6.scenario.defEasyQues[0].ques.push(ilist[i]);
+		//exsit allowdquestions
+		if ( allowedQuestions.length > 0 ) {
+			D6.scenario.defEasyQues[0].ques = allowedQuestions;
+		} else {
+			//prohibit question
+			for (i in D6.scenario.defEasyQues[0].ques) {
+				if (isProhivitedQuestion(D6.scenario.defEasyQues[0].ques[i])) continue;
+				ilist.push(D6.scenario.defEasyQues[0].ques[i]);
+			}
+			D6.scenario.defEasyQues[0].ques = [];
+			for (i in ilist) {
+				D6.scenario.defEasyQues[0].ques.push(ilist[i]);
+			}
 		}
 	}
 
