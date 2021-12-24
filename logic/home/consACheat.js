@@ -66,6 +66,11 @@ class ConsACheat extends ConsHTsum {
 		this.windowArea = this.input("i213" + this.subID, -1);		//window size (m2)
 		this.windowPerf = this.input("i214" + this.subID, -1);		//window insulation level
 
+		this.consHTsum = D6.consListByName["consHTsum"][0];
+		this.reduceRateDouble = this.consHTsum.reduceRateDouble;
+		this.reduceRateUchimado = this.consHTsum.reduceRateUchimado;
+		this.reduceRateLowe = this.consHTsum.reduceRateLowe;
+		this.reduceRateInsulation= this.consHTsum.reduceRateInsulation;
 	}
 
 	calc() {

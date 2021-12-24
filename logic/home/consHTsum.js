@@ -56,10 +56,6 @@ class ConsHTsum extends ConsBase {
 		this.apf = 3;											//APF annual performance factor
 		this.apfMax = 4.5;								//max performance
 
-		this.reduceRateInsulation = 0.082;		//reduce rate by wall inslation
-		this.reduceRateDouble = 0.124;				//reduce rate by double glasses
-		this.reduceRateUchimado = 0.14;				//reduce rate by set inner grass
-		this.reduceRateLowe = 0.16;						//reduce rate by Low-e grass
 		this.reduceRateFilterCool = 0.05;			//reduce rate of cooling by 
 
 		this.reduceRateFilter = 0.12;					//reduce rate by clean filter
@@ -75,7 +71,7 @@ class ConsHTsum extends ConsBase {
 		this.heatArea = D6.area.getHeatingLevel(this.prefecture);
 
 		this.person = this.input("i001", 3); //person ##
-		this.houseType = this.input("i002", 2); //standalone
+		this.houseType = this.input("i002", 1); //standalone
 		this.houseSize = D6.consShow["TO"].houseSize; //home size
 
 		// default area heating set
@@ -100,10 +96,37 @@ class ConsHTsum extends ConsBase {
 		this.consKeros = this.input("i064", -1); //consumption of kerosene
 		this.hotwaterEquipType = this.input("i101", -1); //hot water temperature
 
-		this.performanceWindow = this.input("i041", -1); //performance of window
+		this.performanceWindow = this.input("i041", 0); //performance of window
 		this.performanceWall = this.input("i042", -1); //performance of wall insulation
 		this.reformWindow = this.input("i043", -1); //reform to change window
 		this.reformfloor = this.input("i044", -1); //reform to change floor
+
+		//window 
+		var heatWindow = [6.5, 1.4, 1.8, 3.6 ,4.65 ,6.5, 6.5 ];
+		var nowHeatWindow = heatWindow[this.performanceWindow];
+		if ( this.heatArea <= 2 && nowHeatWindow > 5 ){
+			//cold area default
+			nowHeatWindow =  heatWindow[4];
+		}
+		var windowrate = 0.48;								// heat loss through window
+
+		this.reduceRateDouble = windowrate * ( 1 - heatWindow[4]/nowHeatWindow );
+		this.reduceRateUchimado = windowrate * ( 1 - 2.2 / nowHeatWindow);
+		this.reduceRateLowe = windowrate * ( 1 - heatWindow[2]/nowHeatWindow );				//reduce rate by Low-e grass
+
+		//wall
+		if ( this.performanceWall == -1 ){
+			if( this.heatArea <= 2 ) {
+				this.performanceWall = 100;
+			} else if( this.heatArea == 3 ) {
+				this.performanceWall = 50;
+			} else {
+				this.performanceWall = 30;
+			}
+		}
+		var wallrate = 0.19;
+		this.reduceRateInsulation = wallrate * 0.5;		//reduce rate by wall inslation
+
 	}
 
 	calc() {
@@ -120,7 +143,8 @@ class ConsHTsum extends ConsBase {
 
 		//calculate heat energy
 		var heatKcal = this.calcHeatLoad(heatArea_m2, this.heatTime, this.heatMonth, this.heatTemp);
-
+		this.heatLoadUnit = heatKcal / heatArea_m2 / this.heatMonth / 30 / this.heatTime;
+	
 		//covert to monthly by seasonal data
 		heatKcal *= this.heatMonth / 12;
 		this.endEnergy = heatKcal;
@@ -423,20 +447,39 @@ class ConsHTsum extends ConsBase {
 	}
 
 	calcMeasure() {
-		//mHTdoubleGlassAll
-		if (!this.isSelected("mHTuchimadoAll") &&
-			!this.isSelected("mHTloweAll") &&
-			this.houseType != 2
+		if (!this.isSelected("mHTreformLV5")
+			&& !this.isSelected("mHTreformLV6")
 		) {
-			this.measures["mHTdoubleGlassAll"].calcReduceRate(this.reduceRateDouble);
+			//mHTdoubleGlassAll
+			if (!this.isSelected("mHTuchimadoAll") &&
+				!this.isSelected("mHTloweAll") &&
+				this.houseType != 2
+			) {
+				this.measures["mHTdoubleGlassAll"].calcReduceRate(this.reduceRateDouble);
+			}
+			//mHTuchimadoAll
+			if (!this.isSelected("mHTloweAll")) {
+				this.measures["mHTuchimadoAll"].calcReduceRate(this.reduceRateUchimado);
+			}
+			//mHTloweAll
+			if (this.houseType != 2) {
+				this.measures["mHTloweAll"].calcReduceRate(this.reduceRateLowe);
+			}
 		}
-		//mHTuchimadoAll
-		if (!this.isSelected("mHTloweAll")) {
-			this.measures["mHTuchimadoAll"].calcReduceRate(this.reduceRateUchimado);
-		}
-		//mHTloweAll
+
 		if (this.houseType != 2) {
-			this.measures["mHTloweAll"].calcReduceRate(this.reduceRateLowe);
+			//mHTreformLV5,mHTreformLV6
+			var heatlossfactor = 1 /  (this.performanceWall + 50);
+			var newlossfactor = 1 / (150 + 50);
+
+			if ( typeof this.measures["mHTreformLV5"] !== 'undefined') {
+				this.measures["mHTreformLV5"].calcReduceRate(1 - newlossfactor/heatlossfactor );
+			}
+			
+			if ( typeof this.measures["mHTreformLV6"] !== 'undefined') {
+				newlossfactor = 1 / (250 + 50);
+				this.measures["mHTreformLV6"].calcReduceRate(1 - newlossfactor/heatlossfactor );
+			}
 		}
 	}
 

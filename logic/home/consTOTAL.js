@@ -380,7 +380,10 @@ class ConsTotal extends ConsBase {
 		mes.copy(this);
 
 		// not installed and ( stand alone or desired )
-		if (this.solarKw == 0 && this.houseType != 2) {
+		if (this.solarKw == 0 
+			&& this.houseType != 2
+			&& !this.isSelected("mTOzeh")
+		) {
 			// monthly generate electricity
 			var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
 
@@ -409,6 +412,77 @@ class ConsTotal extends ConsBase {
 				"<br>(" +
 				this.standardSize +
 				"kW)";
+		}
+
+
+		//mTOzeh-----------------------------------------
+		if ( typeof this.measures["mTOzeh"] !== 'undefined') {
+			mes = this.measures["mTOzeh"]; //set mes
+			mes.copy(this);
+
+			if (!this.isSelected("mTOsolar") 
+				&& this.solarKw == 0 
+				&& this.houseType != 2
+			) {
+
+				var zehSolarSize = 5;
+
+				//electricity and cost
+				var eleReduce = 0.2;	//Zehエネルギー2割減
+
+				//暖房割合
+				var heatRatio = D6.consHTsum.jules / this.jules;
+
+				//灯油の利用を電気にする
+				var elec = this.electricity + this.generateEle
+					+ this.kerosene * (D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity);
+				mes.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce))
+					- solar_generate_kWh;
+				mes.kerosene = 0;
+
+				//暖房に関しては
+				var heatParam = 0;
+				if ( D6.consHTsum.heatArea <= 3 ){
+					//地域区分3以下の寒冷地では Ua値 0.40
+					heatParam = 1.5 / (D6.consHTsum.heatLoadUnit * 860 / 1000);		//暖房の増減比率
+				} else {
+					//それ以外は Ua値0.6 Q値2W/Km2修正
+					heatParam = 2 / (D6.consHTsum.heatLoadUnit * 860 / 1000);		//暖房の増減比率
+				}
+				mes.gas -= D6.consHTsum.gas * (1 - heatParam);
+				mes.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
+					* (1 - heatParam);
+
+				// monthly generate electricity
+				var solar_generate_kWh = this.generateEleUnit * zehSolarSize / 12;
+
+				// saving by generation
+				var solar_priceDown =
+					solar_generate_kWh * this.solarSaleRatio * pvSellUnitPrice +
+					solar_generate_kWh *
+					(1 - this.solarSaleRatio) *
+					D6.Unit.price.electricity;
+
+				// saving by visualize display
+				var solar_priceVisualize =
+					this.electricity * solar_reduceVisualize * D6.Unit.price.electricity;
+
+				//electricity and cost
+				mes.electricity =
+					this.electricity * (1 - solar_reduceVisualize) - solar_generate_kWh;
+				mes.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
+
+				//initial cost
+				mes.priceNew = zehSolarSize * this.measures["mTOsolar"].priceOrg + parseInt(mes.priceOrg);
+
+				//comment add to original definition
+				mes.advice =
+					D6.scenario.defMeasures["mTOsolar"]["advice"] +
+					"<br>(" +
+					zehSolarSize +
+					"kW)";
+			}
+
 		}
 
 		//mTOhems HEMS-----------------------------------------

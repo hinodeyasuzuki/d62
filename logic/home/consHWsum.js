@@ -65,8 +65,10 @@ class ConsHWsum extends ConsBase {
 		this.performanceEcojozu = 0.877; //efficient of good gas heater
 		this.performanceElec = 0.8; //efficient of electric heater
 		this.performanceEcocute = 3; //efficient of heat pump heater
-		this.performanceEnefarmEle = 0.289; //efficient of electricity generation of co-generator
-		this.performanceEnefarmHW = 0.33; //efficient of heat supply of co-generator
+		this.performanceEnefarmEle = 0.289/0.36*0.38; //efficient of electricity generation of fuel cell 0.289/0.36*0.38
+		this.performanceEnefarmHW = 0.38; //efficient of heat supply of fuel cell
+		this.performanceEnefarmSOFCEle = 0.5; //efficient of electricity generation of SOFC fuel cell
+		this.performanceEnefarmSOFCHW = 0.35; //efficient of heat supply of SOFC fuel cell
 		this.performanceKeepWithTank = 0.6; //efficient of keep tab temperature with stock hot water
 
 		this.reduceRateSaveMode = 0.2; //reduce rate to use electric heater with saving mode
@@ -345,7 +347,8 @@ class ConsHWsum extends ConsBase {
 			this.isSelected("mHWecocute") ||
 			this.isSelected("mHWecofeel") ||
 			//|| this.isSelected( "mHWecojoze" )
-			this.isSelected("mHWenefarm")
+			this.isSelected("mHWenefarm") || 
+			this.isSelected("mHWenefarmSOFC")
 		) {
 			goodPerformance = true;
 		}
@@ -380,16 +383,20 @@ class ConsHWsum extends ConsBase {
 			this.measures["mHWecojoze"].gas =
 				endEnergyNow / this.performanceEcojozu / D6.Unit.calorie.gas;
 
-			//mHWenefarm
 			if (this.housetype == 1) {
+				//mHWenefarm
 				this.measures["mHWenefarm"].clear();
 				//electricity generation
-				var notCoGenerationEnergy = 500 * 1000 / 12; //	kcal/month
+				var notCoGenerationEnergy = Math.min( endEnergyNow, 500 * 1000 / 12); //	kcal/month
 				var coGenerationEnergy = endEnergyNow - notCoGenerationEnergy;
+				coGenerationEnergy = Math.min(coGenerationEnergy, D6.consShow["TO"].electricity * 700);
+				notCoGenerationEnergy = endEnergyNow - coGenerationEnergy;
+
+				var baseGas = 500 * 1000 / 12; //	kcal/month
 
 				this.measures["mHWenefarm"].gas =
 					(coGenerationEnergy / this.performanceEnefarmHW +
-						notCoGenerationEnergy / this.performanceEcojozu) /
+						( notCoGenerationEnergy + baseGas ) / this.performanceEcojozu) /
 					D6.Unit.calorie.gas;
 
 				this.measures["mHWenefarm"].electricity =
@@ -397,6 +404,48 @@ class ConsHWsum extends ConsBase {
 					this.performanceEnefarmHW *
 					this.performanceEnefarmEle /
 					D6.Unit.calorie.electricity;
+
+				this.measures["mHWenefarm"].water = this.water;
+
+				//コスト強制設定
+				this.measures["mHWenefarm"].calcCost();
+		
+				//割引は都市ガスの場合限定
+				if ( D6.consTotal.gasType != 2 ){
+					this.measures["mHWenefarm"].costUnique = this.measures["mHWenefarm"].cost 
+						- this.measures["mHWenefarm"].gas * (D6.consHTsum.useHW ? 60 : 80);
+				}
+
+				//mHWenefarmSOFC after 3
+				if ( typeof this.measures["mHWenefarmSOFC"] !== 'undefined') {
+					this.measures["mHWenefarmSOFC"].clear();
+					//electricity generation( depends on electiricity consumption)
+					var generateElectricity = Math.min( 400, D6.consTotal.electricity * 0.7);
+					notCoGenerationEnergy = 0; //	kcal/month
+					var availableEnergy = 25 * 2 * (80-20) * 30; //	kcal/month 25L*2,60K
+					coGenerationEnergy = endEnergyNow - notCoGenerationEnergy;
+
+					this.measures["mHWenefarmSOFC"].gas =
+						(
+							generateElectricity * D6.Unit.calorie.electricity / this.performanceEnefarmSOFCEle +
+							( coGenerationEnergy - availableEnergy) / this.performanceEcojozu
+						) / D6.Unit.calorie.gas;
+
+					this.measures["mHWenefarmSOFC"].electricity =
+							this.electricity - generateElectricity;
+
+					this.measures["mHWenefarmSOFC"].water = this.water;
+
+					//コスト強制設定
+					this.measures["mHWenefarmSOFC"].calcCost();
+			
+					//割引は都市ガスの場合限定
+					if ( D6.consTotal.gasType != 2 ){
+						this.measures["mHWenefarmSOFC"].costUnique = this.measures["mHWenefarmSOFC"].cost 
+							- this.measures["mHWenefarmSOFC"].gas * (D6.consHTsum.useHW ? 60 : 80);
+					}
+				}
+
 			}
 		}
 

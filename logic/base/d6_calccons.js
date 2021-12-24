@@ -189,25 +189,28 @@ D6.calcConsAdjust = function () {
 					if (!D6.averageMode) {
 						//価格データがない場合totalは補正しない
 						//本来ならあまりに大幅な補正が必要なときにはtotalの数値を変更するが、ここでは平均値も算出するために補正が不要
-						if (this.energyAdj[j] < 0.25) {
-							this.consShow["TO"][j] *= 0.25 / this.energyAdj[j];
-							this.energyAdj[j] = 0.25;
+						var adjustFactor = 2;
+						if (this.energyAdj[j] < 1/adjustFactor) {
+							this.consShow["TO"][j] *=  1/adjustFactor / this.energyAdj[j];
+							this.energyAdj[j] =  1/adjustFactor;
 						}
-						if (this.energyAdj[j] > 4 && j != "electricity") {
-							this.consShow["TO"][j] *= 4 / this.energyAdj[j];
-							this.energyAdj[j] = 4;
+						if (this.energyAdj[j] > adjustFactor && j != "electricity") {
+							this.consShow["TO"][j] *= adjustFactor / this.energyAdj[j];
+							this.energyAdj[j] = adjustFactor;
 						}
 					}
 				}
 				if (j == "electricity") {
 					// adjust is less than triple and more than 0.2 times
-					this.energyAdj[j] = Math.max(0.2, Math.min(5, this.energyAdj[j]));
+					var adjustFactorEle = 4;
+					this.energyAdj[j] = Math.max(1/adjustFactorEle, Math.min(adjustFactorEle, this.energyAdj[j]));
 				} else if (j == "water") {
 					this.consShow["TO"][j] = energySum[j];
 					this.energyAdj[j] = 1;
 				} else {
 					// adjust electricity not to be minus but residue is OK
-					this.energyAdj[j] = Math.max(0.2, Math.min(2.5, this.energyAdj[j]));
+					var adjustFactorOther = 2.5;
+					this.energyAdj[j] = Math.max(1/adjustFactorOther, Math.min(adjustFactorOther, this.energyAdj[j]));
 				}
 			}
 		}
@@ -221,8 +224,18 @@ D6.calcConsAdjust = function () {
 	} else {
 		//no total value
 		for (j in D6.Unit.co2) {
+			this.energyAdj[j] = 1;
+		}
+		for (j in D6.Unit.co2) {
 			if (j == "electricity") {
-				if (this.consShow["TO"][j] < energySum[j]) {
+				if (this.consShow["TO"][j]*0.9 > energySum[j]) {
+					this.energyAdj[j] = (this.consShow["TO"][j]*0.9)/energySum[j];
+					for (ci in this.consList) {
+						if (this.consList[ci].consName != "consTotal") {
+							this.consList[ci].calcAdjust(this.energyAdj);
+						}
+					}				
+				} else if( this.consShow["TO"][j] < energySum[j]) {
 					this.consShow["TO"][j] = energySum[j];
 				}
 			} else {
