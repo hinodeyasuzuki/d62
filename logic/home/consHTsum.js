@@ -481,6 +481,15 @@ class ConsHTsum extends ConsBase {
 				this.measures["mHTreformLV6"].calcReduceRate(1 - newlossfactor/heatlossfactor );
 			}
 		}
+
+		//mHTdanran
+		if (this.person >= 2
+			&& this.heatSpace > 0.3
+			&& this.houseSize > 40
+		) {
+			this.measures["mHTdanran"].calcReduceRate(this.reduceRateDanran);
+		}
+
 	}
 
 }

@@ -133,6 +133,12 @@ class ConsACheat extends ConsHTsum {
 	calcMeasure() {
 		//var mes;
 
+		//not show 1st room
+		var notshow1st = ( (this.subID == 1) && this.input("i2121",-1) == -1 )
+			|| ( (this.subID == 0) && this.input("i2121",-1) != -1 );
+
+		if ( notshow1st) return;
+
 		//mACFilter,mACchangeHeat
 		if (this.heatEquip == 1) {
 			//in case of air-conditioner heater
@@ -151,15 +157,6 @@ class ConsACheat extends ConsHTsum {
 			this.measures["mACfilter"].copy(this);
 			this.measures["mACfilter"].electricity = this.electricity
 				- D6.consShow["CO"].electricity * this.reduceRateFilterCool;
-		}
-
-
-		//mHTdanran
-		if (this.person >= 2
-			&& this.heatSpace > 0.3
-			&& this.houseSize > 40
-		) {
-			this.measures["mHTdanran"].calcReduceRate(this.reduceRateDanran);
 		}
 
 		//mHTdouble
@@ -181,7 +178,7 @@ class ConsACheat extends ConsHTsum {
 		}
 
 		//mHTlowe
-		if (!this.sumCons.isSelected("mHTloweAll")) {
+		if (!this.sumCons.isSelected("mHTloweAll") ) {
 			this.measures["mHTlowe"].calcReduceRate(this.reduceRateLowe);
 		}
 
@@ -189,12 +186,16 @@ class ConsACheat extends ConsHTsum {
 		this.measures["mHTwindowSheet"].calcReduceRate(this.reduceRateInsulation);
 
 		//mHTtemplature
-		if (this.heatTemp >= 21) {
+		if (this.subID == 0 && this.input("i2341",-1) == -1 ) {
+			this.measures["mHTtemplature"].calcReduceRate( 2 / 10);
+			this.measures["mHTtemplature"].title = "暖かく過ごす工夫をして暖房設定温度を控えめにする";
+			this.measures["mHTtemplature"].titleShort = "暖かく過ごす工夫をする";
+		} else if (this.heatTemp >= 21) {
 			this.measures["mHTtemplature"].calcReduceRate((this.heatTemp - 20) / 10);
 		}
 
 		//mHTtime
-		if (this.heatTime > 2) {
+		if (this.heatTime > 2 ) {
 			this.measures["mHTtime"].calcReduceRate(1 / (this.heatTime - 1));
 		}
 
