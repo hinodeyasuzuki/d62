@@ -1,4 +1,4 @@
-﻿/*  2017/12/10  version 1.0
+/*  2017/12/10  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -305,6 +305,7 @@ D6.workercalc = function (command, param) {
 
 			//result.graphItemize, result.graphMonthly, result.average, result.cons, result.measure
 			result = D6.getAllResult();
+			result = D6.getAllResult(tabNowName);
 			break;
 
 		case "measuredelete":
@@ -314,6 +315,7 @@ D6.workercalc = function (command, param) {
 
 			//result.graphItemize, result.graphMonthly, result.average, result.cons, result.measure
 			result = D6.getAllResult();
+			result = D6.getAllResult(tabNowName);
 			break;
 
 		case "graphchange":
