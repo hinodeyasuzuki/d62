@@ -409,3 +409,7 @@ function top2start() {
 	$("#divco2").show();
 	startCalc("graphchange", param);
 }
+
+function showAll(){
+	$("table#itemize").removeClass("limit");
+}

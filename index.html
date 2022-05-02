@@ -93,7 +93,7 @@
 			<div class="mesmenu" style="display:none">
 				<div id="measure"></div>
 				<div style="text-align:right;">
-					<button style='color:blue;cursor:pointer;'>[全て表示]</button>
+					<button onclick="showAll()" style='color:blue;cursor:pointer;'>[全て表示]</button>
 				</div>
 				<p id="totalReduceComment"></p>
 			</div>
@@ -326,8 +326,8 @@
 	<script src="view/graph.js" type="text/javascript"></script>
 	<script src="https://d3js.org/d3.v6.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dimple/2.3.0/dimple.latest.min.js"></script>
-	<script src='dist_sample/d6home_core.min.js' type='text/javascript'></script>
-	<script src='dist_sample/d6home_JP.min.js' type='text/javascript'></script>
+	<script src='dist/d6home_core.min.js' type='text/javascript'></script>
+	<script src='dist/d6home_JP.min.js' type='text/javascript'></script>
 
 	<script>
 		window.onload = function () {

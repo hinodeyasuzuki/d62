@@ -60,7 +60,7 @@ if( cmd.set.measureadd ) {
 var ret = {};
 if ( cmd.get.all ){
 	ret = D6.getAllResult();
-	maxmeasure(15);
+	//maxmeasure(15);
 } else {
 	//個別の取得
 	if ( cmd.get.target.substr(0,4) != "cons" ) cmd.get.target = "consTotal";
@@ -84,7 +84,7 @@ if ( cmd.get.all ){
 	}
 	if( cmd.get.measure ){
 		ret.measure = this.getMeasure(cmd.get.target);
-		maxmeasure(15);
+		//maxmeasure(15);
 	}
 	if( cmd.get.measure_all ){
 		ret.measure = this.getMeasure(cmd.get.target);

@@ -796,7 +796,6 @@ var showMeasureTable = function (mesArray) {
 				}
 				if (count > showMeasureTable_Max) break;
 			}
-
 			// restrict number of measures
 			ret +=
 				"<tr id='mestr" +
@@ -1041,8 +1040,8 @@ var comma3 = function (num) {
 	if (num < 0) minus = 1;
 	n = "" + Math.abs(Math.round(num));
 	while ((l = n.length) > 3) {
-		m = "," + n.substr(l - 3, 3) + m;
-		n = n.substr(0, l - 3);
+		m = "," + n.substring(l - 3, l) + m;
+		n = n.substring(0, l - 3);
 	}
 	n = (minus == 1 ? "-" : "") + n + m;
 	return n;
