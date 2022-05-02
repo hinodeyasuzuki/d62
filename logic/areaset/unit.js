@@ -39,35 +39,35 @@ D6.Unit = {
 		car:2.32
 	},
 
-	defaultPriceElectricity : 27,
+	defaultPriceElectricity : 26.15,
 
 	// unit price   yen(in Japan)/each unit
 	price : {
-		electricity:27,				// override in D6.area.setPersonArea by supplier
-		nightelectricity:10,
-		sellelectricity:30,
-		nagas:150,
-		lpgas:500,
-		kerosene:80,
-		gasoline:130,
-		lightoil:100,
+		electricity:26.15,				// override in D6.area.setPersonArea by supplier
+		nightelectricity:17.4,
+		sellelectricity:17,
+		nagas:166,
+		lpgas:746,
+		kerosene:122,
+		gasoline:174,
+		lightoil:153,
 		heavyoil:80,
 		coal:0,
 		biomass:0,
 		hotwater:0,
 		waste:0,
 		water:0,
-		gas:120,
-		car:130
+		gas:166,
+		car:174
 	},
 
 	// intercept price when consumption is zero 	yen(in Japan)
 	priceBase : {
 		electricity:0,
-		nightelectricity:2100,
+		nightelectricity:1400,
 		sellelectricity:0,
-		nagas:1000,
-		lpgas:1000,
+		nagas:1300,
+		lpgas:1900,
 		kerosene:0,
 		gasoline:0,
 		lightoil:0,

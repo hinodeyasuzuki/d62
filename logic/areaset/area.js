@@ -73,16 +73,16 @@ D6.area = {
 
 	//electricity supply company price ratio
 	electCompanyPrice : [
-		1.2,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1.2
+		1.44,
+		1.31,
+		1.31,
+		1.25,
+		1.13,
+		1.14,
+		1.24,
+		1.21,
+		1.15,
+		1.32
 	],
 
 	//	electricity charge unit table
