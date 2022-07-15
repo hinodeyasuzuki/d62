@@ -194,7 +194,6 @@ class ConsAC extends ConsBase {
 				mes.priceNew = Math.round(Math.max(this.houseSize * this.heatArea, 25) / 25) * this.nowEquip.pr1;
 			}
 		}
-		console.log(mes);
 	}
 
 }

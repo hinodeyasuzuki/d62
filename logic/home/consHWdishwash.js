@@ -34,6 +34,7 @@ class ConsHWdishwash extends ConsBase {
 		this.reduceRateWashTank = 0.3;			//reduction rate wash with stored water
 		this.reduceRateWashNotSummer = 0.5;	//reduction rate with cold water in summer
 		this.reduceRateDishWasher = 0.2;		//reduction rate with wash machine
+		this.reduceRateShowerTap = 0.4; 	//reduce rate by saving shower head
 
 		//construction setting
 		this.consName = "consHWdishwash";  	//code name of this consumption 
@@ -49,6 +50,12 @@ class ConsHWdishwash extends ConsBase {
 
 		//guide message in input page
 		this.inputGuide = "How to use the dishwasher";
+	}
+	precalc() {
+		this.clear();
+
+		//prepare input value
+		this.savetype = this.input("i804", 2);		//sessui 
 	}
 
 
@@ -66,6 +73,10 @@ class ConsHWdishwash extends ConsBase {
 		//mHWdishWater
 		if (this.sumCons.dishWashWater != 1) {
 			this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
+		}
+
+		if (this.sumCons.dishWashWater != 1 && this.savetype == 2 ) {
+			this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap);
 		}
 	}
 
