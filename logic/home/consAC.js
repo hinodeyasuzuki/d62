@@ -143,34 +143,41 @@ class ConsAC extends ConsBase {
 		//mACreplace
 		mes = this.measures["mACreplace"];
 		if (!this.isSelected("mACreplaceHeat")) {
-			mes.copy(this);
-			if (this.acHeat.heatEquip == 1) {
-				//in case of use air conditioner as heater
-				mes.electricity = this.electricity * this.apf / this.apfMax;
-				//calc part consumption room heating
-				mes["consACheat"] = new Energy();
-				mes["consACheat"].copy(this.acHeat);
-				mes["consACheat"].electricity = this.acHeat.electricity * this.apf / this.apfMax;
-			} else {
-				mes.electricity -= this.acCool.electricity * (1 - this.apf / this.apfMax);
-			}
-			//calculate part consumption room cooling
-			mes["consACcool"] = new Energy();
-			mes["consACcool"].copy(this.acCool);
-			mes["consACcool"].electricity = this.acCool.electricity * this.apf / this.apfMax;
-
-			// in case of wide area heating
-			if (this.acHeat.heatArea > 0.3
-				&& this.acHeat.houseSize > 60
+			if( D6.consListByName["consACcool"][0].electricity > 0 
+				&& D6.consListByName["consACcool"][1].electricity > 0
+				&& this.subID == 0
 			) {
-				var num = Math.round(Math.max(this.acHeat.houseSize * this.acHeat.heatArea, 25) / 25);
-				mes.priceNew = num * mes.def["price"];
+				//avoid double suggestion
+			} else {
+				mes.copy(this);
+				if (this.acHeat.heatEquip == 1) {
+					//in case of use air conditioner as heater
+					mes.electricity = this.electricity * this.apf / this.apfMax;
+					//calc part consumption room heating
+					mes["consACheat"] = new Energy();
+					mes["consACheat"].copy(this.acHeat);
+					mes["consACheat"].electricity = this.acHeat.electricity * this.apf / this.apfMax;
+				} else {
+					mes.electricity -= this.acCool.electricity * (1 - this.apf / this.apfMax);
+				}
+				//calculate part consumption room cooling
+				mes["consACcool"] = new Energy();
+				mes["consACcool"].copy(this.acCool);
+				mes["consACcool"].electricity = this.acCool.electricity * this.apf / this.apfMax;
+
+				// in case of wide area heating
+				if (this.acHeat.heatArea > 0.3
+					&& this.acHeat.houseSize > 60
+				) {
+					var num = Math.round(Math.max(this.acHeat.houseSize * this.acHeat.heatArea, 25) / 25);
+					mes.priceNew = num * mes.def["price"];
+				}
 			}
 		}
 
 		//mACreplaceHeat
 		mes = this.measures["mACreplaceHeat"];
-		if (!this.acHeat.heatEquip == 1) {
+		if (this.acHeat.heatEquip != 1) {
 			mes.clear();
 			mes["consACheat"] = new Energy();
 			mes["consACheat"].copy(this.acHeat);
@@ -187,6 +194,7 @@ class ConsAC extends ConsBase {
 				mes.priceNew = Math.round(Math.max(this.houseSize * this.heatArea, 25) / 25) * this.nowEquip.pr1;
 			}
 		}
+		console.log(mes);
 	}
 
 }

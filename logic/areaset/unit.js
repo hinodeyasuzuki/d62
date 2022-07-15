@@ -39,6 +39,7 @@ D6.Unit = {
 		car:2.32
 	},
 
+	//2022fy
 	defaultPriceElectricity : 26.15,
 
 	// unit price   yen(in Japan)/each unit

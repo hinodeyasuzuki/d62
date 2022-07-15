@@ -62,6 +62,7 @@ class ConsHWtoilet extends ConsBase {
 		this.keepTemp = this.input("i132", 2);			//temperature 1:high - 3low, 4 don't know
 		this.savingToilet = this.input("i133", 2);	//use demand heat type
 		this.coverToilet = this.input("i134", 1);		//cover use
+		this.reform = this.input("i140", 2);		//reform
 	}
 
 	calc() {
@@ -76,9 +77,11 @@ class ConsHWtoilet extends ConsBase {
 	calcMeasure() {
 		//var mes;
 
-		//mHWreplaceToilet5
-		this.measures["mHWreplaceToilet5"].copy(this);
-		this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 / 2;
+		//mHWreplaceToilet5]
+		if( this.reform !=1 ){
+			this.measures["mHWreplaceToilet5"].copy(this);
+			this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 / 2;
+		}
 
 		//mHWreplaceToilet
 		if (this.savingToilet != 1 || this.keepSeason != 4) {

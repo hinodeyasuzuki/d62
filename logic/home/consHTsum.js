@@ -384,6 +384,7 @@ class ConsHTsum extends ConsBase {
 
 		//add electricity use in toilet
 		this.electricity += D6.consListByName["consHWtoilet"][0].electricity;
+
 	}
 
 	//calculate heat load kcal/month
@@ -448,7 +449,8 @@ class ConsHTsum extends ConsBase {
 
 	calcMeasure() {
 		if (!this.isSelected("mHTreformLV5")
-			&& !this.isSelected("mHTreformLV6")
+		&& !this.isSelected("mHTreformLV6")
+		&& !D6.consTotal.isSelected("mTOzeh")
 		) {
 			//mHTdoubleGlassAll
 			if (!this.isSelected("mHTuchimadoAll") &&
@@ -467,7 +469,11 @@ class ConsHTsum extends ConsBase {
 			}
 		}
 
-		if (this.houseType != 2) {
+		if (this.houseType != 2
+			&& !this.isSelected("mHTreformLV5")
+			&& !this.isSelected("mHTreformLV6")
+			&& !D6.consTotal.isSelected("mTOzeh")
+		) {
 			//mHTreformLV5,mHTreformLV6
 			var heatlossfactor = 1 /  (this.performanceWall + 50);
 			var newlossfactor = 1 / (150 + 50);

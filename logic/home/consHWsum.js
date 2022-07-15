@@ -348,7 +348,8 @@ class ConsHWsum extends ConsBase {
 			this.isSelected("mHWecofeel") ||
 			//|| this.isSelected( "mHWecojoze" )
 			this.isSelected("mHWenefarm") || 
-			this.isSelected("mHWenefarmSOFC")
+			this.isSelected("mHWenefarmSOFC") ||
+			D6.consTotal.isSelected("mTOzeh")
 		) {
 			goodPerformance = true;
 		}
@@ -458,6 +459,7 @@ class ConsHWsum extends ConsBase {
 		if (
 			this.isSelected("mHWecocute") ||
 			this.isSelected("mHWenefarm") ||
+			this.isSelected("mHWenefarmSOFC") ||
 			this.isSelected("mHWsolarSystem") ||
 			this.isSelected("mHWsolarHeater")
 		) {

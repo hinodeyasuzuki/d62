@@ -88,11 +88,12 @@ class ConsACheat extends ConsHTsum {
 		}
 
 		//guess main energy source
-		if (this.heatEquip == 1 || this.heatEquip == 2) {
+		//220715 use 1st place for energy
+		if (this.heatEquip%10 == 1 || this.heatEquip%10 == 2) {
 			this.mainSource = "electricity";
-		} else if (this.heatEquip == 3) {
+		} else if (this.heatEquip%10 == 3) {
 			this.mainSource = "gas";
-		} else if (this.heatEquip == 4) {
+		} else if (this.heatEquip%10 == 4) {
 			this.mainSource = "kerosene";
 		} else {
 			//use house total
@@ -119,6 +120,8 @@ class ConsACheat extends ConsHTsum {
 			for (var i = 1; i < cons.length; i++) {
 				this.sub(cons[i]);
 			}
+			if( this.gas < 0 ) this.gas = 0;
+			if( this.kerosene < 0 ) this.kerosene = 0;
 		}
 		var nowapf = 1;
 		if (this.ac.heatEquip != 2) {
@@ -135,9 +138,10 @@ class ConsACheat extends ConsHTsum {
 
 		//not show 1st room
 		var notshow1st = ( (this.subID == 1) && this.input("i2121",-1) == -1 )
-			|| ( (this.subID == 0) && this.input("i2121",-1) != -1 );
+			|| ( (this.subID == 0) && this.input("i2121",-1) != -1);
 
 		if ( notshow1st) return;
+
 
 		//mACFilter,mACchangeHeat
 		if (this.heatEquip == 1) {
@@ -165,6 +169,9 @@ class ConsACheat extends ConsHTsum {
 			&& !this.sumCons.isSelected("mHTloweAll")
 			&& !this.sumCons.isSelected("mHTuchimado")
 			&& !this.sumCons.isSelected("mHTlowe")
+			&& !this.sumCons.isSelected("mHTreformLV5")
+			&& !this.sumCons.isSelected("mHTreformLV6")
+			&& !D6.consTotal.isSelected("mTOzeh")
 		) {
 			this.measures["mHTdouble"].calcReduceRate(this.reduceRateDouble);
 		}
@@ -173,12 +180,21 @@ class ConsACheat extends ConsHTsum {
 		if (!this.sumCons.isSelected("mHTuchimadoAll")
 			&& !this.sumCons.isSelected("mHTloweAll")
 			&& !this.sumCons.isSelected("mHTlowe")
+			&& !this.sumCons.isSelected("mHTreformLV5")
+			&& !this.sumCons.isSelected("mHTreformLV6")
+			&& !D6.consTotal.isSelected("mTOzeh")
 		) {
 			this.measures["mHTuchimado"].calcReduceRate(this.reduceRateUchimado);
 		}
 
 		//mHTlowe
-		if (!this.sumCons.isSelected("mHTloweAll") ) {
+		if (
+			!this.sumCons.isSelected("mHTloweAll") 
+			&& !this.sumCons.isSelected("mHTuchimadoAll")
+			&& !this.sumCons.isSelected("mHTreformLV5")
+			&& !this.sumCons.isSelected("mHTreformLV6")
+			&& !D6.consTotal.isSelected("mTOzeh")
+		) {
 			this.measures["mHTlowe"].calcReduceRate(this.reduceRateLowe);
 		}
 

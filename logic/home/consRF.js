@@ -86,12 +86,15 @@ class ConsRF extends ConsRFsum {
 
 		// set 0-th equipment charactrictic to refregerator
 		if (this.subID == 0) {
+			/*
 			if (this.input("i7111", -1) < 0 && this.input("i7131", -1) < 0) {
 				//in case of no input set 0-th data as sumup by count
 				this.electricity = this.consYear * this.count / 12;
 			} else {
 				this.electricity = 0;
 			}
+			*/
+			this.electricity = 0;
 			return;
 		}
 
@@ -101,7 +104,9 @@ class ConsRF extends ConsRFsum {
 			this.input("i713" + this.subID, -1) < 0
 		) {
 			//not calculate of no input
-			return;
+			if( this.subID > 1 ){
+				return;
+			}
 		}
 
 		//monthly electricity consumption (kWh/month)
