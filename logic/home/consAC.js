@@ -66,6 +66,7 @@ class ConsAC extends ConsBase {
 		this.roomSize = this.input("i212" + this.subID, 12);		//room size (m2)
 
 		var now = new Date();
+		if( this.acYear > 1900 ) this.acYear = now.getFullYear() - this.acYear;
 		this.nowEquip = this.equip(now.getFullYear() - this.acYear, (this.roomSize < 16 ? 2.8 : 4));
 		this.newEquip = this.equip(now.getFullYear(), (this.roomSize < 16 ? 2.8 : 4));
 		this.apf = this.nowEquip.pf2 * 0.7;

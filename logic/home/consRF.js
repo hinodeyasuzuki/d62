@@ -68,6 +68,7 @@ class ConsRF extends ConsRFsum {
 		this.performance = this.input("i721", 2); //performance
 
 		var d = new Date();
+		if( this.year > 1900 ) this.year = d.getFullYear() - this.year;		
 		this.nowEquip = this.equip(d.getFullYear() - this.year, this.size);
 		this.newEquip = this.equip(d.getFullYear(), this.size);
 
