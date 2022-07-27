@@ -133,6 +133,7 @@ class ConsTotal extends ConsBase {
 					D6.area.averageCostEnergy.kerosene / D6.area.seasonMonth.winter * 12
 				);
 			}
+			this.priceKerosWinter = this.priceKeros;
 		}
 
 		this.priceCar = this.input("i075", D6.area.averageCostEnergy.car); //gasoline
@@ -150,7 +151,7 @@ class ConsTotal extends ConsBase {
 				this.priceEleSummer
 			],
 			gas: [this.priceGasWinter, this.priceGasSpring, this.priceGasSummer],
-			kerosene: [this.priceKeros, this.priceKerosSpring, this.priceKerosSummer],
+			kerosene: [this.priceKerosWinter, this.priceKerosSpring, this.priceKerosSummer],
 			//		coal :			[ -1, -1,-1 ],
 			//		hotwater :		[ -1, -1,-1 ],
 			car: [-1, -1, -1]

@@ -57,14 +57,17 @@ class ConsTV extends ConsTVsum {
 
 		//time to use hour/day
 		if (this.subID == 1) {
-			this.useTime = this.input("i633" + this.subID, 8.5);
+			this.useTime = this.input("i633" + this.subID, this.input("i601", 8.5));
+		} else if (this.subID == 0) {
+			this.useTime = this.input("i633" + this.subID, 0);
 		} else {
 			//set 0 if not first one and not fill input
-			this.useTime = this.input("i633" + this.subID, 0);
+			this.useTime = this.input("i633" + this.subID, this.input("i601", 8.5)/2);
 		}
 
 		//equipment data set
 		var d = new Date();
+		if( this.year > 1900 ) this.year = d.getFullYear() - this.year;		
 		this.nowEquip = this.equip(d.getFullYear() - this.year, this.size);
 		this.newEquip = this.equip(d.getFullYear(), this.size);
 		this.nowWatt = this.nowEquip.pf2;

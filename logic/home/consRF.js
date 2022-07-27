@@ -105,7 +105,7 @@ class ConsRF extends ConsRFsum {
 			this.input("i713" + this.subID, -1) < 0
 		) {
 			//not calculate of no input
-			if( this.subID > 1 ){
+			if( this.subID > 1 && this.subID > this.count ){
 				return;
 			}
 		}
