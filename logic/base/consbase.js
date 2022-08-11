@@ -127,7 +127,7 @@ class ConsBase extends Energy {
 		//execute reduction of consumption
 		this.add(margin);
 		this.calcCO2(); //calculate CO2, cost and energy
-		this.calcCost();
+		//this.calcCost();	//costUniqueで強制設定された対策がキャンセルされてしまうため不要
 		this.calcJules();
 
 		//reduction chain in use of relation
