@@ -154,7 +154,7 @@ class ConsRF extends ConsRFsum {
 				//in case of rough estimation
 				this.measures["mRFstop"].calcReduceRate(1 / this.count);
 			} else {
-				this.measures["mRFstop"].electricity = 0;
+				this.measures["mRFstop"].electricity = 0.001;
 			}
 		}
 	}
