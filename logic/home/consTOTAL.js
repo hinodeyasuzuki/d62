@@ -501,6 +501,16 @@ class ConsTotal extends ConsBase {
 		var watt_panel = 50; // install panel size (W)
 		var eff = 0.3; // effectiveness to roof
 		mes.electricity -= watt_panel / 1000 * eff * this.generateEleUnit / 12;
+
+		//mTOdemandcontroll
+		if( this.measures["mTOdemandcontroll"] ) {
+			mes = this.measures["mTOdemandcontroll"];
+			mes.copy(this);
+			//tokyo-gas co. electriciy management 1.4GWh / 78k house 17.9kWh/house
+			//japan average(2019) 3945kWh/house 0.45%
+			mes.electricity -= this.electricity * 0.0045;
+		}
+
 	}
 
 }
