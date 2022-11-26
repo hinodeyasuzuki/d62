@@ -51,6 +51,10 @@
 //resolve D6
 var D6 = D6 || {};
 
+//20221126 force setting
+var forcegas = 0;
+var forceele = 0;
+
 //instances
 D6.consList = []; //consumption full list
 D6.consListByName = []; //consumption list by consname

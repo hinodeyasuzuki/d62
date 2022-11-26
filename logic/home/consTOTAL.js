@@ -206,6 +206,11 @@ class ConsTotal extends ConsBase {
 		this.seasonPrice["electricity"] = ret.season;
 		this.monthlyPrice["electricity"] = ret.monthly;
 
+		//221126 force setting 
+		if ( forceele && !D6.averageMode){
+			this.priceEle = forceele;
+		}
+
 		//in case of no fee input, use sum of all consumption
 		this.noConsData =
 			ret.noConsData &&
@@ -329,6 +334,11 @@ class ConsTotal extends ConsBase {
 		this.priceGas = ret.ave;
 		this.seasonPrice["gas"] = ret.season;
 		this.monthlyPrice["gas"] = ret.monthly;
+
+		//221126 force setting 
+		if ( forcegas  && !D6.averageMode){
+			this.priceGas = forcegas;
+		}
 
 		this.gas = (this.priceGas - D6.Unit.priceBase.gas) / D6.Unit.price.gas;
 
