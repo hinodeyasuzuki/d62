@@ -114,6 +114,8 @@ class ConsTotal extends ConsBase {
 		}
 
 		this.heatEquip = this.input("i202", -1); //main heat equipment
+		this.hwEquip = this.input("i101",-1);		//hot water equipment
+		this.hwUseKeros = (this.hwEquip == 3 || this.hwEquip == 4);
 
 		//kerosene------------------------------
 		this.priceKerosSpring = this.input("i0942", -1);
@@ -125,15 +127,21 @@ class ConsTotal extends ConsBase {
 			(this.priceKerosWinter == -1);
 
 		if (this.priceKerosWinter == -1) {
-			if (D6.area.averageCostEnergy.kerosene < 1000) {
+			if (D6.area.averageCostEnergy.kerosene < 1000 || !this.hwUseKeros) {
 				this.priceKeros = this.input("i064", 0);
 			} else {
 				this.priceKeros = this.input(
 					"i064",
 					D6.area.averageCostEnergy.kerosene / D6.area.seasonMonth.winter * 12
-				);
+				);				
 			}
-			this.priceKerosWinter = this.priceKeros;
+			if( !this.hwUseKeros ){
+				if( this.input("i064",-1)>0 ){
+					//in case of not use kerosene for hotwater, price is only winter
+					this.priceKeros /= 3;
+				}
+				this.priceKerosWinter = this.priceKeros;
+			}
 		}
 
 		this.priceCar = this.input("i075", D6.area.averageCostEnergy.car); //gasoline
@@ -297,8 +305,16 @@ class ConsTotal extends ConsBase {
 			} else {
 				pvSellUnitPrice = 24;
 			}
-		} else if (this.solarYear >= 2020 && this.solarYear < 2024) {
+		} else if (this.solarYear == 2020) {
 			pvSellUnitPrice = 21;
+		} else if (this.solarYear == 2021) {
+			pvSellUnitPrice = 19;
+		} else if (this.solarYear == 2022) {
+			pvSellUnitPrice = 17;
+		} else if (this.solarYear == 2023) {
+			pvSellUnitPrice = 16;
+		} else if (this.solarYear >= 2024 && this.solarYear < 2028) {
+			pvSellUnitPrice = 15;
 		} else if (this.solarYear < 2100) {
 			//estimate
 			pvSellUnitPrice = 11;

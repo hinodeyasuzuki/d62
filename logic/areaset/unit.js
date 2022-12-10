@@ -57,7 +57,7 @@ D6.Unit = {
 		biomass:0,
 		hotwater:0,
 		waste:0,
-		water:0,
+		water:332.69,
 		gas:166,
 		car:174
 	},

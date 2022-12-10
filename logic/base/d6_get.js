@@ -123,7 +123,7 @@ D6.getAverage_graph = function () {
 	//	co2[1], cost[1] average
 	//ret.cost[1] = D6.area.averageCostEnergy; この値とkeroseneの値が異なる
 	ret.co2[1] = {};
-	ret.co2[1].total = D6.average.consList["TO"].co2Original;
+	ret.co2[1].total = D6.average.consList["TO"].co2;	//221210 originalではなく直値
 	ret.co2[1].electricity =
 		D6.average.consList["TO"].electricityOriginal * D6.Unit.co2.electricity;
 	ret.co2[1].gas = D6.average.consList["TO"].gasOriginal * D6.Unit.co2.gas;

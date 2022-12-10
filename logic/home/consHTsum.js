@@ -357,6 +357,8 @@ class ConsHTsum extends ConsBase {
 		var ret;
 		if (spaceK > 0) {
 			if (this.consKeros == -1) {
+				/*
+				//221126 
 				D6.consShow["TO"].kerosene = consHW.kerosene + this.kerosene;
 
 				//total kerosene recalculate
@@ -365,7 +367,7 @@ class ConsHTsum extends ConsBase {
 				D6.consShow["TO"].priceKeros = ret.ave;
 				D6.consShow["TO"].seasonPrice["kerosene"] = ret.season;
 				D6.consShow["TO"].monthlyPrice["kerosene"] = ret.monthly;
-
+				*/
 			} else {
 				this.kerosene = spaceK;
 			}
