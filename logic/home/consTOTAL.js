@@ -504,7 +504,7 @@ class ConsTotal extends ConsBase {
 
 				//comment add to original definition
 				mes.advice =
-					D6.scenario.defMeasures["mTOsolar"]["advice"] +
+					D6.scenario.defMeasures["mTOzeh"]["advice"] +
 					"<br>(" +
 					zehSolarSize +
 					"kW)";
