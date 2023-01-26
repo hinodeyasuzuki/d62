@@ -71,11 +71,15 @@ class ConsTotal extends ConsBase {
 		this.clear();
 
 		this.person = this.input("i001", 3); //person
-
+		this.daylighttimeuse = this.input("i320", 2);	//1 exist, 2 nopserson 
+	
 		//solar
 		this.solarSet = this.input("i051", 0); //PV exist 1:exist
 		this.solarKw = this.input("i052", this.solarSet * 3.5); //PV size (kW)
 		this.solarYear = this.input("i053", 0); //PV set year
+
+		//fix selrate by daylight time use
+		this.solarSaleRatio += ( this.daylighttimeuse==2 ? 0.1 : 0 );
 
 		//electricity
 		this.priceEle = this.input("i061", D6.area.averageCostEnergy.electricity); //electricity fee
@@ -88,7 +92,7 @@ class ConsTotal extends ConsBase {
 			(this.priceEleSummer == -1) &
 			(this.priceEleWinter == -1);
 
-		this.priceEleSell = this.input("i062", 0); //sell electricity
+		this.priceEleSell = this.input("i092", this.input("i062", 0)); //sell electricity
 
 		//gas
 		this.priceGas = this.input("i063", D6.area.averageCostEnergy.gas); //gas fee
@@ -320,17 +324,27 @@ class ConsTotal extends ConsBase {
 			pvSellUnitPrice = 11;
 		}
 
+		// end of FIT
+		var date = new Date();
+		if( this.solarYear < date.getFullYear() - 10 ){
+			this.solarYear = 10;
+		}
+
 		//PV installed
 		if (this.solarKw > 0) {
+			// sellrate fitting
+			this.sellelec_byprice = this.priceEleSell / pvSellUnitPrice;
+			this.solarSaleRate_byprice = this.sellelec_byprice / generateEle;
+			var t_solarSaleRatio = ( this.solarSaleRatio + this.solarSaleRate_byprice ) / 2;
+			this.solarSaleRatio = Math.max(0.2 , Math.min(0.8 , t_solarSaleRatio));
+
 			// gross = electricity consumed in home include self consumption amount
 			this.grossElectricity =
 				(1 - this.solarSaleRatio) * generateEle +
 				Math.max(
 					0,
-					this.priceEle -
-					this.priceEleSell +
-					this.solarSaleRatio * generateEle * pvSellUnitPrice -
-					priceBase
+					this.priceEle - this.priceEleSell +
+					this.solarSaleRatio * generateEle * pvSellUnitPrice - priceBase
 				) / this.averagePriceElec;
 			this.electricity = this.grossElectricity - generateEle;
 		} else {

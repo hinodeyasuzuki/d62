@@ -115,7 +115,8 @@ D6.getAverage_graph = function () {
 
 	//user cost
 	ret.cost[0] = {};
-	ret.cost[0].electricity = D6.consShow["TO"].priceEle;
+	//230126 include sell price 
+	ret.cost[0].electricity = D6.consShow["TO"].priceEle - D6.consShow["TO"].priceEleSell;
 	ret.cost[0].gas = D6.consShow["TO"].priceGas;
 	ret.cost[0].kerosene = D6.consShow["TO"].priceKeros;
 	ret.cost[0].car = D6.consShow["TO"].priceCar;
