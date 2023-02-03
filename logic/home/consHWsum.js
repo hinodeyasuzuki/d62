@@ -1,4 +1,4 @@
-﻿/*  2017/12/15  version 1.0
+/*  2017/12/15  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -255,7 +255,8 @@ class ConsHWsum extends ConsBase {
 					this.heatEnergy /
 					this.performanceGas /
 					D6.Unit.calorie[this.mainSource];
-				break;
+					this.performanceOrg = this.performanceGas;
+					break;
 			case 2:
 				//high efficient gas heater
 				this.mainSource = "gas";
@@ -263,6 +264,7 @@ class ConsHWsum extends ConsBase {
 					this.heatEnergy /
 					this.performanceEcojozu /
 					D6.Unit.calorie[this.mainSource];
+				this.performanceOrg = this.performanceEcojozu;
 				break;
 			case 3:
 				//kerosene heater
@@ -271,6 +273,7 @@ class ConsHWsum extends ConsBase {
 					this.heatEnergy /
 					this.performanceGas /
 					D6.Unit.calorie[this.mainSource];
+				this.performanceOrg = this.performanceGas;
 				break;
 			case 4:
 				//high efficient kerosene heate
@@ -279,6 +282,7 @@ class ConsHWsum extends ConsBase {
 					this.heatEnergy /
 					this.performanceEcojozu /
 					D6.Unit.calorie[this.mainSource];
+				this.performanceOrg = this.performanceEcojozu;
 				break;
 			case 5:
 				//electricity heater
@@ -287,6 +291,7 @@ class ConsHWsum extends ConsBase {
 					(this.heatEnergy + this.tanklossEnergy) /
 					this.performanceElec /
 					D6.Unit.calorie[this.mainSource];
+				this.performanceOrg = this.performanceElec;
 				break;
 			case 6:
 				//heat pump heater
@@ -295,6 +300,7 @@ class ConsHWsum extends ConsBase {
 					(this.heatEnergy + this.tanklossEnergy) /
 					this.performanceEcocute /
 					D6.Unit.calorie[this.mainSource];
+				this.performanceOrg = this.performanceEcocute;
 				break;
 			case 7:
 			case 8:
@@ -302,7 +308,8 @@ class ConsHWsum extends ConsBase {
 				this.mainSource = "gas";
 				this.gas =
 					this.heatEnergy / this.performanceEcojozu / D6.Unit.calorie.gas;
-		}
+				this.performanceOrg = this.performanceEcojozu;
+			}
 
 		//toilet
 		this.electricity += this.warmerElec_kWh_y / 12 * (4 - this.keepSeason) / 3;
@@ -355,7 +362,8 @@ class ConsHWsum extends ConsBase {
 		}
 
 		//endEnergy adjust with installed measures 170426
-		var endEnergyNow = this.hwEnergy * this.co2 / this.co2Original;
+		// 230203 fix
+		var endEnergyNow = this.jules * 1000 / 4.18 * this.performanceOrg;
 		if (
 			(this.equipType == -1 ||
 				this.equipType == 1 ||
@@ -370,6 +378,7 @@ class ConsHWsum extends ConsBase {
 					(endEnergyNow + this.tanklossEnergy) /
 					this.performanceEcocute /
 					D6.Unit.calorie.nightelectricity;
+				this.measures["mHWecocute"].water = this.water;
 			}
 
 			//mHWecofeel
@@ -377,12 +386,14 @@ class ConsHWsum extends ConsBase {
 				this.measures["mHWecofeel"].clear();
 				this.measures["mHWecofeel"].kerosene =
 					endEnergyNow / this.performanceEcojozu / D6.Unit.calorie.kerosene;
+				this.measures["mHWecofeel"].water = this.water;
 			}
 
 			//mHWecojoze
 			this.measures["mHWecojoze"].clear();
 			this.measures["mHWecojoze"].gas =
 				endEnergyNow / this.performanceEcojozu / D6.Unit.calorie.gas;
+			this.measures["mHWecojoze"].water = this.water;
 
 			if (this.housetype == 1) {
 				//mHWenefarm
@@ -471,6 +482,7 @@ class ConsHWsum extends ConsBase {
 			this.equipType != 5 &&
 			this.equipType != 6 &&
 			!rejectSolarSelect &&
+			this.solarHeater != 1 &&
 			this.housetype == 1
 		) {
 			this.measures["mHWsolarHeater"].calcReduceRate(this.reduceRateSolar);
