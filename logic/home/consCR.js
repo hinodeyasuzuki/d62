@@ -52,8 +52,11 @@ class ConsCR extends ConsCRsum {
 	precalc() {
 		this.clear();
 
-		this.carType = this.input("i911" + this.subID, 1); //type of car
-		this.performance = this.input("i912" + this.subID, 12); //performance km/L
+		this.carType = this.input("i911" + Math.max(this.subID,1), 1); //type of car
+		this.performance = this.input("i912" + Math.max(this.subID,1), 12); //performance km/L
+
+		this.ordinalCarNum = this.input("i941",0);
+		this.elecCarNum = this.input("i943",0);
 
 		// car user
 		this.user = this.input("i913" + this.subID, this.subID + this.countCall);
@@ -98,7 +101,10 @@ class ConsCR extends ConsCRsum {
 		}
 
 		//mCRreplaceElec
-		if (!this.isSelected("mCRreplace")) {
+		if (!this.isSelected("mCRreplace") &&
+			this.carType != 5 &&
+			this.ordinalCarNum == 0
+		) {
 			this.measures["mCRreplaceElec"].clear();
 			this.measures["mCRreplaceElec"].electricity =
 				this.performanceNow * this.car / this.performanceElec;

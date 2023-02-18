@@ -53,7 +53,7 @@ class ConsTotal extends ConsBase {
 		//parameters related to solar and nitght time electricity usage
 		this.ratioNightEcocute = 0.4; //night consumption rate of heat pump
 		this.ratioNightHWElec = 0.6; //night consumption rate of not heat pump
-		this.solarSaleRatio = 0.6; //PV sell rate
+		this.solarSaleRatio_org = 0.6; //PV sell rate
 		this.generateEleUnit = 1000; //PV generation   kWh/kW/year
 		this.reduceHEMSRatio = 0.1; //reduce rate of Home Energy Management System
 		this.standardSize = 3.6; //PV standard size
@@ -78,8 +78,12 @@ class ConsTotal extends ConsBase {
 		this.solarKw = this.input("i052", this.solarSet * 3.5); //PV size (kW)
 		this.solarYear = this.input("i053", 0); //PV set year
 
+		//car
+		this.carType = this.input("i9111",-1);
+		this.elecCarNum = this.input("i943",0);
+
 		//fix selrate by daylight time use
-		this.solarSaleRatio += ( this.daylighttimeuse==2 ? 0.1 : 0 );
+		this.solarSaleRatio = this.solarSaleRatio_org + ( this.daylighttimeuse==2 ? 0.1 : 0 );
 
 		//electricity
 		this.priceEle = this.input("i061", D6.area.averageCostEnergy.electricity); //electricity fee
@@ -323,6 +327,7 @@ class ConsTotal extends ConsBase {
 			//estimate
 			pvSellUnitPrice = 11;
 		}
+		this.pvSellUnitPrice = pvSellUnitPrice;
 
 		// end of FIT
 		var date = new Date();
@@ -337,7 +342,6 @@ class ConsTotal extends ConsBase {
 			this.solarSaleRate_byprice = this.sellelec_byprice / generateEle;
 			var t_solarSaleRatio = ( this.solarSaleRatio + this.solarSaleRate_byprice ) / 2;
 			this.solarSaleRatio = Math.max(0.2 , Math.min(0.8 , t_solarSaleRatio));
-
 			// gross = electricity consumed in home include self consumption amount
 			this.grossElectricity =
 				(1 - this.solarSaleRatio) * generateEle +
@@ -410,24 +414,18 @@ class ConsTotal extends ConsBase {
 	}
 
 	calcMeasure() {
-		var mes, pvSellUnitPrice;
-
+		var mes;
 		var solar_reduceVisualize = this.reduceHEMSRatio;
 
-		if (this.pvRestrict == 1) {
-			pvSellUnitPrice = 30;
-		} else {
-			pvSellUnitPrice = 28;
-		}
-
-		//mTOsolar-----------------------------------------
-		mes = this.measures["mTOsolar"]; //set mes
-		mes.copy(this);
+		var pvSellUnitPrice = this.pvSellUnitPrice;
 
 		// monthly generate electricity
 		var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
 
+		//mTOsolar-----------------------------------------
 		// not installed and ( stand alone or desired )
+		mes = this.measures["mTOsolar"]; //set mes
+		mes.copy(this);
 		if(  this.houseType != 2
 			&& !this.isSelected("mTOzeh")
 		) {
@@ -435,9 +433,7 @@ class ConsTotal extends ConsBase {
 				// saving by generation
 				var solar_priceDown =
 					solar_generate_kWh * this.solarSaleRatio * pvSellUnitPrice +
-					solar_generate_kWh *
-					(1 - this.solarSaleRatio) *
-					D6.Unit.price.electricity;
+					solar_generate_kWh * (1 - this.solarSaleRatio) * D6.Unit.price.electricity;
 
 				// saving by visualize display
 				var solar_priceVisualize =
@@ -446,7 +442,7 @@ class ConsTotal extends ConsBase {
 				//electricity and cost
 				mes.electricity =
 					this.electricity * (1 - solar_reduceVisualize) 
-					- solar_generate_kWh * (modesolaronlyself ?  1 - this.solarSaleRatio : 1);
+					- solar_generate_kWh * (modesolaronlyself ?  (1 - this.solarSaleRatio) : 1);
 				mes.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
 
 				//initial cost
@@ -460,16 +456,72 @@ class ConsTotal extends ConsBase {
 					"kW)";
 
 			} else {
-
+				//insatalled
 			}
+		}
+
+		//mTObattery
+		mes = this.measures["mTObattery"]; //set mes
+		mes.copy(this);
+		if ( modesolaronlyself && typeof this.measures["mTObattery"] !== 'undefined') {
+			if(  
+				( this.isSelected("mTOzeh") ||
+					this.isSelected("mTOsolar") ||
+					this.solarKw > 0 ) &&
+				!this.isSelected("mTOv2h")
+			) {
+				//battery 5kWh , sell rate reduce to 30%
+				var selfconsrate = (1-0.3);
+
+				var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
+
+				var solar_priceDown =
+					solar_generate_kWh * ( selfconsrate - (1-this.solarSaleRatio) )
+					* ( D6.Unit.price.electricity - pvSellUnitPrice );
+
+				//electricity and cost
+				mes.electricity =
+					this.electricity  
+					- solar_generate_kWh *  ( selfconsrate - (1-this.solarSaleRatio) );
+				mes.costUnique = this.cost - solar_priceDown;					
+			}
+		}
+
+		//mTOv2h
+		mes = this.measures["mTOv2h"]; //set mes
+		mes.copy(this);
+		if ( modesolaronlyself && typeof this.measures["mTOv2h"] !== 'undefined') {
+			if(  
+				( this.isSelected("mTOzeh") ||
+					this.isSelected("mTOsolar") ||
+					this.solarKw > 0) &&
+				( D6.consListByName["consCR"][0].measures["mCRreplaceElec"].selected ||
+					this.carType == 5 ||
+					this.elecCarNum >= 1 ) &&
+				!this.isSelected("mTObattery")
+			) {
+				//battery 50kWh , charge envery day on daytime, sell rate reduce to 10%
+				var selfconsrate = (1-0.1);
+
+				var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
+
+				var solar_priceDown =
+					solar_generate_kWh * ( selfconsrate - (1-this.solarSaleRatio) )
+					* ( D6.Unit.price.electricity - pvSellUnitPrice );
+
+				//electricity and cost
+				mes.electricity =
+					this.electricity  
+					- solar_generate_kWh *  ( selfconsrate - (1-this.solarSaleRatio) );
+				mes.costUnique = this.cost - solar_priceDown;
+			}			
 		}
 
 
 		//mTOzeh-----------------------------------------
+		var mes2 = this.measures["mTOzeh"]; //set mes
+		mes2.copy(this);
 		if ( typeof this.measures["mTOzeh"] !== 'undefined') {
-			mes = this.measures["mTOzeh"]; //set mes
-			mes.copy(this);
-
 			if (!this.isSelected("mTOsolar") 
 				&& this.solarKw == 0 
 				&& this.houseType != 2
@@ -486,9 +538,9 @@ class ConsTotal extends ConsBase {
 				//灯油の利用を電気にする
 				var elec = this.electricity + this.generateEle
 					+ this.kerosene * (D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity);
-				mes.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce))
+				mes2.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce))
 					- solar_generate_kWh;
-				mes.kerosene = 0;
+				mes2.kerosene = 0;
 
 				//暖房に関しては
 				var heatParam = 0;
@@ -499,8 +551,8 @@ class ConsTotal extends ConsBase {
 					//それ以外は Ua値0.6 Q値2W/Km2修正
 					heatParam = 2 / (D6.consHTsum.heatLoadUnit * 860 / 1000);		//暖房の増減比率
 				}
-				mes.gas -= D6.consHTsum.gas * (1 - heatParam);
-				mes.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
+				mes2.gas -= D6.consHTsum.gas * (1 - heatParam);
+				mes2.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
 					* (1 - heatParam);
 
 				// monthly generate electricity
@@ -518,21 +570,21 @@ class ConsTotal extends ConsBase {
 					this.electricity * solar_reduceVisualize * D6.Unit.price.electricity;
 
 				//electricity and cost
-				mes.electricity =
-					this.electricity * (1 - solar_reduceVisualize) - solar_generate_kWh;
-				mes.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
+				mes2.electricity =
+					this.electricity * (1 - solar_reduceVisualize) 
+					- solar_generate_kWh * (modesolaronlyself ?  (1 - this.solarSaleRatio) : 1);
+				mes2.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
 
 				//initial cost
-				mes.priceNew = zehSolarSize * this.measures["mTOsolar"].priceOrg + parseInt(mes.priceOrg);
+				mes2.priceNew = zehSolarSize * this.measures["mTOsolar"].priceOrg + parseInt(mes2.priceOrg);
 
 				//comment add to original definition
-				mes.advice =
+				mes2.advice =
 					D6.scenario.defMeasures["mTOzeh"]["advice"] +
 					"<br>(" +
 					zehSolarSize +
 					"kW)";
 			}
-
 		}
 
 		//mTOhems HEMS-----------------------------------------

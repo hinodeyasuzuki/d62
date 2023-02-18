@@ -75,7 +75,6 @@ class ConsCRsum extends ConsBase {
 
 	calcMeasure() {
 		//mCRecoDrive
-		console.log(this.measures["mCRecoDrive"]);
 		this.measures["mCRecoDrive"].calcReduceRate(this.reduceRateEcoDrive);
 	}
 }
