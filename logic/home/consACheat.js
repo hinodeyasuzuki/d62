@@ -47,6 +47,8 @@ class ConsACheat extends ConsHTsum {
 
 		//guide message in input page
 		this.inputGuide = "how to use each room heating";
+
+		this.partialWatt = 130;
 	}
 
 
@@ -220,6 +222,10 @@ class ConsACheat extends ConsHTsum {
 
 		//mHTceiling
 		this.measures["mHTceiling"].calcReduceRate(0.1);
+
+		//mHTpartialHeating
+		this.measures["mHTpartialHeating"].calcReduceRate(0.3);
+		this.measures["mHTpartialHeating"].electricity += this.partialWatt * this.heatTime * 30 * this.heatMonth / 12 / 1000;
 
 	}
 

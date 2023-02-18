@@ -61,7 +61,7 @@ class ConsHWtoilet extends ConsBase {
 		this.keepSeason = this.input("i131", 2);		//use heating 1:everyday - 4 don't use
 		this.keepTemp = this.input("i132", 2);			//temperature 1:high - 3low, 4 don't know
 		this.savingToilet = this.input("i133", 2);	//use demand heat type
-		this.coverToilet = this.input("i134", 1);		//cover use
+		this.coverToilet = this.input("i134", 2);		//cover use
 		this.reform = this.input("i140", 2);		//reform
 	}
 
@@ -93,8 +93,10 @@ class ConsHWtoilet extends ConsBase {
 		} else {
 			if (this.keepTemp == 1) {
 				this.measures["mHWtemplatureToilet"].calcReduceRate(this.resudeRateTemplature);
+				this.measures["mHWtemplatureToilet"].water = this.water;
 			} else if (this.keepTemp == 2) {
 				this.measures["mHWtemplatureToilet"].calcReduceRate(this.resudeRateTemplature / 2);
+				this.measures["mHWtemplatureToilet"].water = this.water;
 			}
 		}
 
@@ -102,6 +104,7 @@ class ConsHWtoilet extends ConsBase {
 		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1 || this.coverToilet == 1) {
 		} else {
 			this.measures["mHWcoverTilet"].calcReduceRate(this.resudeRateCover);
+			this.measures["mHWcoverTilet"].water = this.water;
 		}
 	}
 

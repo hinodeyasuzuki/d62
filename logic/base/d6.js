@@ -55,6 +55,9 @@ var D6 = D6 || {};
 var forcegas = 0;
 var forceele = 0;
 
+//20230206	solar generation counting   true:reduce self use only ,false:reduce generation 
+var modesolaronlyself = false;
+
 //instances
 D6.consList = []; //consumption full list
 D6.consListByName = []; //consumption list by consname

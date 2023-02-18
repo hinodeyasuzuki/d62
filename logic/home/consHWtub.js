@@ -63,7 +63,7 @@ class ConsHWtub extends ConsBase {
 		this.measures["mHWkeep"].calcReduceRate(this.sumCons.reduceRateTabKeep);
 
 		//mHWstopAutoKeep 
-		if (this.sumCons.keepMethod > 5) {
+		if (this.sumCons.keepMethod > 2) {
 			this.measures["mHWstopAutoKeep"].calcReduceRate(this.sumCons.reduceRateTabKeep * this.autoKeepRate);
 		}
 

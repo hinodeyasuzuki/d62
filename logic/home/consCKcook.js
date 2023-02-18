@@ -47,6 +47,9 @@ class ConsCKcook extends ConsBase {
 
 		//guide message in input page
 		this.inputGuide = "How to use cooking to focus on the stove";
+
+		this.reduceFlame = 2.48 / 80;				//flame over
+
 	}
 
 	precalc() {
@@ -85,7 +88,14 @@ class ConsCKcook extends ConsBase {
 		}
 	}
 
-	calcMeasure() { }
+	calcMeasure() { 
+		//mCKflame
+		if (this.equipCK != 2) {
+			this.measures["mCKflame"].calcReduceRate(this.reduceFlame);
+			this.measures["mCKflame"].water = this.water;
+		}
+	
+	}
 
 }
 

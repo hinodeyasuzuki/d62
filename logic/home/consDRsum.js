@@ -56,24 +56,22 @@ class ConsDRsum extends ConsBase {
 	precalc() {
 		this.clear();
 
-		this.dryUse = this.input("i401", 0); //use dryer or not
+		this.dryUse = this.input("i401", 3); //use dryer or not
 		this.washFreq = this.input("i403", 1); //use dryer or not
 		this.person = D6.consShow["TO"].person; //person number
 	}
 
 	calc() {
+		var wash = this.whWash * this.washFreq;
+		var dry = this.whDry * this.res2Freq[this.dryUse];
 		//rate of dry
-		this.rateDry =
-			this.whDry *
-			this.res2Freq[this.dryUse] /
-			(this.whWash + this.whDry * this.res2Freq[this.dryUse]);
+		this.rateDry = dry / (wash + dry);
 
 		//electricity kWh/month
 		this.electricity =
-			(this.whWash * this.washFreq + this.whDry * this.res2Freq[this.dryUse]) /
+			(wash + dry) /
 			1000 *
-			this.person /
-			3 *
+			this.person / 3 *
 			30;
 	}
 

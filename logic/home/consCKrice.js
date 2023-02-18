@@ -65,6 +65,9 @@ class ConsCKrice extends ConsBase {
 	}
 
 	calcMeasure() {
+		//mPTstopRiceCooker
+		this.measures["mPTstopRiceCooker"].clear();
+		this.measures["mPTstopRiceCooker"].electricity = 0.1;
 	}
 
 }

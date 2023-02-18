@@ -346,7 +346,11 @@ class ConsTotal extends ConsBase {
 					this.priceEle - this.priceEleSell +
 					this.solarSaleRatio * generateEle * pvSellUnitPrice - priceBase
 				) / this.averagePriceElec;
-			this.electricity = this.grossElectricity - generateEle;
+			if( modesolaronlyself ){
+				this.electricity = this.grossElectricity - generateEle * ( 1-this.solarSaleRatio);
+			} else {
+				this.electricity = this.grossElectricity - generateEle;
+			}
 		} else {
 			//not installed
 			this.electricity = (this.priceEle - priceBase) / this.averagePriceElec;
@@ -420,39 +424,44 @@ class ConsTotal extends ConsBase {
 		mes = this.measures["mTOsolar"]; //set mes
 		mes.copy(this);
 
+		// monthly generate electricity
+		var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
+
 		// not installed and ( stand alone or desired )
-		if (this.solarKw == 0 
-			&& this.houseType != 2
+		if(  this.houseType != 2
 			&& !this.isSelected("mTOzeh")
 		) {
-			// monthly generate electricity
-			var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
+			if (this.solarKw == 0 ){
+				// saving by generation
+				var solar_priceDown =
+					solar_generate_kWh * this.solarSaleRatio * pvSellUnitPrice +
+					solar_generate_kWh *
+					(1 - this.solarSaleRatio) *
+					D6.Unit.price.electricity;
 
-			// saving by generation
-			var solar_priceDown =
-				solar_generate_kWh * this.solarSaleRatio * pvSellUnitPrice +
-				solar_generate_kWh *
-				(1 - this.solarSaleRatio) *
-				D6.Unit.price.electricity;
+				// saving by visualize display
+				var solar_priceVisualize =
+					this.electricity * solar_reduceVisualize * D6.Unit.price.electricity;
 
-			// saving by visualize display
-			var solar_priceVisualize =
-				this.electricity * solar_reduceVisualize * D6.Unit.price.electricity;
+				//electricity and cost
+				mes.electricity =
+					this.electricity * (1 - solar_reduceVisualize) 
+					- solar_generate_kWh * (modesolaronlyself ?  1 - this.solarSaleRatio : 1);
+				mes.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
 
-			//electricity and cost
-			mes.electricity =
-				this.electricity * (1 - solar_reduceVisualize) - solar_generate_kWh;
-			mes.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
+				//initial cost
+				mes.priceNew = this.standardSize * mes.priceOrg;
 
-			//initial cost
-			mes.priceNew = this.standardSize * mes.priceOrg;
+				//comment add to original definition
+				mes.advice =
+					D6.scenario.defMeasures["mTOsolar"]["advice"] +
+					"<br>(" +
+					this.standardSize +
+					"kW)";
 
-			//comment add to original definition
-			mes.advice =
-				D6.scenario.defMeasures["mTOsolar"]["advice"] +
-				"<br>(" +
-				this.standardSize +
-				"kW)";
+			} else {
+
+			}
 		}
 
 

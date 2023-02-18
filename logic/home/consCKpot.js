@@ -49,6 +49,8 @@ class ConsCKpot extends ConsBase {
 
 		//guide message in input page
 		this.inputGuide = "How to use heat holding pot";
+
+		this.ecoRecudeRate = 0.5;
 	}
 
 	precalc() {
@@ -62,10 +64,29 @@ class ConsCKpot extends ConsBase {
 	calc() {
 		//monthly electricity consumption kWh/month
 		this.electricity = this.wattOrdinal * this.time * 30 / 1000
-			* (this.ecoType == 1 ? 0.5 : 1);
+			* (this.ecoType == 1 ? 1 - this.ecoRecudeRate : 1);
 	}
 
 	calcMeasure() {
+		//mPTstopPot
+		this.measures["mPTstopPot"].clear();
+		this.measures["mPTstopPot"].electricity = 0.1;
+
+		//mPTstopPotNight
+		if (this.time > 8
+			&& !this.isSelected("mPTstopPot")
+		) {
+			this.measures["mPTstopPotNight"].clear();
+			this.measures["mPTstopPotNight"].electricity = this.electricity * 8 / this.time;
+		}
+
+		//mPTreplacePot
+		if (this.ecoType != 1
+		) {
+			this.measures["mPTreplacePot"].calcReduceRate(this.ecoRecudeRate);
+		}
+
+
 	}
 
 }

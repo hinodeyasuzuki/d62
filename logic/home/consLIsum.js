@@ -96,7 +96,8 @@ class ConsLIsum extends ConsBase {
 		this.electricity = this.sumWatt * this.lightTime / 1000 * 30;
 
 		//other than living room, 0.2 times of living
-		this.electricity *= (Math.max(this.houseSize - 20, 0) / 20 * 0.2 + 1);
+		this.otherElectricityRate = Math.max(this.houseSize - 20, 0) / 20 * 0.2;
+		this.electricity *= ( 1+this.otherElectricityRate);
 
 		//consumption used in no person room, assume half time to living
 		this.electricity *= (Math.max(this.houseSize - 20, 0) / 20 * 0.5 * (this.otherRate / 10) + 1);
@@ -119,6 +120,8 @@ class ConsLIsum extends ConsBase {
 	}
 
 	calcMeasure() {
+		//mLIoff (reduce 20% of otherRoom)
+		this.measures["mLIoff"].calcReduceRate(this.otherElectricityRate * 0.2);
 	}
 
 }
