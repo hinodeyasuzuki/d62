@@ -461,9 +461,9 @@ class ConsTotal extends ConsBase {
 		}
 
 		//mTObattery
-		mes = this.measures["mTObattery"]; //set mes
-		mes.copy(this);
 		if ( modesolaronlyself && typeof this.measures["mTObattery"] !== 'undefined') {
+			mes = this.measures["mTObattery"]; //set mes
+			mes.copy(this);
 			if(  
 				( this.isSelected("mTOzeh") ||
 					this.isSelected("mTOsolar") ||
@@ -488,9 +488,9 @@ class ConsTotal extends ConsBase {
 		}
 
 		//mTOv2h
-		mes = this.measures["mTOv2h"]; //set mes
-		mes.copy(this);
 		if ( modesolaronlyself && typeof this.measures["mTOv2h"] !== 'undefined') {
+			mes = this.measures["mTOv2h"]; //set mes
+			mes.copy(this);
 			if(  
 				( this.isSelected("mTOzeh") ||
 					this.isSelected("mTOsolar") ||
@@ -519,9 +519,9 @@ class ConsTotal extends ConsBase {
 
 
 		//mTOzeh-----------------------------------------
-		var mes2 = this.measures["mTOzeh"]; //set mes
-		mes2.copy(this);
 		if ( typeof this.measures["mTOzeh"] !== 'undefined') {
+			var mes2 = this.measures["mTOzeh"]; //set mes
+			mes2.copy(this);
 			if (!this.isSelected("mTOsolar") 
 				&& this.solarKw == 0 
 				&& this.houseType != 2

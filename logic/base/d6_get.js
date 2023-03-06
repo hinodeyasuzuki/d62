@@ -118,7 +118,8 @@ D6.getAverage_graph = function () {
 	//230126 include sell price 
 	ret.cost[0].electricity = D6.consShow["TO"].priceEle - D6.consShow["TO"].priceEleSell;
 	ret.cost[0].gas = D6.consShow["TO"].priceGas;
-	ret.cost[0].kerosene = D6.consShow["TO"].priceKeros;
+	// ret.cost[0].kerosene = D6.consShow["TO"].priceKeros;
+	ret.cost[0].kerosene = D6.consShow["TO"].keroseneOriginal * D6.Unit.price.kerosene;
 	ret.cost[0].car = D6.consShow["TO"].priceCar;
 
 	//	co2[1], cost[1] average
@@ -136,7 +137,8 @@ D6.getAverage_graph = function () {
 	ret.cost[1] = {};
 	ret.cost[1].electricity = D6.average.consList["TO"].priceEle;
 	ret.cost[1].gas = D6.average.consList["TO"].priceGas;
-	ret.cost[1].kerosene = D6.average.consList["TO"].priceKeros;
+	// ret.cost[1].kerosene = D6.average.consList["TO"].priceKeros;
+	ret.cost[1].kerosene = D6.average.consList["TO"].keroseneOriginal * D6.Unit.price.kerosene;
 	ret.cost[1].car = D6.average.consList["TO"].priceCar;
 
 	return ret;
