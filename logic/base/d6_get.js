@@ -127,18 +127,18 @@ D6.getAverage_graph = function () {
 	ret.co2[1] = {};
 	ret.co2[1].total = D6.average.consList["TO"].co2;	//221210 originalではなく直値
 	ret.co2[1].electricity =
-		D6.average.consList["TO"].electricityOriginal * D6.Unit.co2.electricity;
-	ret.co2[1].gas = D6.average.consList["TO"].gasOriginal * D6.Unit.co2.gas;
+		D6.average.consList["TO"].electricity * D6.Unit.co2.electricity;
+	ret.co2[1].gas = D6.average.consList["TO"].gas * D6.Unit.co2.gas;
 	ret.co2[1].kerosene =
-		D6.average.consList["TO"].keroseneOriginal * D6.Unit.co2.kerosene;
-	ret.co2[1].car = D6.average.consList["TO"].carOriginal * D6.Unit.co2.car;
+		D6.average.consList["TO"].kerosene * D6.Unit.co2.kerosene;
+	ret.co2[1].car = D6.average.consList["TO"].car * D6.Unit.co2.car;
 
 	//average cost
 	ret.cost[1] = {};
 	ret.cost[1].electricity = D6.average.consList["TO"].priceEle;
 	ret.cost[1].gas = D6.average.consList["TO"].priceGas;
 	// ret.cost[1].kerosene = D6.average.consList["TO"].priceKeros;
-	ret.cost[1].kerosene = D6.average.consList["TO"].keroseneOriginal * D6.Unit.price.kerosene;
+	ret.cost[1].kerosene = D6.average.consList["TO"].kerosene * D6.Unit.price.kerosene;
 	ret.cost[1].car = D6.average.consList["TO"].priceCar;
 
 	return ret;
