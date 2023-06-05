@@ -7,6 +7,7 @@ module.exports = function(grunt){
 			files:{
 				"develop/d6home_core.js" :
 					[	
+						'node_modules/promise-polyfill/dist/polyfill.js',
 						"logic/d6facade.js",
 						"logic/areaset/*.js",
 						"logic/base/objectcreate.js",
@@ -66,6 +67,7 @@ module.exports = function(grunt){
 				files:{
 					"develop/d6office_core.js" :
 					[	
+						'node_modules/promise-polyfill/dist/polyfill.js',
 						"logic/d6facade.js",
 						"logic/areaset/*.js",
 						"logic/base/objectcreate.js",
@@ -284,16 +286,32 @@ module.exports = function(grunt){
 									"dist/d6home_VI.min.js": "develop/d6home_VI.js"
 				}
 			},
-			},
+		},
+
+		polyfill: {
+			options: {
+					uglify: true,
+					features: ['es5', 'es6.object.assign'],
+					output: 'dist/polyfill.js'
+			}
+		},
+		babel:{
+			options:{
+				presets:['@babel/preset-env']
+			}
+		}
 	});
 	grunt.loadNpmTasks('grunt-terser');
 	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks('grunt-polyfill-builder');
+	grunt.loadNpmTasks('grunt-babel');
+
 //	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.registerTask("core", ["concat:home_core",
 								"concat:office_core",
 								"terser:home_core",
 								"terser:office_core"
 								]);
-	grunt.registerTask("default", ["concat","terser"]);
+	grunt.registerTask("default", ["concat","terser","polyfill"]);
 
 };
