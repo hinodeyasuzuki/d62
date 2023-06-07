@@ -121,7 +121,9 @@ class ConsLIsum extends ConsBase {
 
 	calcMeasure() {
 		//mLIoff (reduce 20% of otherRoom)
-		this.measures["mLIoff"].calcReduceRate(this.otherElectricityRate * 0.2);
+		if ( typeof this.measures["mLIoff"] !== 'undefined') {
+			this.measures["mLIoff"].calcReduceRate(this.otherElectricityRate * 0.2);
+		}
 	}
 
 }

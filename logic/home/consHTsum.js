@@ -143,7 +143,7 @@ class ConsHTsum extends ConsBase {
 
 		//calculate heat energy
 		var heatKcal = this.calcHeatLoad(heatArea_m2, this.heatTime, this.heatMonth, this.heatTemp);
-		this.heatLoadUnit = heatKcal / heatArea_m2 / (this.heatMonth ? this.heatMonth : 3 ) / 30 / (this.heatTime ? this.heatTime : 8);
+		this.heatLoadUnit = heatKcal / heatArea_m2 / (this.heatMonth ? this.heatMonth : 3 ) / 30 / (this.heatTime ? this.heatTime : 4);
 	
 		//covert to monthly by seasonal data
 		heatKcal *= this.heatMonth / 12;
@@ -427,7 +427,7 @@ class ConsHTsum extends ConsBase {
 		var heatFactor = D6.area.getHeatFactor(heatMonth, heatTime);
 
 		//heat time adjust for long time use
-		var heatTimeFactor = Math.min(heatTime, (heatTime - 8) * 0.3 + 8) / heatTime;
+		var heatTimeFactor = Math.min(heatTime, (heatTime - 8) * 0.3 + 8) / (heatTime ? heatTime : 4);
 
 		//coefficient by temperature
 		var coefTemp = (heatTemp - 20) / 10 + 1;

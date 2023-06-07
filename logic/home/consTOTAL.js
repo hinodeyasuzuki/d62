@@ -544,12 +544,13 @@ class ConsTotal extends ConsBase {
 
 				//暖房に関しては
 				var heatParam = 0;
+				var heatLoad = D6.consHTsum.heatLoadUnit ? D6.consHTsum.heatLoadUnit : 220;	//0の場合を回避
 				if ( D6.consHTsum.heatArea <= 3 ){
 					//地域区分3以下の寒冷地では Ua値 0.40
-					heatParam = 1.5 / (D6.consHTsum.heatLoadUnit * 860 / 1000);		//暖房の増減比率
+					heatParam = 1.5 / (heatLoad * 860 / 1000);		//暖房の増減比率
 				} else {
 					//それ以外は Ua値0.6 Q値2W/Km2修正
-					heatParam = 2 / (D6.consHTsum.heatLoadUnit * 860 / 1000);		//暖房の増減比率
+					heatParam = 2 / (heatLoad * 860 / 1000);		//暖房の増減比率
 				}
 				mes2.gas -= D6.consHTsum.gas * (1 - heatParam);
 				mes2.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
