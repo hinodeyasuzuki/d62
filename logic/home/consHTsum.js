@@ -385,7 +385,7 @@ class ConsHTsum extends ConsBase {
 		}
 
 		//add electricity use in toilet
-		this.electricity += D6.consListByName["consHWtoilet"][0].electricity;
+		//this.electricity += D6.consListByName["consHWtoilet"][0].electricity;
 
 	}
 
