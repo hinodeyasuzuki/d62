@@ -78,6 +78,8 @@ class ConsHWsum extends ConsBase {
 		this.warmerElec_kWh_y = 200; //hot seat of toilet kWh/year
 		this.water_m3_d = 0.1; //water use for toilet m3/person/day
 
+		this.hybridelecratio = 0.7; //hybrid heater electricity ratio
+
 		this.reduceRateKeepStop;
 	}
 
@@ -352,6 +354,7 @@ class ConsHWsum extends ConsBase {
 		// installed good performance equipments
 		if (
 			this.isSelected("mHWecocute") ||
+			this.isSelected("mHWhybrid") || 
 			this.isSelected("mHWecofeel") ||
 			//|| this.isSelected( "mHWecojoze" )
 			this.isSelected("mHWenefarm") || 
@@ -379,6 +382,22 @@ class ConsHWsum extends ConsBase {
 					this.performanceEcocute /
 					D6.Unit.calorie.nightelectricity;
 				this.measures["mHWecocute"].water = this.water;
+			}
+
+			//mHWhybrid
+			if ( typeof this.measures["mHWhybrid"] !== 'undefined') {
+				if (this.housetype == 1) {
+					this.measures["mHWhybrid"].clear();
+					this.measures["mHWhybrid"].nightelectricity =
+						endEnergyNow * this.hybridelecratio / 
+						this.performanceEcocute /
+						D6.Unit.calorie.nightelectricity;
+					this.measures["mHWhybrid"].gas =
+						endEnergyNow * ( 1- this.hybridelecratio ) / 
+						this.performanceEcojozu /
+						D6.Unit.calorie.gas;
+					this.measures["mHWhybrid"].water = this.water;
+				}
 			}
 
 			//mHWecofeel
@@ -469,6 +488,7 @@ class ConsHWsum extends ConsBase {
 		var rejectSolarSelect = false; //can or not to install solar heater
 		if (
 			this.isSelected("mHWecocute") ||
+			this.isSelected("mHWhybrid") ||
 			this.isSelected("mHWenefarm") ||
 			this.isSelected("mHWenefarmSOFC") ||
 			this.isSelected("mHWsolarSystem") ||
