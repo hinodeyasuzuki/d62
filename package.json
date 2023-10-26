@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "eslint": "^8.16.0",
+    "grunt-babel": "^8.0.0",
     "grunt-contrib-concat": "^2.1.0",
+    "grunt-polyfill-builder": "^1.0.2",
     "npm": "^8.11.0",
     "terser": "^5.13.1",
     "webpack": "^5.72.1",
