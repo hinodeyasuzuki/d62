@@ -327,13 +327,14 @@ class ConsTotal extends ConsBase {
 			//estimate
 			pvSellUnitPrice = 11;
 		}
-		this.pvSellUnitPrice = pvSellUnitPrice;
 
 		// end of FIT
 		var date = new Date();
 		if( this.solarYear < date.getFullYear() - 10 ){
+			pvSellUnitPrice = 10;
 			this.solarYear = 10;
 		}
+		this.pvSellUnitPrice = pvSellUnitPrice;
 
 		//PV installed
 		if (this.solarKw > 0) {
@@ -392,7 +393,7 @@ class ConsTotal extends ConsBase {
 		this.seasonPrice["kerosene"] = ret.season;
 		this.monthlyPrice["kerosene"] = ret.monthly;
 
-		if (this.heatEquip == 4 && this.priceKeros < 1000) {
+		if ((this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44 ) && this.priceKeros < 1000) {
 			//in case of no input
 			this.priceKeros = 2000;
 		}

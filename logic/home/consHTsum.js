@@ -85,8 +85,8 @@ class ConsHTsum extends ConsBase {
 
 		// heat time default set
 		this.heatTime = this.input("i204", this.heatArea <= 1 ? 24 : this.heatArea <= 3 ? 8 : 4); //heating time
-		this.heatEquip = this.input("i202", -1);		//heating equipment
-		this.heatEquip_in = this.heatEquip;
+		this.heatEquip = this.input("i202", -1);		//heating equipment in case of change
+		this.heatEquip_in = this.heatEquip;				//heating equipment
 
 		this.heatTemp = this.input("i205", 21); //heating temperature setting
 		this.priceEleSpring = this.input("i0912", -1); //electricity charge in spring/fall
@@ -184,24 +184,51 @@ class ConsHTsum extends ConsBase {
 		}
 
 		//estimate of heat source
-		if (this.heatEquip == 1 || this.heatEquip == 2) {
+
+		if (this.heatEquip == 1 || this.heatEquip == 2 || this.heatEquip == 12 || this.heatEquip == 22 || this.heatEquip == 32 || this.heatEquip == 42) {
 			//electricity / air conditioner
+			//1 : air conditioner
+			//2 : electric heater
+			//12 : electric fan heater
+			//22 : electric panel heater
+			//32 : electric floor heater
+			//42 : electric hotwater floor heater
+			this.heatEquip = this.hetaEquip == 1 ? 1 : 2;
 			this.mainSource = "electricity";
-		} else if (this.heatEquip == 3) {
+
+		} else if (this.heatEquip == 3 || this.heatEquip == 13 || this.heatEquip == 43) {
 			//gas
+			//3 : gas heater
+			//13 : gas fan heater
+			//43 : gas hotwater floor heater
+			this.heatEquip = 3;
 			this.mainSource = "gas";
-		} else if (this.heatEquip == 4) {
+
+		} else if (this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44) {
 			//kerosene
+			//4 : kerosene heater
+			//14 : kerosene fan heater
+			//44 : kerosene hotwater floor heater
+			this.heatEquip = 4;
 			this.mainSource = "kerosene";
+
+		} else if (this.heatEquip == 6 || this.heatEquip == 16) {
+			//biomass
+			//6 : wood stove
+			//16 : wood pellet stove
+			this.heatEquip = 6;
+			this.mainSource = "biomass";
+
 		} else if (this.priceHotWater > 0) {
 			this.mainSource = "hotwater";
+
 		} else {
 			this.mainSource = this.sumCons.mainSource;
 		}
 
 		//calculate as air conditioner, calculate this value for change heat method
 		this.calcACkwh = heatKcal / this.apf / D6.Unit.calorie.electricity;
-		if (this.mainSource == "electricity" && this.heatEquip != 2) {
+		if (this.mainSource == "electricity" && this.heatEquip < 2) {
 			//set air conditioner
 			this[this.mainSource] = this.calcACkwh;
 		} else {
@@ -279,13 +306,13 @@ class ConsHTsum extends ConsBase {
 			this[this.mainSource] =  heatKcal /D6.Unit.calorie[this.mainSource];
 		}
 		*/
-		if (this.heatEquip_in == 5) {
+		if (this.heatEquip_in == 6) {
 			//biomass
 			this.electricity = 10;
 			this.gas = 0;
 			this.kerosene = 0;
 		}
-		if (this.heatEquip_in == 6) {
+		if (this.heatEquip_in == 5 || this.heatEquip_in == 15 ) {
 			//near body heating 
 			this.electricity = 30;
 			this.gas = 0;
@@ -293,7 +320,7 @@ class ConsHTsum extends ConsBase {
 		}
 
 		var nowapf = 1;
-		if (this.heatEquip != 2) {
+		if (this.heatEquip < 2) {
 			nowapf = this.apf;
 		}
 		heatKcal = this.electricity * D6.Unit.calorie.electricity * nowapf
