@@ -23,8 +23,7 @@
  * calcMeasure()	main formula to calculate measures
  */
 
-//resolve D6
-var D6 = D6 || {};
+import ConsCOsum from "./ConsCOsum.js";
 
 //Inherited class of D6.consCOsum
 class ConsACcool extends ConsCOsum {
@@ -100,6 +99,6 @@ class ConsACcool extends ConsCOsum {
 	}
 }
 
-D6.consACcool = new ConsACcool();
+export default class {ConsACcool}
 
 

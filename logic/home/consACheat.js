@@ -23,8 +23,7 @@
  * calcMeasure()	main formula to calculate measures
  */
 
-//resolve D6
-var D6 = D6 || {};
+import ConsHTsum from "./consHTsum";
 
 // Inherited class of D6.consHTsum
 class ConsACheat extends ConsHTsum {
@@ -231,3 +230,4 @@ class ConsACheat extends ConsHTsum {
 
 }
 
+export default class {consACheat}

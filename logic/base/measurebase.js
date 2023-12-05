@@ -32,6 +32,8 @@
  * measureSumMonth()		sum 12 month
  */
 
+import Energy from "./energy.js";
+
 //Inherited class of Energy
 class MeasureBase extends Energy {
 
@@ -283,5 +285,4 @@ class MeasureBase extends Energy {
 
 }
 
-
-
+export default class {MeasureBase}

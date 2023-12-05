@@ -22,8 +22,7 @@
  * calcMeasure()	main formula to calculate measures
  */
 
-//resolve D6
-var D6 = D6 || {};
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of D6.consBase
 class ConsAC extends ConsBase {
@@ -199,6 +198,4 @@ class ConsAC extends ConsBase {
 
 }
 
-
-
-
+export default class {ConsAC}

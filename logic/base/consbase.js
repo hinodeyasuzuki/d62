@@ -1,4 +1,4 @@
-﻿/*  2017/12/10  version 1.0
+/*  2017/12/10  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -20,53 +20,48 @@
  * calcMeasure()	main formula to calculate measures
  */
 
-//resolve D6
-var D6 = D6 || {};
+import Energy from "./energy.js";
 
 //Inherited class of Energy
 class ConsBase extends Energy {
-	constructor() {
-		//----------- declare instanses ---------------------------
-		super();
 
-		this.measures = []; //related instanses of measure
-		// name of related measures is declared in each consumption definition
-		//names, codes
-		this.title = ""; //caption of this consumption
-		this.consName = "consXX"; //name of consumption "cons" +  2 charactors
-		this.consCode = ""; //code of consumption written in 2 charactors
-		this.subID = 0; //id in same kind of consumtion, rooms or equipments
-		this.groupID = 0; //consumption group id
-		this.inputGuide = ""; //guide message for input
+	measures = []; //related instanses of measure
+	// name of related measures is declared in each consumption definition
+	//names, codes
+	title = ""; //caption of this consumption
+	consName = "consXX"; //name of consumption "cons" +  2 charactors
+	consCode = ""; //code of consumption written in 2 charactors
+	subID = 0; //id in same kind of consumtion, rooms or equipments
+	groupID = 0; //consumption group id
+	inputGuide = ""; //guide message for input
 
-		//structure
-		this.consShow = []; //other main consumption instances list
-		this.sumCons = ""; //sum side consumption instance
-		this.sumCons2 = ""; //sum related side of consumption
-		this.sumConsName = ""; //sum side consumption name
-		this.sumCons2Name = ""; //sum related side of consumption name
-		this.partCons = []; //part side consumption instances
-		this.partCons2 = []; //part related side consumption instance
-		this.partConsName = ""; //part side name
-		this.partCons2Name = ""; //part related side name
-		this.residueCalc = "yes"; //calc residue in this brother consumption ( yes or not)
+	//structure
+	consShow = []; //other main consumption instances list
+	sumCons = ""; //sum side consumption instance
+	sumCons2 = ""; //sum related side of consumption
+	sumConsName = ""; //sum side consumption name
+	sumCons2Name = ""; //sum related side of consumption name
+	partCons = []; //part side consumption instances
+	partCons2 = []; //part related side consumption instance
+	partConsName = ""; //part side name
+	partCons2Name = ""; //part related side name
+	residueCalc = "yes"; //calc residue in this brother consumption ( yes or not)
 
-		//calclation parameters
-		this.performance = ""; //performance factor
-		this.mainSource = ""; //main energy source
-		this.co2Original = ""; //CO2 in case of no measures are selected
-		this.costOriginal = ""; //cost in case of no measures are selected
-		this.julesOriginal = ""; //energy consumption in case of no measures are selected
+	//calclation parameters
+	performance = ""; //performance factor
+	mainSource = ""; //main energy source
+	co2Original = ""; //CO2 in case of no measures are selected
+	costOriginal = ""; //cost in case of no measures are selected
+	julesOriginal = ""; //energy consumption in case of no measures are selected
 
-		//display
-		this.color = ""; //fill color in graph
+	//display
+	color = ""; //fill color in graph
 
-		//type of calclation
-		this.total = false; //in case of reprezent all of related consumption
-		// for example, tv consumption not each equipments but total.
-		this.orgCopyNum = 0; //count of same consumption
-		this.addable = ""; //in case of add consumption set this postfix
-	}
+	//type of calclation
+	total = false; //in case of reprezent all of related consumption
+	// for example, tv consumption not each equipments but total.
+	orgCopyNum = 0; //count of same consumption
+	addable = ""; //in case of add consumption set this postfix
 
 	// pre calculation
 	precalc() {
@@ -458,8 +453,7 @@ class ConsBase extends Energy {
 		}
 		return thresholdList.length;
 	}
-
-
 }
 
+export default class { ConsBase }
 

@@ -1,4 +1,17 @@
-# d62 home eco diagnosis Ver6.rev.2
+# D7
+
+　D6からの変更。モダンクラスでの実装。
+
+クラス定義cons*についてはクラスインポート 
+	import 親クラス form "ファイル名";
+	export default class {このクラス}
+
+D6クラス関数については関数としてのexport
+	export default 関数
+	D6クラス側でinstance化して、関数として再定義する
+
+
+# D62
 
 温暖化対策計算ソフトのロジック部分です。diagnosis_view のデザインと併せて設定します。テスト用に index.htmlとview/を用意しています。
 

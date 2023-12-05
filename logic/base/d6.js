@@ -49,50 +49,46 @@
  */
 
 //resolve D6
-var D6 = D6 || {};
+class D6 {
 
-//20221126 force setting
-var forcegas = 0;
-var forceele = 0;
+	//instances
+	consList = []; //consumption full list
+	consListByName = []; //consumption list by consname
+	consShow = []; //major consumption list by conscode
+	measureList = []; //measure list
+	monthly = []; //monthly energy
+	resMeasure = []; //result of measures list
 
-//20230206	solar generation counting   true:reduce self use only ,false:reduce generation 
-var modesolaronlyself = false;
+	mesCount = 0; //count of measures
+	consCount = 0; //count of consumptions
 
-//instances
-D6.consList = []; //consumption full list
-D6.consListByName = []; //consumption list by consname
-D6.consShow = []; //major consumption list by conscode
-D6.measureList = []; //measure list
-D6.monthly = []; //monthly energy
-D6.resMeasure = []; //result of measures list
+	average = {
+		consList: ""
+	}; //average of consumptions
 
-D6.mesCount = 0; //count of measures
-D6.consCount = 0; //count of consumptions
+	isOriginal = true; //in case of no measure is selected
+	sortTarget = "co2ChangeOriginal"; //by which measureas are sorted, changeable by input
 
-D6.average = {
-	consList: ""
-}; //average of consumptions
+	//view / Debug set. set in workercalc(start,*)
+	viewparam = {};
+	debugMode = false;
 
-D6.isOriginal = true; //in case of no measure is selected
-D6.sortTarget = "co2ChangeOriginal"; //by which measureas are sorted, changeable by input
+	//constructor
+	construct = function (a, b, c) {
+		D6.setscenario(a, b, c);
+	};
 
-//view / Debug set. set in workercalc(start,*)
-D6.viewparam = {};
-D6.debugMode = false;
+	//calculate
+	calculateAll = function () {
+		D6.area.setCalcBaseParams();
+		//D6.calcCons();
+		D6.calcAverage();
+		D6.calcMeasures(-1);
+	};
 
-//constructor
-D6.construct = function (a, b, c) {
-	D6.setscenario(a, b, c);
-};
+	//log
+	calclog = "";
+	calcshow = "";
+}
 
-//calculate
-D6.calculateAll = function () {
-	D6.area.setCalcBaseParams();
-	//D6.calcCons();
-	D6.calcAverage();
-	D6.calcMeasures(-1);
-};
-
-//log
-D6.calclog = "";
-D6.calcshow = "";
+export default class {D6}
