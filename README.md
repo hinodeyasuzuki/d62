@@ -10,6 +10,13 @@ D6クラス関数については関数としてのexport
 	export default 関数
 	D6クラス側でinstance化して、関数として再定義する
 
+npm install
+npm run dev で計算のみ実行（console.logで出力）
+npm run build
+
+・viewに関する関数を外だし
+・日本の住宅に限定
+
 
 # D62
 
