@@ -1,22 +1,24 @@
-.DS_Store
-node_modules/
-dist/
-npm-debug.log
-yarn-error.log
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
 
 # Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-develop/
-logic_JP_en/*.xlsx
-logic_FR/*.xlsx
-logic_KR/*.xlsx
-logic_VI/*.xlsx
-logic_CN/*.xlsx
-_you_can*
-lib/
-~$*.xlsx
-__override_to_logic.txt
+*.sw?
