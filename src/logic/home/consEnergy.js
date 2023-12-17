@@ -1,4 +1,4 @@
-﻿/* 2017/12/14  version 1.0
+/* 2017/12/14  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -24,40 +24,40 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of consBase
 export class ConsEnergy extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		//construction setting
-		this.consName = "consEnergy";    				//code name of this consumption 
-		this.consCode = "";            					//short code to access consumption, only set main consumption user for itemize
-		this.title = "General Energy Setting";	//consumption title name
-		this.orgCopyNum = 0;                		//original copy number in case of countable consumption, other case set 0
-		this.groupID = "0";											//number code in items
-		this.color = "#ff0000";									//color definition in graph
-		this.countCall = "";										//how to point n-th equipment
+    //construction setting
+    this.consName = "consEnergy";    				//code name of this consumption 
+    this.consCode = "";            					//short code to access consumption, only set main consumption user for itemize
+    this.title = "General Energy Setting";	//consumption title name
+    this.orgCopyNum = 0;                		//original copy number in case of countable consumption, other case set 0
+    this.groupID = "0";											//number code in items
+    this.color = "#ff0000";									//color definition in graph
+    this.countCall = "";										//how to point n-th equipment
 
-		this.sumConsName = "consTotal";		//code name of consumption sum up include this
-		this.sumCons2Name = "";						//code name of consumption related to this
+    this.sumConsName = "consTotal";		//code name of consumption sum up include this
+    this.sumCons2Name = "";						//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "the use of energy of the whole house, monthly bills";
+    //guide message in input page
+    this.inputGuide = "the use of energy of the whole house, monthly bills";
 
-		// add instance combined to this class
-		this.partConsName = [
-		];
-	}
+    // add instance combined to this class
+    this.partConsName = [
+    ];
+  }
 
 
-	calc() {
-		this.clear();
-	}
+  calc() {
+    this.clear();
+  }
 
-	calcMeasure() {
-	}
+  calcMeasure() {
+  }
 }
 

@@ -1,5 +1,5 @@
 import './style.css'
-import {D6} from './logic/d6.js'
+import { D6 } from './logic/d6.js'
 
 let r = D6.getAllResult();
 console.log(r);

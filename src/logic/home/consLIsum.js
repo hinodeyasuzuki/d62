@@ -1,4 +1,4 @@
-﻿/* 2017/12/15  version 1.0
+/* 2017/12/15  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -24,107 +24,107 @@
  */
 
 import ConsBase from "../base/consbase.js";
-import {D6} from "../d6.js";
+import { D6 } from "../d6.js";
 
 //Inherited class of ConsBase
 export class ConsLIsum extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		//construction setting
-		this.consName = "consLIsum";   		//code name of this consumption 
-		this.consCode = "LI";            	//short code to access consumption, only set main consumption user for itemize
-		this.title = "light";				//consumption title name
-		this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
-		this.groupID = "6";					//number code in items
-		this.color = "#ffff00";				//color definition in graph
-		this.residueCalc = "sumup";			//calculate method	no/sumup/yes
+    //construction setting
+    this.consName = "consLIsum";   		//code name of this consumption 
+    this.consCode = "LI";            	//short code to access consumption, only set main consumption user for itemize
+    this.title = "light";				//consumption title name
+    this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
+    this.groupID = "6";					//number code in items
+    this.color = "#ffff00";				//color definition in graph
+    this.residueCalc = "sumup";			//calculate method	no/sumup/yes
 
-		this.sumConsName = "consTotal";		//code name of consumption sum up include this
-		this.sumCons2Name = "";				//code name of consumption related to this
+    this.sumConsName = "consTotal";		//code name of consumption sum up include this
+    this.sumCons2Name = "";				//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "how to use the whole house lighting";
-
-
-		this.lightTime = 6;					//standard light time hour/day
-
-		this.performanceLED = 140;			//LED  lm/W
-		this.performanceHF = 100;			//HF  lm/W
-		this.performanceFlueciend = 70;		//fluorescent light  lm/W
-		this.preformanceBulb = 15;			//bulb lm/W
-
-		this.wattLivingBulb = 300;			//watt to use bulb in living
-		this.wattLivingFlue = 70;			//watt to use fluorescent light in living
-		this.wattLivingLED = 40;			//watt to use LED in living
-
-		this.outdoorWatt = 150;				//sensor light (W)
-		this.outdoorTime = 0.5;				//sensor light time hour
-		this.sensorWatt = 2;				//sensor standby（W)
-
-		//reduce rate to change bulb to fluorescent light
-		this.reduceRateBulb = 1 - this.preformanceBulb / this.performanceFlueciend;
-
-		//reduce rate to change fluorescent light to LED
-		this.reduceRateCeiling = 1 - this.performanceFlueciend / this.performanceLED;
-
-		//reduce rate to change bulb to LED
-		this.reduceRateLED = 1 - this.preformanceBulb / this.performanceLED;
-
-	}
+    //guide message in input page
+    this.inputGuide = "how to use the whole house lighting";
 
 
-	precalc() {
-		this.clear();
+    this.lightTime = 6;					//standard light time hour/day
 
-		this.person = this.input("i001", 3);			//person
-		this.lightType = this.input("i501", 2);		//living light 1bulb 2fluorescent 3LED
-		this.otherRate = this.input("i502", 3);		//other room light use
-		this.houseSize = D6.consShow["TO"].houseSize;	//floor size
-	}
+    this.performanceLED = 140;			//LED  lm/W
+    this.performanceHF = 100;			//HF  lm/W
+    this.performanceFlueciend = 70;		//fluorescent light  lm/W
+    this.preformanceBulb = 15;			//bulb lm/W
 
-	calc() {
-		//living consumption kWh/month
-		if (this.lightType == 1) {
-			this.sumWatt = this.wattLivingBulb;
-		} else if (this.lightType == 3) {
-			this.sumWatt = this.wattLivingLED;
-		} else {
-			this.sumWatt = this.wattLivingFlue;
-		}
-		this.electricity = this.sumWatt * this.lightTime / 1000 * 30;
+    this.wattLivingBulb = 300;			//watt to use bulb in living
+    this.wattLivingFlue = 70;			//watt to use fluorescent light in living
+    this.wattLivingLED = 40;			//watt to use LED in living
 
-		//other than living room, 0.2 times of living
-		this.otherElectricityRate = Math.max(this.houseSize - 20, 0) / 20 * 0.2;
-		this.electricity *= ( 1+this.otherElectricityRate);
+    this.outdoorWatt = 150;				//sensor light (W)
+    this.outdoorTime = 0.5;				//sensor light time hour
+    this.sensorWatt = 2;				//sensor standby（W)
 
-		//consumption used in no person room, assume half time to living
-		this.electricity *= (Math.max(this.houseSize - 20, 0) / 20 * 0.5 * (this.otherRate / 10) + 1);
+    //reduce rate to change bulb to fluorescent light
+    this.reduceRateBulb = 1 - this.preformanceBulb / this.performanceFlueciend;
 
-	}
+    //reduce rate to change fluorescent light to LED
+    this.reduceRateCeiling = 1 - this.performanceFlueciend / this.performanceLED;
+
+    //reduce rate to change bulb to LED
+    this.reduceRateLED = 1 - this.preformanceBulb / this.performanceLED;
+
+  }
 
 
-	calc2nd() {
-		let electricity = this.electricity;	 //backup
-		this.clear();
+  precalc() {
+    this.clear();
 
-		//sum up all room
-		for (let id in this.partCons) {
-			this.add(this.partCons[id]);
-		}
-		//maximum of total consumption and sum of rooms
-		if (electricity > this.electricity) {
-			this.electricity = electricity;
-		}
-	}
+    this.person = this.input("i001", 3);			//person
+    this.lightType = this.input("i501", 2);		//living light 1bulb 2fluorescent 3LED
+    this.otherRate = this.input("i502", 3);		//other room light use
+    this.houseSize = D6.consShow["TO"].houseSize;	//floor size
+  }
 
-	calcMeasure() {
-		//mLIoff (reduce 20% of otherRoom)
-		if ( typeof this.measures["mLIoff"] !== 'undefined') {
-			this.measures["mLIoff"].calcReduceRate(this.otherElectricityRate * 0.2);
-		}
-	}
+  calc() {
+    //living consumption kWh/month
+    if (this.lightType == 1) {
+      this.sumWatt = this.wattLivingBulb;
+    } else if (this.lightType == 3) {
+      this.sumWatt = this.wattLivingLED;
+    } else {
+      this.sumWatt = this.wattLivingFlue;
+    }
+    this.electricity = this.sumWatt * this.lightTime / 1000 * 30;
+
+    //other than living room, 0.2 times of living
+    this.otherElectricityRate = Math.max(this.houseSize - 20, 0) / 20 * 0.2;
+    this.electricity *= (1 + this.otherElectricityRate);
+
+    //consumption used in no person room, assume half time to living
+    this.electricity *= (Math.max(this.houseSize - 20, 0) / 20 * 0.5 * (this.otherRate / 10) + 1);
+
+  }
+
+
+  calc2nd() {
+    let electricity = this.electricity;	 //backup
+    this.clear();
+
+    //sum up all room
+    for (let id in this.partCons) {
+      this.add(this.partCons[id]);
+    }
+    //maximum of total consumption and sum of rooms
+    if (electricity > this.electricity) {
+      this.electricity = electricity;
+    }
+  }
+
+  calcMeasure() {
+    //mLIoff (reduce 20% of otherRoom)
+    if (typeof this.measures["mLIoff"] !== 'undefined') {
+      this.measures["mLIoff"].calcReduceRate(this.otherElectricityRate * 0.2);
+    }
+  }
 
 }
 

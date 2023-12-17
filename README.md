@@ -15,8 +15,12 @@ npm run dev で計算のみ実行（console.logで出力）
 npm run build
 
 ・viewに関する関数を外だし
-・日本の住宅に限定
+・日本の住宅に限定->areasetフォルダを入れ替えることで対応
 
+/logic/d6.js		D6 class instans
+/logic/areaset/		地域設定（地域区分による気温・冷暖房負荷、エネルギー単価、対策名）
+/logic/base/		D6共通ロジック（値設定、計算、整理出力）
+/logic/home/		家庭の分野・対策に関する計算
 
 # D62
 

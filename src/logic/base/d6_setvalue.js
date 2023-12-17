@@ -25,21 +25,21 @@
 //		val		input value
 //
 const inSet = function (id, val) {
-	let inpIdDef = id.substr(0, 4);
-	if (!this.scenario.defInput[inpIdDef]) {
-		console.log("ERROR: inSet input code: " + id + " val:" + val);
-		return;
-	}
-	if (this.scenario.defInput[inpIdDef].letType == "String" ||
-		this.scenario.defInput[inpIdDef].letType == "Boolean"
-	) {
-		//set data
-		this.doc.data[id] = val;
-	} else {
-		//string data set
-		val = this.toHalfWidth(val);
-		this.doc.data[id] = parseFloat(val) ? parseFloat(val) : 0;
-	}
+  let inpIdDef = id.substr(0, 4);
+  if (!this.scenario.defInput[inpIdDef]) {
+    console.log("ERROR: inSet input code: " + id + " val:" + val);
+    return;
+  }
+  if (this.scenario.defInput[inpIdDef].letType == "String" ||
+    this.scenario.defInput[inpIdDef].letType == "Boolean"
+  ) {
+    //set data
+    this.doc.data[id] = val;
+  } else {
+    //string data set
+    val = this.toHalfWidth(val);
+    this.doc.data[id] = parseFloat(val) ? parseFloat(val) : 0;
+  }
 };
 
 
@@ -51,15 +51,15 @@ const inSet = function (id, val) {
 //		none
 //
 const measureAdd = function (mesId) {
-	let gid;
-	let ret = "";
+  let gid;
+  let ret = "";
 
-	gid = this.measureList[mesId].groupID;
-	this.measureList[mesId].selected = true;
-	this.isOriginal = false;
-	//ret = this.calcMeasures( gid );	//recalc -> not calc
+  gid = this.measureList[mesId].groupID;
+  this.measureList[mesId].selected = true;
+  this.isOriginal = false;
+  //ret = this.calcMeasures( gid );	//recalc -> not calc
 
-	return ret;
+  return ret;
 };
 
 
@@ -71,14 +71,14 @@ const measureAdd = function (mesId) {
 //		none
 //
 const measureDelete = function (mesId) {
-	let gid;
-	let ret = "";
+  let gid;
+  let ret = "";
 
-	this.measureList[mesId].selected = false;
-	gid = this.measureList[mesId].groupID;
-	//ret = this.calcMeasures( gid );	//recalc 
+  this.measureList[mesId].selected = false;
+  gid = this.measureList[mesId].groupID;
+  //ret = this.calcMeasures( gid );	//recalc 
 
-	return ret;
+  return ret;
 };
 
 export { inSet, measureAdd, measureDelete };

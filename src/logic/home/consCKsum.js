@@ -23,38 +23,38 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of ConsBase
 export class ConsCKsum extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		//construction setting
-		this.consName = "consCKsum";    	//code name of this consumption 
-		this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
-		this.title = "Cooking";						//consumption title name
-		this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
-		this.groupID = "4";								//number code in items
-		this.color = "#ffe4b5";						//color definition in graph
-		this.countCall = "";							//how to point n-th equipment
+    //construction setting
+    this.consName = "consCKsum";    	//code name of this consumption 
+    this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
+    this.title = "Cooking";						//consumption title name
+    this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
+    this.groupID = "4";								//number code in items
+    this.color = "#ffe4b5";						//color definition in graph
+    this.countCall = "";							//how to point n-th equipment
 
-		this.sumConsName = "consTotal";		//code name of consumption sum up include this
-		this.sumCons2Name = "";						//code name of consumption related to this
-		this.residueCalc = "no";					//calculate residue
+    this.sumConsName = "consTotal";		//code name of consumption sum up include this
+    this.sumCons2Name = "";						//code name of consumption related to this
+    this.residueCalc = "no";					//calculate residue
 
-		//guide message in input page
-		this.inputGuide = "How to use cooking equipments";
-	}
+    //guide message in input page
+    this.inputGuide = "How to use cooking equipments";
+  }
 
 
-	calc() {
-		this.clear();
-	}
+  calc() {
+    this.clear();
+  }
 
-	calcMeasure() {
-	}
+  calcMeasure() {
+  }
 
 }
 

@@ -17,57 +17,57 @@
  */
 
 const acadd = {
-	// getArray(param)  return paramArray
-	//		param: prefecture(original)
-	//
-	//  return acadd[time_slot_index][heat_month_index]
-	//
-	//		time_slot_index:
-	//				0:morning
-	//				1:noon
-	//				2:evening
-	//				3:night
-	//		heat_month_index
-	//				0:use heat for a half month
-	//				1:use heat for one month
-	//				2:use heat for 2 months
-	//				3:use heat for 3 months
-	//				4:use heat for 4 months
-	//				5:use heat for 6 months
-	//				6:use heat for 8 months
-	//
-	// this data is transformed by AMEDAS ( meteorological data ) in Japan
-	//
-	// factorPrefTimeMonth[Prefecture Code][Time Code][Month Code]
-	//
-	// used in Unit.setArea() function and set Unit.plusHeatFactor_mon
-	//
-	factorPrefTimeMonth: [
-		[
-			[0, 0, 0, 0, 0, 0, 0], //那覇
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0]
-		],
-		[
-			[0, 0, 0, 0, 0, 0, 0], //那覇
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0]
-		],
-		[
-			[0, 0, 0, 0, 0, 0, 0], //那覇
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0]
-		],
-		[
-			[0, 0, 0, 0, 0, 0, 0], //那覇
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0]
-		]
-	]
+  // getArray(param)  return paramArray
+  //		param: prefecture(original)
+  //
+  //  return acadd[time_slot_index][heat_month_index]
+  //
+  //		time_slot_index:
+  //				0:morning
+  //				1:noon
+  //				2:evening
+  //				3:night
+  //		heat_month_index
+  //				0:use heat for a half month
+  //				1:use heat for one month
+  //				2:use heat for 2 months
+  //				3:use heat for 3 months
+  //				4:use heat for 4 months
+  //				5:use heat for 6 months
+  //				6:use heat for 8 months
+  //
+  // this data is transformed by AMEDAS ( meteorological data ) in Japan
+  //
+  // factorPrefTimeMonth[Prefecture Code][Time Code][Month Code]
+  //
+  // used in Unit.setArea() function and set Unit.plusHeatFactor_mon
+  //
+  factorPrefTimeMonth: [
+    [
+      [0, 0, 0, 0, 0, 0, 0], //那覇
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ],
+    [
+      [0, 0, 0, 0, 0, 0, 0], //那覇
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ],
+    [
+      [0, 0, 0, 0, 0, 0, 0], //那覇
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ],
+    [
+      [0, 0, 0, 0, 0, 0, 0], //那覇
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ]
+  ]
 };
 
 export { acadd };

@@ -1,4 +1,4 @@
-﻿/* 2017/12/14  version 1.0
+/* 2017/12/14  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -22,62 +22,62 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of ConsBase
 export class ConsHWdishwash extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.reduceRateWashTank = 0.3;			//reduction rate wash with stored water
-		this.reduceRateWashNotSummer = 0.5;	//reduction rate with cold water in summer
-		this.reduceRateDishWasher = 0.2;		//reduction rate with wash machine
-		this.reduceRateShowerTap = 0.4; 	//reduce rate by saving shower head
+    this.reduceRateWashTank = 0.3;			//reduction rate wash with stored water
+    this.reduceRateWashNotSummer = 0.5;	//reduction rate with cold water in summer
+    this.reduceRateDishWasher = 0.2;		//reduction rate with wash machine
+    this.reduceRateShowerTap = 0.4; 	//reduce rate by saving shower head
 
-		//construction setting
-		this.consName = "consHWdishwash";  	//code name of this consumption 
-		this.consCode = "HW";            		//short code to access consumption, only set main consumption user for itemize
-		this.title = "Dish Wash";						//consumption title name
-		this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
-		this.groupID = "1";									//number code in items
-		this.color = "#ffb700";							//color definition in graph
-		this.countCall = "";								//how to point n-th equipment
+    //construction setting
+    this.consName = "consHWdishwash";  	//code name of this consumption 
+    this.consCode = "HW";            		//short code to access consumption, only set main consumption user for itemize
+    this.title = "Dish Wash";						//consumption title name
+    this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
+    this.groupID = "1";									//number code in items
+    this.color = "#ffb700";							//color definition in graph
+    this.countCall = "";								//how to point n-th equipment
 
-		this.sumConsName = "consHWsum";			//code name of consumption sum up include this
-		this.sumCons2Name = "";							//code name of consumption related to this
+    this.sumConsName = "consHWsum";			//code name of consumption sum up include this
+    this.sumCons2Name = "";							//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "How to use the dishwasher";
-	}
-	precalc() {
-		this.clear();
+    //guide message in input page
+    this.inputGuide = "How to use the dishwasher";
+  }
+  precalc() {
+    this.clear();
 
-		//prepare input value
-		this.savetype = this.input("i804", 2);		//sessui 
-	}
+    //prepare input value
+    this.savetype = this.input("i804", 2);		//sessui 
+  }
 
 
-	calc() {
-		this.copy(this.sumCons);
-		this.multiply(this.sumCons.consHWdishwashRate);
-	}
+  calc() {
+    this.copy(this.sumCons);
+    this.multiply(this.sumCons.consHWdishwashRate);
+  }
 
-	calcMeasure() {
-		//mHWdishTank
-		if (this.sumCons.dishWashWater != 1) {
-			this.measures["mHWdishTank"].calcReduceRate(this.reduceRateWashTank);
-		}
+  calcMeasure() {
+    //mHWdishTank
+    if (this.sumCons.dishWashWater != 1) {
+      this.measures["mHWdishTank"].calcReduceRate(this.reduceRateWashTank);
+    }
 
-		//mHWdishWater
-		if (this.sumCons.dishWashWater != 1) {
-			this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
-		}
+    //mHWdishWater
+    if (this.sumCons.dishWashWater != 1) {
+      this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
+    }
 
-		if (this.sumCons.dishWashWater != 1 && this.savetype == 2 ) {
-			this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap);
-		}
-	}
+    if (this.sumCons.dishWashWater != 1 && this.savetype == 2) {
+      this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap);
+    }
+  }
 
 }
 

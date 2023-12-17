@@ -23,70 +23,67 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of ConsBase
 export class ConsCKpot extends ConsBase {
 
-	//initialize
-	constructor() {
-		super();
+  //initialize
+  constructor() {
+    super();
 
-		this.wattOrdinal = 30;				//electricity for keep hot（W)
+    this.wattOrdinal = 30;				//electricity for keep hot（W)
 
-		//construction setting
-		this.consName = "consCKpot";    	//code name of this consumption 
-		this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
-		this.title = "heat holding pot";	//consumption title name
-		this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
-		this.groupID = "4";								//number code in items
-		this.color = "#ffe4b5";						//color definition in graph
-		this.countCall = "";							//how to point n-th equipment
+    //construction setting
+    this.consName = "consCKpot";    	//code name of this consumption 
+    this.consCode = "CK";            	//short code to access consumption, only set main consumption user for itemize
+    this.title = "heat holding pot";	//consumption title name
+    this.orgCopyNum = 0;              //original copy number in case of countable consumption, other case set 0
+    this.groupID = "4";								//number code in items
+    this.color = "#ffe4b5";						//color definition in graph
+    this.countCall = "";							//how to point n-th equipment
 
-		this.sumConsName = "consCKsum";		//code name of consumption sum up include this
-		this.sumCons2Name = "";						//code name of consumption related to this
+    this.sumConsName = "consCKsum";		//code name of consumption sum up include this
+    this.sumCons2Name = "";						//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "How to use heat holding pot";
+    //guide message in input page
+    this.inputGuide = "How to use heat holding pot";
 
-		this.ecoRecudeRate = 0.5;
-	}
+    this.ecoRecudeRate = 0.5;
+  }
 
-	precalc() {
-		this.clear();
+  precalc() {
+    this.clear();
 
-		//prepare input value
-		this.time = this.input("i821", 6);		//keep hot time
-		this.ecoType = this.input("i822", 3);		//energy level
-	}
+    //prepare input value
+    this.time = this.input("i821", 6);		//keep hot time
+    this.ecoType = this.input("i822", 3);		//energy level
+  }
 
-	calc() {
-		//monthly electricity consumption kWh/month
-		this.electricity = this.wattOrdinal * this.time * 30 / 1000
-			* (this.ecoType == 1 ? 1 - this.ecoRecudeRate : 1);
-	}
+  calc() {
+    //monthly electricity consumption kWh/month
+    this.electricity = this.wattOrdinal * this.time * 30 / 1000
+      * (this.ecoType == 1 ? 1 - this.ecoRecudeRate : 1);
+  }
 
-	calcMeasure() {
-		//mPTstopPot
-		this.measures["mPTstopPot"].clear();
-		this.measures["mPTstopPot"].electricity = 0.1;
+  calcMeasure() {
+    //mPTstopPot
+    this.measures["mPTstopPot"].clear();
+    this.measures["mPTstopPot"].electricity = 0.1;
 
-		//mPTstopPotNight
-		if (this.time > 8
-			&& !this.isSelected("mPTstopPot")
-		) {
-			this.measures["mPTstopPotNight"].clear();
-			this.measures["mPTstopPotNight"].electricity = this.electricity * 8 / this.time;
-		}
+    //mPTstopPotNight
+    if (this.time > 8
+      && !this.isSelected("mPTstopPot")
+    ) {
+      this.measures["mPTstopPotNight"].clear();
+      this.measures["mPTstopPotNight"].electricity = this.electricity * 8 / this.time;
+    }
 
-		//mPTreplacePot
-		if (this.ecoType != 1
-		) {
-			this.measures["mPTreplacePot"].calcReduceRate(this.ecoRecudeRate);
-		}
-
-
-	}
-
+    //mPTreplacePot
+    if (this.ecoType != 1
+    ) {
+      this.measures["mPTreplacePot"].calcReduceRate(this.ecoRecudeRate);
+    }
+  }
 }
 

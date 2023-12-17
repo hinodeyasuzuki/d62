@@ -1,4 +1,4 @@
-﻿/* 2017/12/14  version 1.0
+/* 2017/12/14  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -24,37 +24,37 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of ConsBase
 export class ConsHTcold extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		//construction setting
-		this.consName = "consHTcold";    	//code name of this consumption 
-		this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
-		this.title = "In the cold climate area";				//consumption title name
-		this.orgCopyNum = 0;               //original copy number in case of countable consumption, other case set 0
-		this.groupID = "2";								//number code in items
-		this.color = "#ff0000";						//color definition in graph
-		this.countCall = "";							//how to point n-th equipment
+    //construction setting
+    this.consName = "consHTcold";    	//code name of this consumption 
+    this.consCode = "";            		//short code to access consumption, only set main consumption user for itemize
+    this.title = "In the cold climate area";				//consumption title name
+    this.orgCopyNum = 0;               //original copy number in case of countable consumption, other case set 0
+    this.groupID = "2";								//number code in items
+    this.color = "#ff0000";						//color definition in graph
+    this.countCall = "";							//how to point n-th equipment
 
-		this.sumConsName = "consHTsum";		//code name of consumption sum up include this
-		this.sumCons2Name = "";						//code name of consumption related to this
+    this.sumConsName = "consHTsum";		//code name of consumption sum up include this
+    this.sumCons2Name = "";						//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "How to use heating in cold climate area";
+    //guide message in input page
+    this.inputGuide = "How to use heating in cold climate area";
 
-	}
+  }
 
-	calc() {
-		this.clear();
-	}
+  calc() {
+    this.clear();
+  }
 
-	calcMeasure() {
-	}
+  calcMeasure() {
+  }
 }
 
 

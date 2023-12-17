@@ -1,4 +1,4 @@
-﻿/*  2017/12/16  version 1.0
+/*  2017/12/16  version 1.0
  * coding: utf-8, Tab as 4 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -16,55 +16,55 @@
  * 								2018/03/14 			global setting fix
  */
 
- const acadd = {
-	// getArray(param)  return paramArray
-//		param: prefecture(original)
-//
-//  return acadd[time_slot_index][heat_month_index]
-//
-//		time_slot_index:
-//				0:morning
-//				1:noon
-//				2:evening
-//				3:night
-//		heat_month_index
-//				0:use heat for a half month
-//				1:use heat for one month
-//				2:use heat for 2 months
-//				3:use heat for 3 months
-//				4:use heat for 4 months
-//				5:use heat for 6 months
-//				6:use heat for 8 months
-//
-// this data is transformed by AMEDAS ( meteorological data ) in Japan
-//
-// factorPrefTimeMonth[Prefecture Code][Time Code][Month Code]
-//
-// used in Unit.setArea() function and set Unit.plusHeatFactor_mon
-//
-factorPrefTimeMonth : [
-	  
-	[ [ 0.02, 0.02, 0.01, 0.01, 0.01, 0, 0],   //akita
-	  [ 0.01, 0, 0, 0, 0, 0, 0], 
-	  [ 0.01, 0.01, 0, 0, 0, 0, 0], 
-	  [ 0.01, 0.01, 0.01, 0.01, 0, 0, 0] ], 
+const acadd = {
+  // getArray(param)  return paramArray
+  //		param: prefecture(original)
+  //
+  //  return acadd[time_slot_index][heat_month_index]
+  //
+  //		time_slot_index:
+  //				0:morning
+  //				1:noon
+  //				2:evening
+  //				3:night
+  //		heat_month_index
+  //				0:use heat for a half month
+  //				1:use heat for one month
+  //				2:use heat for 2 months
+  //				3:use heat for 3 months
+  //				4:use heat for 4 months
+  //				5:use heat for 6 months
+  //				6:use heat for 8 months
+  //
+  // this data is transformed by AMEDAS ( meteorological data ) in Japan
+  //
+  // factorPrefTimeMonth[Prefecture Code][Time Code][Month Code]
+  //
+  // used in Unit.setArea() function and set Unit.plusHeatFactor_mon
+  //
+  factorPrefTimeMonth: [
 
-	[ [ 0.02, 0.02, 0.01, 0.01, 0.01, 0, 0],   //akita
-	  [ 0.01, 0, 0, 0, 0, 0, 0], 
-	  [ 0.01, 0.01, 0, 0, 0, 0, 0], 
-	  [ 0.01, 0.01, 0.01, 0.01, 0, 0, 0] ], 
+    [[0.02, 0.02, 0.01, 0.01, 0.01, 0, 0],   //akita
+    [0.01, 0, 0, 0, 0, 0, 0],
+    [0.01, 0.01, 0, 0, 0, 0, 0],
+    [0.01, 0.01, 0.01, 0.01, 0, 0, 0]],
 
-    [ [ 0, 0, 0, 0, 0, 0, 0],   //niigata
-	  [ 0, 0, 0, 0, 0, 0, 0], 
-	  [ 0, 0, 0, 0, 0, 0, 0], 
-	  [ 0, 0, 0, 0, 0, 0, 0] ], 
+    [[0.02, 0.02, 0.01, 0.01, 0.01, 0, 0],   //akita
+    [0.01, 0, 0, 0, 0, 0, 0],
+    [0.01, 0.01, 0, 0, 0, 0, 0],
+    [0.01, 0.01, 0.01, 0.01, 0, 0, 0]],
 
-	[ [ 0, 0, 0, 0, 0, 0, 0],   //kagoshima
-	  [ 0, 0, 0, 0, 0, 0, 0], 
-	  [ 0, 0, 0, 0, 0, 0, 0], 
-	  [ 0, 0, 0, 0, 0, 0, 0] ] 
-]
-	  
+    [[0, 0, 0, 0, 0, 0, 0],   //niigata
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]],
+
+    [[0, 0, 0, 0, 0, 0, 0],   //kagoshima
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]]
+  ]
+
 
 };
 

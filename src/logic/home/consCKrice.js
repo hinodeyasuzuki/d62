@@ -23,51 +23,51 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of ConsBase
 export class ConsCKrice extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.wattOrdinal = 30;				//electricity for keep hot（W)
+    this.wattOrdinal = 30;				//electricity for keep hot（W)
 
-		//construction setting
-		this.consName = "consCKrice";  	//code name of this consumption 
-		this.consCode = "CK";          	//short code to access consumption, only set main consumption user for itemize
-		this.title = "rice cooker";			//consumption title name
-		this.orgCopyNum = 0;            //original copy number in case of countable consumption, other case set 0
-		this.groupID = "4";							//number code in items
-		this.color = "#ffe4b5";					//color definition in graph
-		this.countCall = "";						//how to point n-th equipment
+    //construction setting
+    this.consName = "consCKrice";  	//code name of this consumption 
+    this.consCode = "CK";          	//short code to access consumption, only set main consumption user for itemize
+    this.title = "rice cooker";			//consumption title name
+    this.orgCopyNum = 0;            //original copy number in case of countable consumption, other case set 0
+    this.groupID = "4";							//number code in items
+    this.color = "#ffe4b5";					//color definition in graph
+    this.countCall = "";						//how to point n-th equipment
 
-		this.sumConsName = "consCKsum";		//code name of consumption sum up include this
-		this.sumCons2Name = "";						//code name of consumption related to this
+    this.sumConsName = "consCKsum";		//code name of consumption sum up include this
+    this.sumCons2Name = "";						//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "how to use rice cooker";
-	}
+    //guide message in input page
+    this.inputGuide = "how to use rice cooker";
+  }
 
-	precalc() {
-		this.clear();
+  precalc() {
+    this.clear();
 
-		//prepare input value
-		this.person = this.input("i001", 3);			//person number
-		this.frequency = this.input("i802", 5);		//frequency of cooking
-		this.time = this.input("i820", 6);				//keep hot time
-	}
+    //prepare input value
+    this.person = this.input("i001", 3);			//person number
+    this.frequency = this.input("i802", 5);		//frequency of cooking
+    this.time = this.input("i820", 6);				//keep hot time
+  }
 
-	calc() {
-		//monthly electricity consumption kWh/month
-		this.electricity = this.wattOrdinal * this.time * 30 / 1000;
-	}
+  calc() {
+    //monthly electricity consumption kWh/month
+    this.electricity = this.wattOrdinal * this.time * 30 / 1000;
+  }
 
-	calcMeasure() {
-		//mPTstopRiceCooker
-		this.measures["mPTstopRiceCooker"].clear();
-		this.measures["mPTstopRiceCooker"].electricity = 0.1;
-	}
+  calcMeasure() {
+    //mPTstopRiceCooker
+    this.measures["mPTstopRiceCooker"].clear();
+    this.measures["mPTstopRiceCooker"].electricity = 0.1;
+  }
 
 }
 

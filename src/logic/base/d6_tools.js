@@ -30,17 +30,17 @@
 //		halfVal replaced value
 //
 const toHalfWidth = function (strVal) {
-	/*
-	if ( !strVal ) return strVal;
-	let halfVal = strVal.replace(/[！-～]/g,
-		function( tmpStr ) {
-		// shift charactor code
-			return String.fromCharCode( tmpStr.charCodeAt(0) - 0xFEE0 );
-		}
-	);
-	return halfVal;
-	*/
-	return strVal;
+  /*
+  if ( !strVal ) return strVal;
+  let halfVal = strVal.replace(/[！-～]/g,
+    function( tmpStr ) {
+    // shift charactor code
+      return String.fromCharCode( tmpStr.charCodeAt(0) - 0xFEE0 );
+    }
+  );
+  return halfVal;
+  */
+  return strVal;
 };
 
 
@@ -56,17 +56,17 @@ const toHalfWidth = function (strVal) {
 //	set "ary" sorted
 //
 const ObjArraySort = function (ary, key, order) {
-	let reverse = 1;
-	if (order && order.toLowerCase() == "desc")
-		reverse = -1;
-	ary.sort(function (a, b) {
-		if (a[key] < b[key])
-			return -1 * reverse;
-		else if (a[key] == b[key])
-			return 0;
-		else
-			return 1 * reverse;
-	});
+  let reverse = 1;
+  if (order && order.toLowerCase() == "desc")
+    reverse = -1;
+  ary.sort(function (a, b) {
+    if (a[key] < b[key])
+      return -1 * reverse;
+    else if (a[key] == b[key])
+      return 0;
+    else
+      return 1 * reverse;
+  });
 };
 
 export { toHalfWidth, ObjArraySort };

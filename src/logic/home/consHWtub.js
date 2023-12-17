@@ -1,4 +1,4 @@
-﻿/* 2017/12/15  version 1.0
+/* 2017/12/15  version 1.0
  * coding: utf-8, Tab as 2 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -22,52 +22,52 @@
  * 
  */
 
- import ConsBase from "../base/consbase.js";
+import ConsBase from "../base/consbase.js";
 
 //Inherited class of ConsBase
 export class ConsHWtub extends ConsBase {
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.autoKeepRate = 0.5;			//reduce rate to change auto heating to demand heating
+    this.autoKeepRate = 0.5;			//reduce rate to change auto heating to demand heating
 
-		//construction setting
-		this.consName = "consHWtub";   	 	//code name of this consumption 
-		this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
-		this.title = "Bathtub";				//consumption title name
-		this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
-		this.groupID = "1";					//number code in items
-		this.color = "#ffb700";				//color definition in graph
-		this.countCall = "";				//how to point n-th equipment
+    //construction setting
+    this.consName = "consHWtub";   	 	//code name of this consumption 
+    this.consCode = "HW";            	//short code to access consumption, only set main consumption user for itemize
+    this.title = "Bathtub";				//consumption title name
+    this.orgCopyNum = 0;                //original copy number in case of countable consumption, other case set 0
+    this.groupID = "1";					//number code in items
+    this.color = "#ffb700";				//color definition in graph
+    this.countCall = "";				//how to point n-th equipment
 
-		this.sumConsName = "consHWsum";		//code name of consumption sum up include this
-		this.sumCons2Name = "";				//code name of consumption related to this
+    this.sumConsName = "consHWsum";		//code name of consumption sum up include this
+    this.sumCons2Name = "";				//code name of consumption related to this
 
-		//guide message in input page
-		this.inputGuide = "how to use hot water in bath tub";
+    //guide message in input page
+    this.inputGuide = "how to use hot water in bath tub";
 
-	}
+  }
 
-	calc() {
-		this.copy(this.sumCons);
-		this.multiply(this.sumCons.consHWtubRate);
-	}
+  calc() {
+    this.copy(this.sumCons);
+    this.multiply(this.sumCons.consHWtubRate);
+  }
 
-	calcMeasure() {
-		//mHWinsulation
-		this.measures["mHWinsulation"].calcReduceRate(this.sumCons.reduceRateInsulation);
+  calcMeasure() {
+    //mHWinsulation
+    this.measures["mHWinsulation"].calcReduceRate(this.sumCons.reduceRateInsulation);
 
-		//mHWkeep
-		this.measures["mHWkeep"].calcReduceRate(this.sumCons.reduceRateTabKeep);
+    //mHWkeep
+    this.measures["mHWkeep"].calcReduceRate(this.sumCons.reduceRateTabKeep);
 
-		//mHWstopAutoKeep 
-		if (this.sumCons.keepMethod > 2) {
-			this.measures["mHWstopAutoKeep"].calcReduceRate(this.sumCons.reduceRateTabKeep * this.autoKeepRate);
-		}
+    //mHWstopAutoKeep 
+    if (this.sumCons.keepMethod > 2) {
+      this.measures["mHWstopAutoKeep"].calcReduceRate(this.sumCons.reduceRateTabKeep * this.autoKeepRate);
+    }
 
-		//mHWonlyShower
-		this.measures["mHWonlyShower"].calcReduceRate(this.sumCons.reduceRateStopTabSummer);
-	}
+    //mHWonlyShower
+    this.measures["mHWonlyShower"].calcReduceRate(this.sumCons.reduceRateStopTabSummer);
+  }
 }
 

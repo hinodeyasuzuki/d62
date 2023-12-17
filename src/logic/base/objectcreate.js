@@ -13,16 +13,16 @@
 // deep copy 
 //
 Object.create = function (obj) {
-	let func = Object.create.func;
-	func.prototype = obj;
-	let newo = new func;
-	let len = arguments.length;
-	for (let i = 1; i < len; ++i) {
-		for (let prop in arguments[i]) {
-			newo[prop] = arguments[i][prop];
-		}
-	}
-	return newo;
+  let func = Object.create.func;
+  func.prototype = obj;
+  let newo = new func;
+  let len = arguments.length;
+  for (let i = 1; i < len; ++i) {
+    for (let prop in arguments[i]) {
+      newo[prop] = arguments[i][prop];
+    }
+  }
+  return newo;
 };
 Object.create.func = function () { };
 
@@ -30,10 +30,10 @@ Object.create.func = function () { };
 // add objects
 //
 D6.patch = function (target, fix) {
-	for (let v in fix) {
-		target[v] = fix[v];
-	}
-	return target;
+  for (let v in fix) {
+    target[v] = fix[v];
+  }
+  return target;
 };
 
 
