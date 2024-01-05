@@ -45,6 +45,7 @@ D6.calcCons = function () {
 			}
 		}
 	}
+
 	//calculate each consumption at first time
 	//priority 1-3 / none
 	for (j = 1; j <= 4; j++) {
@@ -190,12 +191,13 @@ D6.calcConsAdjust = function () {
 						//価格データがない場合totalは補正しない
 						//本来ならあまりに大幅な補正が必要なときにはtotalの数値を変更するが、ここでは平均値も算出するために補正が不要
 						var adjustFactor = 2;
-						if (this.energyAdj[j] < 1/adjustFactor) {
-							this.consShow["TO"][j] *=  1/adjustFactor / this.energyAdj[j];
+						if (this.energyAdj[j] < 1/adjustFactor && this.energyAdj[j]>0 ) {
+							//20240105 0の場合を除く
+							this.consShow["TO"][j] *= (1/adjustFactor / this.energyAdj[j]);
 							this.energyAdj[j] =  1/adjustFactor;
 						}
 						if (this.energyAdj[j] > adjustFactor && j != "electricity") {
-							this.consShow["TO"][j] *= adjustFactor / this.energyAdj[j];
+							this.consShow["TO"][j] *= (adjustFactor / this.energyAdj[j]);
 							this.energyAdj[j] = adjustFactor;
 						}
 					}
