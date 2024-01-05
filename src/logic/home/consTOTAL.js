@@ -139,8 +139,10 @@ export class ConsTotal extends ConsBase {
 
     if (this.priceKerosWinter == -1) {
       if (D6.area.averageCostEnergy.kerosene < 1000 || !this.hwUseKeros) {
+        //hot area and not use kerosene for hotwater -> default 0
         this.priceKeros = this.input("i064", 0);
       } else {
+        //set average value as default 
         this.priceKeros = this.input(
           "i064",
           D6.area.averageCostEnergy.kerosene / D6.area.seasonMonth.winter * 12
