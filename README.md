@@ -14,6 +14,8 @@ This program can advice how to reduce CO2 emission by some question about energy
 
 You can make your area/language software by support of Excel file
 
+access ./index.php or ./index.html
+
 ## Demo (git page)
 
 release(minified) code
