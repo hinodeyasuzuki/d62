@@ -1,0 +1,130 @@
+<?php
+// Home-Eco Diagnosis for JavaScript
+//
+// view/template-base.html
+//		main html for PC　v=0
+//
+// require php, and inluded by index.php
+//
+// Hinodeya Insititute for Ecolife co.ltd. 2016
+//
+?>
+<!DOCTYPE html>
+<html lang="<?php echo $languageMode; ?>">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link href="view/common.css" rel="stylesheet" type="text/css" />
+	<link href="view/view_base/layout-base.css" rel="stylesheet" type="text/css" />
+	<?php echo $alternate ?>
+	<title><?php echo $title;?></title>
+</head>
+
+<body>
+
+	<div id="leanModalDialog">
+		<input type="button" class="modal_close" value="<?php echo $lang["button_back"];?>" tabindex=0>
+		<div id="modal-contents"></div>
+	</div>
+
+	<div class="contents">
+
+		<div id="header">
+			<h1><?php echo $title;?></h1>
+
+			<div id="headerMenu">
+				<button class="button inmode selected" id="m1"
+					onclick="modeChange('m1');"><?php echo $lang["button_input"];?></button>
+				<button class="button inmode" id="m2"
+					onclick="modeChange('m2');"><?php echo $lang["button_measures"];?></button>
+
+				<?php if ( $targetMode == 2 ){ ?>
+				<button class='button inmode' id='m3' onclick="modeChange('m3');"><?php echo $lang["button_demand"];?></button>
+				<?php } ?>
+				&nbsp;&nbsp;
+
+				<button class="button" id="btnsave" onclick="dataSave();"><?php echo $lang["button_save"];?></button>
+				<button class="button" id="btnclear" onclick="dataClear();"><?php echo $lang["button_clear"];?></button>
+				&nbsp;
+				<a class="button inmode" href="./?lang=<?php echo $languageMode; ?>&v=4" target="_blank"
+					tabindex=0><?php echo $lang['button_about'];?></a>
+				<!--
+				<button class="button" id="btnsavenew"><?php echo $lang["button_savenew"];?></button>
+				<button class="button" id="btnopen"><?php echo $lang["button_open"];?></button>
+				-->
+			</div>
+
+			<div id="header_attension">
+				<p>
+					<?php echo $opendate;?>
+					<a href="https://www.hinodeya-ecolife.com/">Hinodeya Institute for Ecolife co.ltd.</a>
+					<?php echo $lang['header_attension'];?>
+				</p>
+			</div>
+		</div>
+
+
+		<div class="preloader">
+			<p>now loading diagnosis system</p>
+		</div>
+
+		<div id="top" style="display:none">
+			<?php include $lang["viewfolder"] . "/top.html";?>
+		</div>
+
+		<div id="divco2">
+			<ul id="tab">
+			</ul>
+
+			<div class="leftmenu">
+				<ul id='tabcontents'></ul>
+			</div>
+
+			<div class="result">
+				<select id="graphChange" onchange="graphChange();">
+					<option value="co2"><?php echo $lang["button_co2emission"];?></option>
+					<option value="energy"><?php echo $lang["button_firstenergy"];?></option>
+					<option value="money"><?php echo $lang["button_energyfee"];?></option>
+				</select>
+				<div id="graph"></div>
+				<div id="average"></div>
+				<div id="graphMonthly"></div>
+				<div id="cons"></div>
+			</div>
+
+			<div class="mesmenu" style="display:none">
+				<div id="measure"></div>
+				<div style="text-align:right;">
+					<button style='color:blue;cursor:pointer;'>[<?php echo $lang["button_showall"];?>]</button>
+				</div>
+				<p id="totalReduceComment"></p>
+			</div>
+
+		</div>
+
+
+		<div id="divelec" style="display:none">
+			<div class="leftmenu">
+				<div id="inDemandSumup"></div>
+				<div id="inDemandLog"></div>
+			</div>
+			<div class="result">
+				<div id="graphDemandSumup"></div>
+				<div id="graphDemandLog"></div>
+			</div>
+		</div>
+
+	</div>
+
+	<?php
+		echo $jssets;
+		echo $scripts;
+		echo $jsgoogle;
+		echo $jsgoogle_analytics;
+	?>
+
+	<script src="view/view_base/onclick-base.js" type="text/javascript"></script>
+
+</body>
+
+</html>

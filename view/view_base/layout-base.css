@@ -1,0 +1,28 @@
+/*********************************************************************
+D6 design
+
+*********************************************************************/
+
+/* ============= layout ===================== */
+div.leftmenu {
+  display: inline-block;
+  width: 46%;
+  min-width: 340px;
+  vertical-align: top;
+}
+
+div.result {
+  display: inline-block;
+  width: 53% !important;
+  min-width: 340px;
+  vertical-align: top;
+  background: #efe;
+}
+
+div.mesmenu {
+  display: inline-block;
+  width: 46%;
+  min-width: 340px;
+  vertical-align: top;
+  background: #efe;
+}
