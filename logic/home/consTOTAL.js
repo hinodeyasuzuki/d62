@@ -78,6 +78,8 @@ class ConsTotal extends ConsBase {
 		this.solarKw = this.input("i052", this.solarSet * 3.5); //PV size (kW)
 		this.solarYear = this.input("i053", 0); //PV set year
 
+		this.solarSetSize = this.input("i951", -1); //PV set size
+
 		//car
 		this.carType = this.input("i9111",-1);
 		this.elecCarNum = this.input("i943",0);
@@ -421,7 +423,7 @@ class ConsTotal extends ConsBase {
 		var pvSellUnitPrice = this.pvSellUnitPrice;
 
 		// monthly generate electricity
-		var solar_generate_kWh = this.generateEleUnit * this.standardSize / 12;
+		var solar_generate_kWh = this.generateEleUnit * (this.solarSetSize==-1 ?  this.standardSize : this.solarSetSize ) / 12;
 
 		//mTOsolar-----------------------------------------
 		// not installed and ( stand alone or desired )
@@ -528,7 +530,7 @@ class ConsTotal extends ConsBase {
 				&& this.houseType != 2
 			) {
 
-				var zehSolarSize = 5;
+				var zehSolarSize = this.solarSetSize== -1 ? 5 : this.solarSetSize;
 
 				//electricity and cost
 				var eleReduce = 0.2;	//Zehエネルギー2割減
@@ -537,7 +539,7 @@ class ConsTotal extends ConsBase {
 				var heatRatio = D6.consHTsum.jules / this.jules;
 
 				//灯油の利用を電気にする
-				var elec = this.electricity + this.generateEle
+				var elec = this.electricity
 					+ this.kerosene * (D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity);
 				mes2.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce))
 					- solar_generate_kWh;
@@ -557,6 +559,8 @@ class ConsTotal extends ConsBase {
 				mes2.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
 					* (1 - heatParam);
 
+				// mes2.calcCost();
+
 				// monthly generate electricity
 				var solar_generate_kWh = this.generateEleUnit * zehSolarSize / 12;
 
@@ -572,10 +576,10 @@ class ConsTotal extends ConsBase {
 					this.electricity * solar_reduceVisualize * D6.Unit.price.electricity;
 
 				//electricity and cost
-				mes2.electricity =
-					this.electricity * (1 - solar_reduceVisualize) 
-					- solar_generate_kWh * (modesolaronlyself ?  (1 - this.solarSaleRatio) : 1);
-				mes2.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
+				mes2.electricity 
+					-= solar_generate_kWh * (modesolaronlyself ?  (1 - this.solarSaleRatio) : 1);
+				
+				mes2.costUnique = mes2.cost - solar_priceDown - solar_priceVisualize;
 
 				//initial cost
 				mes2.priceNew = zehSolarSize * this.measures["mTOsolar"].priceOrg + parseInt(mes2.priceOrg);

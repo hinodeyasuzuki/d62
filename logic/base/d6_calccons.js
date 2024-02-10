@@ -74,7 +74,7 @@ D6.calcCons = function () {
 		this.consList[i].calcCost();
 		this.consList[i].calcJules();
 		//set as original value, which is in case of no selection
-		if (this.isOriginal) {
+		if (this.isOriginal || this.consList[i].co2Original == 0 ) {
 			this.consList[i].co2Original = this.consList[i].co2;
 			this.consList[i].costOriginal = this.consList[i].cost;
 			this.consList[i].julesOriginal = this.consList[i].jules;

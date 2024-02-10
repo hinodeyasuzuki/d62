@@ -179,7 +179,7 @@ class MeasureBase extends Energy {
 		}
 
 		//save as original value if no measure is selected
-		if (D6.isOriginal) {
+		if (D6.isOriginal || this.co2ChangeOriginal == 0) {
 			this.co2Original = this.co2;
 			this.costOriginal = this.cost;
 			this.co2ChangeOriginal = this.co2Change;

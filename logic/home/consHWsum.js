@@ -314,8 +314,8 @@ class ConsHWsum extends ConsBase {
 		}
 
 		//toilet
-		this.electricity += this.warmerElec_kWh_y / 12 * (4 - this.keepSeason) / 3;
-		this.water += this.water_m3_d * this.person * 30;
+		// this.electricity += this.warmerElec_kWh_y / 12 * (4 - this.keepSeason) / 3;
+		// this.water += this.water_m3_d * this.person * 30;
 
 		//reduce rate by use shower
 		this.reduceRateShowerTime =
