@@ -423,7 +423,8 @@ class ConsTotal extends ConsBase {
 		var pvSellUnitPrice = this.pvSellUnitPrice;
 
 		// monthly generate electricity
-		var solar_generate_kWh = this.generateEleUnit * (this.solarSetSize==-1 ?  this.standardSize : this.solarSetSize ) / 12;
+		let pvsize =  (this.solarSetSize==-1 ?  this.standardSize : this.solarSetSize );
+		var solar_generate_kWh = this.generateEleUnit * pvsize / 12;
 
 		//mTOsolar-----------------------------------------
 		// not installed and ( stand alone or desired )
@@ -449,14 +450,12 @@ class ConsTotal extends ConsBase {
 				mes.costUnique = this.cost - solar_priceDown - solar_priceVisualize;
 
 				//initial cost
-				mes.priceNew = this.standardSize * mes.priceOrg;
+				mes.priceNew = pvsize * mes.priceOrg;
 
 				//comment add to original definition
 				mes.advice =
 					D6.scenario.defMeasures["mTOsolar"]["advice"] +
-					"<br>(" +
-					this.standardSize +
-					"kW)";
+					"<br>(" + pvsize + "kW)";
 
 			} else {
 				//insatalled
@@ -559,7 +558,7 @@ class ConsTotal extends ConsBase {
 				mes2.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
 					* (1 - heatParam);
 
-				// mes2.calcCost();
+				mes2.calcCost();
 
 				// monthly generate electricity
 				var solar_generate_kWh = this.generateEleUnit * zehSolarSize / 12;
@@ -567,9 +566,7 @@ class ConsTotal extends ConsBase {
 				// saving by generation
 				var solar_priceDown =
 					solar_generate_kWh * this.solarSaleRatio * pvSellUnitPrice +
-					solar_generate_kWh *
-					(1 - this.solarSaleRatio) *
-					D6.Unit.price.electricity;
+					solar_generate_kWh * (1 - this.solarSaleRatio) * D6.Unit.price.electricity;
 
 				// saving by visualize display
 				var solar_priceVisualize =
@@ -587,9 +584,7 @@ class ConsTotal extends ConsBase {
 				//comment add to original definition
 				mes2.advice =
 					D6.scenario.defMeasures["mTOzeh"]["advice"] +
-					"<br>(" +
-					zehSolarSize +
-					"kW)";
+					"<br>(" + zehSolarSize + "kW)";
 			}
 		}
 
