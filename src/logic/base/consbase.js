@@ -21,7 +21,6 @@
  */
 
 import Energy from "./energy.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of Energy
 export default class ConsBase extends Energy {
@@ -361,13 +360,13 @@ export default class ConsBase extends Energy {
       }
     }
 
-    var InData = D6.doc.data[InDataCode];
+    var InData = this.doc.data[InDataCode];
     if (typeof InData === "undefined" || InData == -1 || InData === "") {
       //in  InData compare, user  === instead of ==
       ret = defaultData;
     } else {
       ret = InData;
-      if (D6.scenario.defInput[InDataCode.substr(0, 4)].varType == "Number") {
+      if (this.scenario.defInput[InDataCode.substr(0, 4)].varType == "Number") {
         //convert to number
         ret = parseFloat(ret);
       }
