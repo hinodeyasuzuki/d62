@@ -24,7 +24,6 @@
  */
 
 import { ConsCOsum } from "./consCOsum.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of D6.consCOsum
 export class ConsACcool extends ConsCOsum {
@@ -70,7 +69,7 @@ export class ConsACcool extends ConsCOsum {
     let coolKcal = this.calcCoolLoad(this.coolArea, this.coolTime, this.coolTemp, this.coolMonth);
 
     //calculate annual electricity from cooling season monthly one.
-    coolKcal *= D6.area.seasonMonth.summer / 12;
+    coolKcal *= window.Area.seasonMonth.summer / 12;
 
     //monthly consumption electricity kWh/mon
     this.electricity = coolKcal / this.ac.apf / D6.Unit.calorie.electricity;

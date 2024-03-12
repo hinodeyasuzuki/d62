@@ -48,13 +48,15 @@
  * 
  */
 
-import { Unit, consToCost, costToCons } from "./areaset/unit.js";
-import { area, setPersonArea } from "./areaset/area.js";
+import { unit } from "./areaset/unit.js";
+import { area } from "./areaset/area.js";
 import { acload } from "./areaset/acload.js";
 import { acadd } from "./areaset/acadd.js";
 import { accons } from "./areaset/accons.js";
 
 import { doc } from "./base/doc.js";
+import energy from "./base/energy.js";
+import ConsBase from "./base/consbase.js";
 
 import { ConsAC } from "./home/consAC.js";
 import { ConsACcool } from "./home/consACcool.js";
@@ -97,12 +99,10 @@ import { toHalfWidth, ObjArraySort } from "./base/d6_tools.js";
 import { calcAverage, rankIn100 } from "./base/d6_calcaverage.js";
 import { calcCons, calcConsAdjust, getTargetConsList } from "./base/d6_calccons.js";
 import { calcMeasures, calcMeasuresLifestyle, calcMeasuresNotLifestyle, calcMeasuresOne, clearSelectedMeasures, calcMaxMeasuresList } from "./base/d6_calcmeasures.js";
-import { calcMonthly } from "./base/d6_calcmonthly.js";
 
 import { getAllResult, getAverage, getAverage_graph, getItemize, getItemizeGraph, dataItemize, getMonthly, getGid, getCommonParameters, getConsShow } from "./base/d6_get.js";
 import { getMeasure, getMeasureDetail, getMeasuresDetailCommon, getMeasure_title, getMeasure_titleShort } from "./base/d6_getmeasure.js";
 import { getDemandGraph, getInputDemandSumup, getInputDemandLog } from "./base/d6_getdemand.js";
-
 
 
 class d6 {
@@ -135,20 +135,20 @@ class d6 {
   quesOrder = [];			//question code list
 
   //constructor
-  construct = function (a, b, c) {
+  constructor(Unit,Area) {
     this.Unit = Unit;
-    this.consToCost = consToCost;
-    this.costToCons = costToCons;
+    this.Area = Area;
+  }
 
-    this.area = new area();
+  construct = function (a, b, c) {
 
     this.acload = acload;
     this.acadd = acadd;
     this.accons = accons;
 
-    this.setPersonArea = setPersonArea;
-
     this.doc = doc;
+    // this.energy = new energy();
+    // this.consBase = new ConsBase();
     this.calcAverage = calcAverage;
     this.rankIn100 = rankIn100;
 
@@ -164,8 +164,6 @@ class d6 {
     this.calcMeasuresOne = calcMeasuresOne;
     this.clearSelectedMeasures = clearSelectedMeasures;
     this.calcMaxMeasuresList = calcMaxMeasuresList;
-
-    this.calcMonthly = calcMonthly;
 
     //cons
     this.consAC = new ConsAC();
@@ -209,7 +207,7 @@ class d6 {
 
     this.areafix = areafix;
     this.fix_consParams = fix_consParams;
-
+    
     //set
     this.inSet = inSet;
     this.measureAdd = measureAdd;
@@ -240,12 +238,11 @@ class d6 {
     this.ObjArraySort = ObjArraySort;
 
     this.setscenario(a, b, c);
-
   };
 
   //calculate
   calculateAll = function () {
-    this.setPersonArea(
+    this.Area.setPersonArea(
       this.doc.data.i001,
       this.doc.data.i021,
       this.doc.data.i023
@@ -260,8 +257,14 @@ class d6 {
   calcshow = "";
 }
 
+var Unit = new unit();
+var Area = new area(Unit);
+var D6 = new d6(Unit, Area);
+window.Unit = Unit;
+window.Area = Area;
+window.D6 = D6;
 
-let D6 = new d6();
+//初期化
 D6.construct();
 D6.calculateAll();
 

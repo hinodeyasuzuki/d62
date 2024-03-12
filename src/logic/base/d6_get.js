@@ -29,7 +29,6 @@
  * 
  */
 
-import { D6 } from "../d6.js";
 
 //result total values
 //	param
@@ -314,7 +313,7 @@ const getItemizeGraph = function (consCode, sort) {
   let captions = ["you", "after", "average"]; //same code to view
   let averageCaption = "";
   if (this.targetMode == 1) {
-    averageCaption = this.scenario.defSelectValue.sel021[this.area.area];
+    averageCaption = this.scenario.defSelectValue.sel021[this.Area.area];
   } else {
     averageCaption =
       this.scenario.defSelectValue.sel001[Math.max(1, this.doc.data["i001"])];

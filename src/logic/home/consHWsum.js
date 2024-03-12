@@ -23,8 +23,6 @@
  */
 
 import ConsBase from "../base/consbase.js";
-import { D6 } from "../d6.js";
-import { Unit } from "../areaset/unit.js";
 
 //Inherited class of ConsBase
 export class ConsHWsum extends ConsBase {
@@ -93,7 +91,7 @@ export class ConsHWsum extends ConsBase {
     this.housetype = this.input("i002", 1); //structure of house
     this.prefecture = this.input("i021", 13); //prefecture
     this.solarHeater = this.input("i102", 3); //solar heater
-    this.heatArea = D6.area.getHeatingLevel(this.prefecture); //heating level
+    this.heatArea = window.Area.getHeatingLevel(this.prefecture); //heating level
     this.tabDayWeek = this.input(
       "i103",
       this.heatArea == 1 || this.heatArea == 6 ? 2 : 6
@@ -157,7 +155,7 @@ export class ConsHWsum extends ConsBase {
     }
 
     // estimate templature of tap water
-    this.waterTemp = D6.area.getWaterTemplature();
+    this.waterTemp = window.Area.getWaterTemplature();
 
     //adjust by solar heater
     this.waterTemp =
@@ -169,8 +167,8 @@ export class ConsHWsum extends ConsBase {
 
     // estimate amount of hot water used as shower litter/day
     this.showerWaterLitter =
-      ((this.showerMinutes * (12 - D6.area.seasonMonth.summer) +
-        this.showerMinutesSummer * D6.area.seasonMonth.summer) /
+      ((this.showerMinutes * (12 - window.Area.seasonMonth.summer) +
+        this.showerMinutesSummer * window.Area.seasonMonth.summer) /
         12 *
         (this.savingShower == 1 ? 1 - this.reduceRateShowerHead : 1) +
         this.showerHotTimeSpan / 60 * 5) * //	5 times
@@ -181,8 +179,8 @@ export class ConsHWsum extends ConsBase {
       this.tabWaterLitter *
       this.tabHeight /
       10 *
-      (this.tabDayWeek * (12 - D6.area.seasonMonth.summer) +
-        this.tabDayWeekSummer * D6.area.seasonMonth.summer) /
+      (this.tabDayWeek * (12 - window.Area.seasonMonth.summer) +
+        this.tabDayWeekSummer * window.Area.seasonMonth.summer) /
       12 /
       7;
 
@@ -336,8 +334,8 @@ export class ConsHWsum extends ConsBase {
         this.tabTemplatureDown;
 
     //reduce rate by use shower in summer
-    let ssummer = this.tabDayWeekSummer * D6.area.seasonMonth.summer;
-    let snsummer = this.tabDayWeek * (12 - D6.area.seasonMonth.summer);
+    let ssummer = this.tabDayWeekSummer * window.Area.seasonMonth.summer;
+    let snsummer = this.tabDayWeek * (12 - window.Area.seasonMonth.summer);
     this.reduceRateStopTabSummer = ssummer / (ssummer + snsummer);
   }
 

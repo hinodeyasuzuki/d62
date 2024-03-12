@@ -24,7 +24,6 @@
  */
 
 import { ConsCRsum } from "./consCRsum.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of this.consCRsum
 export class ConsCRtrip extends ConsCRsum {

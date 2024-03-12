@@ -14,7 +14,6 @@
  * 
  */
 
-import { costToCons } from "../areaset/unit";
 
 const calcMonthly = function (ave, season, monthly, seasonPatternP, energyCode) {
   // first use monthly, season
@@ -73,7 +72,7 @@ const calcMonthly = function (ave, season, monthly, seasonPatternP, energyCode) 
   if (season[0] == -1 && season[1] == -1 && season[2] == -1) {
     //no data
     if (countCons > 6) {
-      ave = this.consToCost(sumCons / countCons, energyCode);
+      ave = window.Area.consToCost(sumCons / countCons, energyCode);
     }
     //calculate from average consumption
     season[0] = ave * seasonPattern[0];
@@ -90,7 +89,7 @@ const calcMonthly = function (ave, season, monthly, seasonPatternP, energyCode) 
           ave2 += season[i] / seasonPattern[i];
           ave2count++;
         } else if (seasonCount[i] >= 1) {
-          season[i] = this.consToCost(seasonPatternCons[i] / seasonCount[i], energyCode);
+          season[i] = window.Area.consToCost(seasonPatternCons[i] / seasonCount[i], energyCode);
           ave2 += season[i] / seasonPattern[i];
           ave2count++;
         }
@@ -108,9 +107,9 @@ const calcMonthly = function (ave, season, monthly, seasonPatternP, energyCode) 
   }
 
   //estimate monthly consumption
-  seasonCons[0] = costToCons(season[0], energyCode);
-  seasonCons[1] = costToCons(season[1], energyCode);
-  seasonCons[2] = costToCons(season[2], energyCode);
+  seasonCons[0] = window.Area.costToCons(season[0], energyCode);
+  seasonCons[1] = window.Area.costToCons(season[1], energyCode);
+  seasonCons[2] = window.Area.costToCons(season[2], energyCode);
 
   //set to monthly data
   let sim, si, sip;

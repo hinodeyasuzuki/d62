@@ -24,7 +24,6 @@
  */
 
 import { ConsTVsum } from "./consTVsum.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of this.consTVsum
 export class ConsTV extends ConsTVsum {

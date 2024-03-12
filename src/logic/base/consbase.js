@@ -21,9 +21,12 @@
  */
 
 import Energy from "./energy.js";
+import { doc } from "./doc.js";
 
 //Inherited class of Energy
 export default class ConsBase extends Energy {
+
+  doc = doc;
 
   measures = []; //related instanses of measure
   // name of related measures is declared in each consumption definition
@@ -355,18 +358,18 @@ export default class ConsBase extends Energy {
         InDataCode == "i001"
       )
     ) {
-      if (this.scenario.defCalcAverage.indexOf(InDataCode) == -1) {
+      if (window.D6.scenario.defCalcAverage.indexOf(InDataCode) == -1) {
         return defaultData;
       }
     }
 
-    var InData = this.doc.data[InDataCode];
+    var InData = doc.data[InDataCode];
     if (typeof InData === "undefined" || InData == -1 || InData === "") {
       //in  InData compare, user  === instead of ==
       ret = defaultData;
     } else {
       ret = InData;
-      if (this.scenario.defInput[InDataCode.substr(0, 4)].varType == "Number") {
+      if (window.D6.scenario.defInput[InDataCode.substr(0, 4)].varType == "Number") {
         //convert to number
         ret = parseFloat(ret);
       }

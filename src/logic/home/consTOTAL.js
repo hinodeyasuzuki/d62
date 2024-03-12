@@ -25,8 +25,6 @@
 
 import ConsBase from "../base/consbase.js";
 import { calcMonthly } from "../base/d6_calcmonthly.js";
-import { D6 } from "../d6.js";
-import { Unit } from "../areaset/unit.js";
 
 //Inherited class of ConsBase
 export class ConsTotal extends ConsBase {
@@ -34,6 +32,8 @@ export class ConsTotal extends ConsBase {
   //initialize setting
   constructor() {
     super();
+
+    this.calcMonthly = calcMonthly;
 
     //construction setting
     this.consName = "consTotal"; //code name of this consumption
@@ -89,7 +89,7 @@ export class ConsTotal extends ConsBase {
     this.solarSaleRatio = this.solarSaleRatio_org + (this.daylighttimeuse == 2 ? 0.1 : 0);
 
     //electricity
-    this.priceEle = this.input("i061", D6.area.averageCostEnergy.electricity); //electricity fee
+    this.priceEle = this.input("i061", window.Area.averageCostEnergy.electricity); //electricity fee
     this.priceEleSpring = this.input("i0912", -1);
     this.priceEleSummer = this.input("i0913", -1);
     this.priceEleWinter = this.input("i0911", -1);
@@ -102,7 +102,7 @@ export class ConsTotal extends ConsBase {
     this.priceEleSell = this.input("i092", this.input("i062", 0)); //sell electricity
 
     //gas
-    this.priceGas = this.input("i063", D6.area.averageCostEnergy.gas); //gas fee
+    this.priceGas = this.input("i063", window.Area.averageCostEnergy.gas); //gas fee
     this.priceGasSpring = this.input("i0932", -1);
     this.priceGasSummer = this.input("i0933", -1);
     this.priceGasWinter = this.input("i0931", -1);
@@ -138,14 +138,14 @@ export class ConsTotal extends ConsBase {
       (this.priceKerosWinter == -1);
 
     if (this.priceKerosWinter == -1) {
-      if (D6.area.averageCostEnergy.kerosene < 1000 || !this.hwUseKeros) {
+      if (window.Area.averageCostEnergy.kerosene < 1000 || !this.hwUseKeros) {
         //hot area and not use kerosene for hotwater -> default 0
         this.priceKeros = this.input("i064", 0);
       } else {
         //set average value as default 
         this.priceKeros = this.input(
           "i064",
-          D6.area.averageCostEnergy.kerosene / D6.area.seasonMonth.winter * 12
+          window.Area.averageCostEnergy.kerosene / window.Area.seasonMonth.winter * 12
         );
       }
       if (!this.hwUseKeros) {
@@ -157,12 +157,12 @@ export class ConsTotal extends ConsBase {
       }
     }
 
-    this.priceCar = this.input("i075", D6.area.averageCostEnergy.car); //gasoline
+    this.priceCar = this.input("i075", window.Area.averageCostEnergy.car); //gasoline
     this.noPriceData.car = this.input("i075", -1) == -1;
 
     this.equipHWType = this.input("i101", 1); //type of heater
 
-    this.generateEleUnit = D6.area.unitPVElectricity; //area parameters of PV generate
+    this.generateEleUnit = window.Area.unitPVElectricity; //area parameters of PV generate
 
     //set seasonal fee
     this.seasonPrice = {
@@ -189,7 +189,7 @@ export class ConsTotal extends ConsBase {
     };
 
     //add kerosene to gas if both input is null
-    if (D6.area.averageCostEnergy.kerosene < 1000) {
+    if (window.Area.averageCostEnergy.kerosene < 1000) {
       if (
         this.input("i063", -1) < 0 && //gas no input
         this.input("i0931", -1) < 0 &&
@@ -198,7 +198,7 @@ export class ConsTotal extends ConsBase {
       ) {
         //add kerosene to gas
         this.keros2gas =
-          D6.area.averageCostEnergy.kerosene /
+          window.Area.averageCostEnergy.kerosene /
           Unit.price.kerosene *
           Unit.calorie.kerosene /
           Unit.calorie.gas *
@@ -213,10 +213,10 @@ export class ConsTotal extends ConsBase {
     let ret; //return values
 
     //seasonal parameters
-    let seasonConsPattern = D6.area.getSeasonParam(D6.area.area);
+    let seasonConsPattern = window.Area.getSeasonParam(window.Area.area);
 
     //estimate of electricity
-    ret = calcMonthly(
+    ret = this.calcMonthly(
       this.priceEle,
       this.seasonPrice["electricity"],
       this.monthlyPrice["electricity"],
@@ -271,9 +271,9 @@ export class ConsTotal extends ConsBase {
     // solar generation restirict system
     this.pvRestrict = 1;
     if (
-      D6.area.electCompany == 2 || //tokyo
-      D6.area.electCompany == 3 || //chubu
-      D6.area.electCompany == 5 //kansai
+      window.Area.electCompany == 2 || //tokyo
+      window.Area.electCompany == 3 || //chubu
+      window.Area.electCompany == 5 //kansai
     ) {
       this.pvRestrict = 0;
     }
@@ -368,7 +368,7 @@ export class ConsTotal extends ConsBase {
     }
 
     //gas
-    ret = calcMonthly(
+    ret = this.calcMonthly(
       this.priceGas,
       this.seasonPrice["gas"],
       this.monthlyPrice["gas"],
@@ -387,7 +387,7 @@ export class ConsTotal extends ConsBase {
     this.gas = (this.priceGas - Unit.priceBase.gas) / Unit.price.gas;
 
     //kerosene
-    ret = calcMonthly(
+    ret = this.calcMonthly(
       this.priceKeros,
       this.seasonPrice["kerosene"],
       this.monthlyPrice["kerosene"],
@@ -405,7 +405,7 @@ export class ConsTotal extends ConsBase {
     this.kerosene = this.priceKeros / Unit.price.kerosene;
 
     //gasoline
-    ret = calcMonthly(
+    ret = this.calcMonthly(
       this.priceCar,
       this.seasonPrice["car"],
       this.monthlyPrice["car"],

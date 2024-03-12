@@ -24,7 +24,6 @@
  */
 
 import ConsBase from "../base/consbase.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of ConsBase
 export class ConsCOsum extends ConsBase {
@@ -63,7 +62,7 @@ export class ConsCOsum extends ConsBase {
     this.coolArea = this.input("i201", 0.5);		//rate by space of cooling
     this.coolTime = this.input("i261", 4);		//time
     this.coolTemp = this.input("i263", 27);		//temperature
-    this.coolMonth = this.input("i264", D6.area.seasonMonth.summer);		//month
+    this.coolMonth = this.input("i264", window.Area.seasonMonth.summer);		//month
   }
 
   calc() {
@@ -105,7 +104,7 @@ export class ConsCOsum extends ConsBase {
     }
 
     //coefficient of cooling
-    let coolFactor = D6.area.getCoolFactor(coolMonth, coolTime);
+    let coolFactor = window.Area.getCoolFactor(coolMonth, coolTime);
 
     let coefTemp;					//difference by temperature
     coefTemp = (27 - coolTemp) / 10 + 1;

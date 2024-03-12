@@ -106,41 +106,42 @@ D6.getAllResult(consName)			get total result
 //
 // make html at ay generator
 
-// onmessage(event) function called as worker ========================================
-//
-onmessage = function (event) {
-	var param = event.data.param;
-	if (!event.data.param) {
-		param = "";
-	}
-	if (typeof param.targetMode != "undefined") {
-		D6.targetMode = param.targetMode;
-	}
-	var result = D6.workercalc(event.data.command, param);
 
-	//return to main.js
-	try {
-		postMessage(
-			{
-				command: event.data.command,
-				result: result
-			},
-			"http://" + window.location.hostname
-		);
-	} catch (e) {
-		postMessage({
-			command: event.data.command,
-			result: result
-		});
+import { getInputPage, createComboBox, createTextArea, tfHandlerCombo, getFirstQues, getNextQues, getPrevQues, getQues, getQuesList, isEndOfQues, escapeHtml } from "./inputpage.js";
+import {graphItemize, graphEnergy, graphCO2average, graphMonthly, graphDemand} from "./graph.js";
+
+class d6View {
+	constructor() {
+		this.getInputPage = getInputPage;
+		this.createComboBox = createComboBox;
+		this.createTextArea = createTextArea;		
+		this.tfHandlerCombo = tfHandlerCombo;
+		this.getFirstQues = getFirstQues;
+		this.getNextQues = getNextQues;
+		this.getPrevQues = getPrevQues;
+		this.getQues = getQues;
+		this.getQuesList = getQuesList;
+		this.isEndOfQues = isEndOfQues;
+		this.escapeHtml = escapeHtml;
+
+		this.graphItemize = graphItemize;
+		this.graphEnergy = graphEnergy;
+		this.graphCO2average = graphCO2average;
+		this.graphMonthly = graphMonthly;
+		this.graphDemand = graphDemand;
+
 	}
-};
+}
+
+var D6View = new d6View();
+window.D6View = D6View;
 
 // workercalc(command, param)  simulating worker for non worker ========================
 // parameters
 // 		command: command code(string)
 // 		param: parameters array
 //
-D6.workercalc = function (command, param) {
+var d6facade = function (command, param) {
 	var result = {};
 
 	switch (command) {
@@ -182,10 +183,10 @@ D6.workercalc = function (command, param) {
 			result = D6.getAllResult("consTotal");
 
 			//create input componets
-			result.inputPage = D6.getInputPage(param.consName, param.subName);
+			result.inputPage = D6View.getInputPage(param.consName, param.subName);
 
 			//button selection
-			result.quesone = D6.getFirstQues(param.consName, param.subName);
+			result.quesone = D6View.getFirstQues(param.consName, param.subName);
 
 			//debug
 			if (D6.debugMode) {
@@ -223,7 +224,7 @@ D6.workercalc = function (command, param) {
 			result = D6.getAllResult(showName);
 
 			//create input components
-			result.inputPage = D6.getInputPage(showName, param.subName);
+			result.inputPage = D6View.getInputPage(showName, param.subName);
 
 			break;
 
@@ -234,10 +235,10 @@ D6.workercalc = function (command, param) {
 			result = D6.getAllResult(param.consName);
 
 			//create input componets
-			result.inputPage = D6.getInputPage(param.consName, param.subName);
+			result.inputPage = D6View.getInputPage(param.consName, param.subName);
 
 			//button selection
-			result.quesone = D6.getFirstQues(param.consName, param.subName);
+			result.quesone = D6View.getFirstQues(param.consName, param.subName);
 
 			break;
 
@@ -267,16 +268,16 @@ D6.workercalc = function (command, param) {
 			break;
 
 		case "quesone_next":
-			result.quesone = D6.getNextQues();
+			result.quesone = D6View.getNextQues();
 			break;
 
 		case "quesone_prev":
-			result.quesone = D6.getPrevQues();
+			result.quesone = D6View.getPrevQues();
 			break;
 
 		case "quesone_set":
 			D6.inSet(param.id, param.val);
-			result.quesone = D6.getNextQues();
+			result.quesone = D6View.getNextQues();
 			break;
 
 		case "recalc":
@@ -286,12 +287,12 @@ D6.workercalc = function (command, param) {
 			result = D6.getAllResult(param.consName);
 
 			//create input componets
-			result.inputPage = D6.getInputPage(param.consName, param.subName);
+			result.inputPage = D6View.getInputPage(param.consName, param.subName);
 			break;
 
 		case "pagelist":
 			//create itemize list
-			result.inputPage = D6.getInputPage(param.consName, param.subName);
+			result.inputPage = D6View.getInputPage(param.consName, param.subName);
 			break;
 
 		case "measureadd":
@@ -322,7 +323,7 @@ D6.workercalc = function (command, param) {
 
 		case "evaluateaxis":
 			//calc evaluate axis point
-			result.evaluateAxis = D6.getEvaluateAxisPoint("", param.subName);
+			result.evaluateAxis = D6View.getEvaluateAxisPoint("", param.subName);
 			break;
 
 		case "add_demand":
@@ -346,20 +347,20 @@ D6.workercalc = function (command, param) {
 
 		case "demand":
 			//create input componets and graph for demand page
-			result.demandin = D6.getInputDemandSumup();
-			result.demandlog = D6.getInputDemandLog();
-			result.graphDemand = D6.getDemandGraph();
+			result.demandin = D6View.getInputDemandSumup();
+			result.demandlog = D6View.getInputDemandLog();
+			result.graphDemand = D6View.getDemandGraph();
 			break;
 
 		case "inchange_demand":
 			D6.inSet(param.id, param.val);
-			result.graphDemand = D6.getDemandGraph();
+			result.graphDemand = D6View.getDemandGraph();
 			break;
 
 		case "modal":
 			//ay detail information about measure, modal dialog
 			var id = param.mid;
-			result.measure_detail = D6.getMeasureDetail(id);
+			result.measure_detail = D6View.getMeasureDetail(id);
 			break;
 
 		case "save":
@@ -376,7 +377,7 @@ D6.workercalc = function (command, param) {
 
 		case "getinputpage":
 			//create input componets
-			result.inputPage = D6.getInputPage(param.consName, param.subName);
+			result.inputPage = D6View.getInputPage(param.consName, param.subName);
 			break;
 
 		case "getqueslist":
@@ -440,7 +441,7 @@ D6.workercalc = function (command, param) {
 			}
 			//create input components
 			if (typeof param.getinput != "undefined" || param.getinput) {
-				result.inputPage = D6.getInputPage(param.consName, param.subName);
+				result.inputPage = D6View.getInputPage(param.consName, param.subName);
 			}
 			break;
 
@@ -449,3 +450,5 @@ D6.workercalc = function (command, param) {
 
 	return result;
 };
+
+export { d6facade };

@@ -11,6 +11,9 @@
 // call startCalc in main.js , in order to execute D6.workercalc in d6facade.js
 // result is dealed in main.js
 
+import {config} from "../../config.js";
+
+
 //inchange(id) -----------------------------------------------
 // 		set input value and calculate
 // parameters
@@ -18,21 +21,21 @@
 // set
 //		in demand page, execute inchange_demand
 //		in other page, execute inchange
-inchange = function(id) {
+window.inchange = function(id) {
 	var param = [];
 	param.id = id;
-	param.consName = tabNowName;
-	param.val = escapeHtml($("#" + id).val());
+	param.consName = config.tabNowName;
+	param.val = D6View.escapeHtml($("#" + id).val());
 	if (param.val == -1 || param.val === "") {
 		$("#" + id).removeClass("written");
 	} else {
 		$("#" + id).addClass("written");
 	}
-	if (mainTab == "demand") {
+	if (config.mainTab == "demand") {
 		//change demand page setting
-		startCalc("inchange_demand", param);
+		window.startCalc("inchange_demand", param);
 	} else {
-		startCalc("inchange", param);
+		window.startCalc("inchange", param);
 	}
 };
 
@@ -43,13 +46,13 @@ inchange = function(id) {
 // set
 //		checked, execute measureadd
 //		released, execute measuredelete
-measureadddelete = function(mid) {
+window.measureadddelete = function(mid) {
 	var param = {};
 	param.mid = mid;
 	if ($("#messel" + mid).prop("checked")) {
-		startCalc("measureadd", param);
+		window.startCalc("measureadd", param);
 	} else {
-		startCalc("measuredelete", param);
+		window.startCalc("measuredelete", param);
 	}
 };
 
@@ -60,15 +63,15 @@ measureadddelete = function(mid) {
 // set
 //		in demand page, execute add_demand
 //		in other page, execute addandstart
-addroom = function(consName) {
+window.addroom = function(consName) {
 	var param = {};
 	param.rdata = localStorage.getItem("sindan" + targetMode);
 	param.consName = consName;
 	param.subName = consName;
 	if (mainTab == "demand") {
-		startCalc("add_demand", param);
+		window.startCalc("add_demand", param);
 	} else {
-		startCalc("addandstart", param);
+		window.startCalc("addandstart", param);
 	}
 };
 
@@ -77,7 +80,7 @@ addroom = function(consName) {
 // parameters
 //		index :		tab index to highlight
 //		consName:  	display consumption code, if not null call D6 to get html
-tabclick = function(index, consName) {
+window.tabclick = function(index, consName) {
 	tabset(index);
 
 	//in case of change tab
@@ -85,16 +88,16 @@ tabclick = function(index, consName) {
 		var param = {};
 		param.consName = consName;
 		param.subName = consName;
-		tabNowIndex = index;
-		tabNowName = consName;
-		startCalc("tabclick", param);
+		config.tabNowIndex = index;
+		config.tabNowName = consName;
+		window.startCalc("tabclick", param);
 	}
 };
 
 //tabset( index ) ------------------------------------------
 //		highlight tab
-tabset = function(index) {
-	tabNow = index;
+var tabset = function(index) {
+	config.tabNow = index;
 	//contents
 	$("li.inppage").css("display", "none");
 	$("li.inppage")
@@ -112,19 +115,19 @@ tabset = function(index) {
 // parameters
 //		page :		code of consumption belongs to
 //		subpage:  	target consumption code
-subtabclick = function(page, subpage) {
+window.subtabclick = function(page, subpage) {
 	var param = {};
 	param.consName = page;
 	param.subName = subpage;
 
-	startCalc("subtabclick", param);
+	window.startCalc("subtabclick", param);
 };
 
 //modeChange(id) -------------------------------------------------
 //		change display mode
 // parameters
 //		id : code "m1" to "m3" (string)
-modeChange = function(id) {
+var modeChange = function(id) {
 	$(".inmode").removeClass("selected");
 	$("#" + id).addClass("selected");
 
@@ -134,8 +137,8 @@ modeChange = function(id) {
 	$("#top").hide();
 
 	var param = {};
-	param.consName = tabNowName;
-	param.subName = tabSubNowName;
+	param.consName = config.tabNowName;
+	param.subName = config.tabSubNowName;
 
 	if (id == "m1") {
 		//input mode
@@ -143,21 +146,21 @@ modeChange = function(id) {
 		$(".leftmenu").css("display", "inline-block");
 		$(".result").css("display", "inline-block");
 		$(".mesmenu").css("display", "none");
-		mainTab = "cons";
-		pageMode = "m1";
+		config.mainTab = "cons";
+		config.pageMode = "m1";
 
 		startCalc("tabclick", param);
-		tabset(tabNowIndex, tabNowName);
+		tabset(config.tabNowIndex, config.tabNowName);
 	} else if (id == "m2") {
 		//measures select mode
 		$("#divco2").css("display", "inline-block");
 		$(".leftmenu").css("display", "none");
 		$(".result").css("display", "inline-block");
 		$(".mesmenu").css("display", "inline-block");
-		mainTab = "cons";
-		pageMode = "m2";
+		config.mainTab = "cons";
+		config.pageMode = "m2";
 		startCalc("tabclick", param);
-		tabset(tabNowIndex, tabNowName);
+		tabset(config.tabNowIndex, config.tabNowName);
 	} else if (id == "m4") {
 		//about
 		$("#about").css("display", "inline-block");
@@ -166,49 +169,34 @@ modeChange = function(id) {
 		$(".leftmenu").css("display", "inline-block");
 		$(".result").css("display", "inline-block");
 		startCalc("demand", "");
-		mainTab = "demand";
+		config.mainTab = "demand";
 	}
 };
 
 //graphChange() -----------------------------------------
 // 		change graph type
-graphChange = function() {
+var graphChange = function() {
 	var param = {};
 	param.graph = $("#graphChange").val();
-	graphNow = param.graph;
+	config.graphNow = param.graph;
 	startCalc("graphchange", param);
 };
 
 //dataSave() -------------------------------------------
 //		save input data
-dataSave = function() {
+var dataSave = function() {
 	var param = "";
-	startCalc("save", param);
+	window.startCalc("save", param);
 };
 
 //dataClear() ------------------------------------------
 //		clear saved data, after confirm
-dataClear = function() {
+var dataClear = function() {
 	if (confirm(lang.dataClear)) {
-		localStorage.removeItem("sindan" + targetMode);
+		localStorage.removeItem("sindan" + config.targetMode);
 		location.reload();
 	}
 };
 
-/*
-	//save new
-	$("#btnsavenew").click(
-		function(){
-			var param = "";
-			startCalc( "savenew", param );
-		}
-	);
 
-	//load
-	$("#btnload").click(
-		function(){
-			var param = "";
-			startCalc( "load", param );
-		}
-	);
-*/
+export { modeChange, graphChange, dataSave, dataClear};

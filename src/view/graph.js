@@ -8,6 +8,10 @@
  *
  */
 
+import {lang} from "../lang_ja.js";
+import {config} from "../config.js";
+
+//var lang = lang;
 var wid;
 var hei;
 
@@ -27,7 +31,7 @@ function graphItemizeCommon(ret, targetname) {
 		return;
 	}
 	//caption: graph captions translate
-	if (targetMode == 1) {
+	if (config.targetMode == 1) {
 		var captions = {
 			you: lang.younow,
 			after: lang.youafter,
@@ -54,7 +58,7 @@ function graphItemizeCommon(ret, targetname) {
 	$("#" + targetname).html(
 		"<h3>" +
 		titles[ret.yaxis] +
-		(hideAverage != 1
+		(config.hideAverage != 1
 			? ":" +
 			ret.averageCaption +
 			captionCompareAverage +
@@ -80,14 +84,14 @@ function graphItemizeCommon(ret, targetname) {
 
 	// redesign data for graph
 	for (var c in ret.data) {
-		if (pageMode == "m1") {
+		if (config.pageMode == "m1") {
 			//in case of no selection mode
 			if (ret.data[c].compare == "after") {
 				delete ret.data[c];
 				continue;
 			}
 		}
-		if (hideAverage == 1 && ret.data[c].compare == "average") {
+		if (config.hideAverage == 1 && ret.data[c].compare == "average") {
 			delete ret.data[c];
 			continue;
 		}
@@ -115,13 +119,13 @@ function graphItemizeCommon(ret, targetname) {
 	//sort data and set axis
 	var categoryOrder = [];
 	categoryOrder[0] = captions.you;
-	if (pageMode == "m1") {
-		if (hideAverage == 0) {
+	if (config.pageMode == "m1") {
+		if (config.hideAverage == 0) {
 			categoryOrder[1] = captions.average;
 		}
 	} else {
 		categoryOrder[1] = captions.after;
-		if (hideAverage == 0) {
+		if (config.hideAverage == 0) {
 			categoryOrder[2] = captions.average;
 		}
 	}
@@ -606,3 +610,5 @@ function graphDemand(ret) {
 	chart.staggerDraw = true;
 	chart.draw(2000);
 }
+
+export {graphItemize, graphEnergy, graphCO2average, graphMonthly, graphDemand};

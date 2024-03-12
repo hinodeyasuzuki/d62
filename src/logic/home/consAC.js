@@ -24,7 +24,7 @@
 
 import ConsBase from "../base/consbase.js";
 import Energy from "../base/energy.js";
-import { D6 } from "../d6.js";
+// import { D6 } from "../d6.js";
 
 //Inherited class of D6.consBase
 export class ConsAC extends ConsBase {

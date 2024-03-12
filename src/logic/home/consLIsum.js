@@ -24,7 +24,6 @@
  */
 
 import ConsBase from "../base/consbase.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of ConsBase
 export class ConsLIsum extends ConsBase {

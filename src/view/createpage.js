@@ -25,6 +25,9 @@
 //  global
 //		pageMode 	"m1" then not show after selection
 
+import {lang} from "../lang_ja.js";
+import {config} from "../config.js";
+
 var createInputPage = function (res) {
 	var consName = res.consName;
 	var subName = res.subName;
@@ -73,7 +76,7 @@ var createInputPage = function (res) {
 				"' onclick='subtabclick(\"" + c + "\",\"" + d + "\");' tabindex=0 ";
 			if (count == 0) {
 				combo += "class='select' ";
-				tabSubNowName = d;
+				// tabSubNowName = d;
 			}
 			count++;
 			combo += ">" + res.subgroup[c][d] + "</li>";
@@ -458,13 +461,13 @@ var showAverageTable = function (dat) {
 	var youcount = "";
 	var same = "";
 	var notshowafter = 0;
-	if (pageMode == "m1") {
+	if (config.pageMode == "m1") {
 		notshowafter = 1;
 	}
 
-	if (hideAverage == 1) return "";
+	if (config.hideAverage == 1) return "";
 
-	if (targetMode == 1) {
+	if (config.targetMode == 1) {
 		//home
 		youcall = lang.youcall;
 		youcount = lang.youcount;
@@ -533,7 +536,7 @@ var showAverageTable = function (dat) {
 //
 var createCompareComment = function (same, you, av, target, rank100) {
 	var youcount;
-	if (targetMode == 1) {
+	if (config.targetMode == 1) {
 		//home
 		youcount = lang.youcount;
 	} else {
@@ -596,8 +599,8 @@ var showItemizeTable = function (target) {
 		cons = target[cid];
 		if (
 			cons.sumConsName != "consTotal" &&
-			cons.sumConsName != tabNowName &&
-			cons.sumCons2Name != tabNowName &&
+			cons.sumConsName != config.tabNowName &&
+			cons.sumCons2Name != config.tabNowName &&
 			cons.consName != "consTotal"
 		)
 			continue;
@@ -605,9 +608,9 @@ var showItemizeTable = function (target) {
 
 		ret += "<tr><td class='conscolor' style='border-color:" + cons.color + "'>";
 		if (
-			cons.sumConsName == tabNowName &&
-			cons.sumCons2Name == tabNowName &&
-			tabNowName != "consTotal"
+			cons.sumConsName == config.tabNowName &&
+			cons.sumCons2Name == config.tabNowName &&
+			config.tabNowName != "consTotal"
 		) {
 			ret += "　" + cons.title + "</td>";
 		} else {
@@ -623,26 +626,26 @@ var showItemizeTable = function (target) {
 					"</td>";
 			}
 		}
-		ret += "<td class='right'>" + this.comma3(cons.co2 * 12) + "</td>";
+		ret += "<td class='right'>" + comma3(cons.co2 * 12) + "</td>";
 		ret +=
 			"<td class='right'>" +
-			this.comma3((100 * cons.co2) / cons.co2Total) +
+			comma3((100 * cons.co2) / cons.co2Total) +
 			"%</td>";
 		ret +=
 			"<td class='right'>" +
-			this.comma3((cons.electricity + cons.nightelectricity) * 12) +
+			comma3((cons.electricity + cons.nightelectricity) * 12) +
 			"</td>";
-		ret += "<td class='right'>" + this.comma3(cons.gas * 12) + "</td>";
+		ret += "<td class='right'>" + comma3(cons.gas * 12) + "</td>";
 		if (lang.show_kerosene) {
-			ret += "<td class='right'>" + this.comma3(cons.kerosene * 12) + "</td>";
+			ret += "<td class='right'>" + comma3(cons.kerosene * 12) + "</td>";
 		}
 		if (lang.show_briquet) {
-			ret += "<td class='right'>" + this.comma3(cons.coal * 12) + "</td>";
+			ret += "<td class='right'>" + comma3(cons.coal * 12) + "</td>";
 		}
 		if (lang.show_area) {
-			ret += "<td class='right'>" + this.comma3(cons.hotwater * 12) + "</td>";
+			ret += "<td class='right'>" + comma3(cons.hotwater * 12) + "</td>";
 		}
-		ret += "<td class='right'>" + this.comma3(cons.car * 12) + "</td>";
+		ret += "<td class='right'>" + comma3(cons.car * 12) + "</td>";
 		ret += "</tr>";
 	}
 	ret += "</table>";
@@ -684,9 +687,9 @@ var showItemizeTableSort = function (target) {
 	}
 	ret += "<tr><td class='conscolor' style='border-color:" + colorother + "'>";
 	ret += "　" + lang.other + "</td>";
-	ret += "<td class='right'>" + this.comma3(co2other * 12) + "</td>";
+	ret += "<td class='right'>" + comma3(co2other * 12) + "</td>";
 	ret +=
-		"<td class='right'>" + this.comma3((100 * co2other) / co2Total) + "%</td>";
+		"<td class='right'>" + comma3((100 * co2other) / co2Total) + "%</td>";
 	ret += "</tr>";
 
 	//each item
@@ -698,10 +701,10 @@ var showItemizeTableSort = function (target) {
 		ret += "<tr><td class='conscolor' style='border-color:" + cons.color + "'>";
 		ret += "　" + cons.title + "</td>";
 
-		ret += "<td class='right'>" + this.comma3(cons.co2 * 12) + "</td>";
+		ret += "<td class='right'>" + comma3(cons.co2 * 12) + "</td>";
 		ret +=
 			"<td class='right'>" +
-			this.comma3((100 * cons.co2) / cons.co2Total) +
+			comma3((100 * cons.co2) / cons.co2Total) +
 			"%</td>";
 		ret += "</tr>";
 	}
@@ -727,12 +730,12 @@ var showMeasureTable = function (mesArray) {
 		" (" +
 		lang.co2unitperyear +
 		")</th><th>" +
-		(hidePrice == 1
+		(config.hidePrice == 1
 			? ""
 			: lang.feereductiontitle + " (" + lang.feeunitperyear + ")</th><th>") +
 		lang.merit +
 		"</th>" +
-		(pageMode != "m1" ? "<th>" + lang.select + "</th>" : "") +
+		(config.pageMode != "m1" ? "<th>" + lang.select + "</th>" : "") +
 		"</tr>";
 	var mes;
 	var count = 0;
@@ -826,7 +829,7 @@ var showMeasureTable = function (mesArray) {
 				"<td class='right' style='" +
 				mesbgcolor +
 				"'>" +
-				this.comma3(-mes.co2ChangeOriginal * 12) +
+				comma3(-mes.co2ChangeOriginal * 12) +
 				"</td>";
 
 			if (hidePrice != 1) {
@@ -835,7 +838,7 @@ var showMeasureTable = function (mesArray) {
 					"<td class='right' style='" +
 					mesbgcolor +
 					"'>" +
-					this.comma3(-mes.costChangeOriginal * 12) +
+					comma3(-mes.costChangeOriginal * 12) +
 					"</td>";
 			}
 
@@ -1017,11 +1020,11 @@ function tabset() { }
 var priceRound = function (num) {
 	var price;
 	if (num > 10000) {
-		price = this.comma3(Math.round(num / 100) * 100);
+		price = comma3(Math.round(num / 100) * 100);
 	} else if (num > 4000) {
-		price = this.comma3(Math.round(num / 50) * 50);
+		price = comma3(Math.round(num / 50) * 50);
 	} else {
-		price = this.comma3(Math.round(num / 10) * 10);
+		price = comma3(Math.round(num / 10) * 10);
 	}
 	return price;
 };
@@ -1284,3 +1287,5 @@ var over15show = function () {
 	showOver15 = true;
 	$("#itemize").removeClass("limit");
 };
+
+export { createInputPage,showAverageTable,showItemizeTable,showMeasureTable,showDemandSumupPage,showDemandLogPage,showMeasureTotalMessage,leanModalSet,showModal,tabset,priceRound,comma3,escapeHtml,languageset,base64,over15show };

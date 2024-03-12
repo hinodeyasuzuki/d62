@@ -24,7 +24,6 @@
  */
 
 import { ConsHTsum } from "./consHTsum";
-import { D6 } from "../d6.js";
 
 // Inherited class of D6.consHTsum
 export class ConsACheat extends ConsHTsum {

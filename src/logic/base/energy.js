@@ -18,8 +18,6 @@
  * 								2016/04/12 ported to JavaScript
  */
 
-import { Unit } from "../areaset/unit.js";
-import { D6 } from "../d6.js";
 
 export default class Energy {
   //value of each energy type
@@ -50,7 +48,7 @@ export default class Energy {
   //clear() --------------------------------------------
   //		clear values
   clear() {
-    for (let i in Unit.co2) {
+    for (let i in window.Unit.co2) {
       this[i] = 0;
     }
     this.co2 = 0;

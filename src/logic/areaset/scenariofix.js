@@ -239,24 +239,24 @@ const areafix = function () {
   this.scenario.defEasyQues[0].title = "簡易入力";
   this.scenario.defEasyQues[1].title = "行動チェック入力";
 
-  this.Unit.name = {
-    electricity: "電気",
-    nightelectricity: "夜間電気",
-    sellelectricity: "売電",
-    nagas: "都市ガス",
-    lpgas: "LPガス",
-    kerosene: "灯油",
-    gasoline: "ガソリン",
-    lightoil: "軽油",
-    heavyoil: "重油",
-    coal: 0,
-    biomass: 0,
-    hotwater: 0,
-    waste: 0,
-    water: 0,
-    gas: "都市ガス",
-    car: "ガソリン"
-  };
+  // this.Unit.name = {
+  //   electricity: "電気",
+  //   nightelectricity: "夜間電気",
+  //   sellelectricity: "売電",
+  //   nagas: "都市ガス",
+  //   lpgas: "LPガス",
+  //   kerosene: "灯油",
+  //   gasoline: "ガソリン",
+  //   lightoil: "軽油",
+  //   heavyoil: "重油",
+  //   coal: 0,
+  //   biomass: 0,
+  //   hotwater: 0,
+  //   waste: 0,
+  //   water: 0,
+  //   gas: "都市ガス",
+  //   car: "ガソリン"
+  // };
 
   /*	
   //the way to create a new measure==========================================================
@@ -268,7 +268,7 @@ ex. 	this.scenario.defMeasures['mTOsolar'] = { mid:"1",  name:"mTOsolar",  title
 
 ex.	this.scenario.defInput["i242"] = {  cons:"consACheat",  title:"部屋の寒さ",  unit:"",  text:"その部屋は暖房は効きますか", inputType:"sel242", right:"", postfix:"", nodata:"", varType:"Number", min:"", max:"", defaultValue:"-1", d11t:"",d11p:"",d12t:"",d12p:"",d13t:"",d13p:"",d1w:"",d1d:"", d21t:"",d21p:"",d22t:"",d22p:"",d23t:"",d23p:"",d2w:"",d2d:"", d31t:"",d31p:"",d32t:"",d32p:"",d33t:"",d33p:"",d3w:"",d3d:""}; 			this.scenario.defSelectValue["sel242"]= [ "選んで下さい", "暖房すると寒さは感じない", "やや寒い", "なかなか暖まらない", "暖房しても寒い", "暖房はしない", "" ];			this.scenario.defSelectData['sel242']= [ '-1', '1', '2', '3', '4', '5' ];
 
-  3)override and add functions in cons strategy file. to similar to /d6/home/*.php
+  3)override and add functions in cons strategy file. to similar to /this/home/*.php
 
   this.consTotal.org_calcMeasure	this.consTotal.calcMeasure;
   this.consTotal.calcMeasure = {

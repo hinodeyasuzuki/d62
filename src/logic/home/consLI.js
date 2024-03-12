@@ -24,7 +24,6 @@
  */
 
 import { ConsLIsum } from "./consLIsum.js";
-import { D6 } from "../d6.js";
 
 //Inherited class of consLIsum
 export class ConsLI extends ConsLIsum {

@@ -30,7 +30,7 @@ const calcCons = function () {
   var i, j;
 
   //area parameters set
-  this.setPersonArea(
+  this.Area.setPersonArea(
     this.doc.data.i001,
     this.doc.data.i021,
     this.doc.data.i023

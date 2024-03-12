@@ -17,9 +17,9 @@ describe('D6', () => {
 
   test('should set person area', () => {
     D6.setPersonArea(2, 100, 200);
-    expect(D6.area.persons).toBe(2);
-    expect(D6.area.floorArea).toBe(100);
-    expect(D6.area.heatedFloorArea).toBe(200);
+    expect(window.Area.persons).toBe(2);
+    expect(window.Area.floorArea).toBe(100);
+    expect(window.Area.heatedFloorArea).toBe(200);
   });
 
   // Add more tests for other functions and properties of D6 class

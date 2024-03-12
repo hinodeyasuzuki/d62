@@ -24,9 +24,6 @@
  */
 
 import ConsBase from "../base/consbase.js";
-import { D6 } from "../d6.js";
-import { Unit } from "../areaset/unit.js";
-
 
 //Inherited class of ConsBase
 export class ConsHTsum extends ConsBase {
@@ -70,7 +67,7 @@ export class ConsHTsum extends ConsBase {
     this.clear(); //clear data
 
     this.prefecture = this.input("i021", 13); //city, prefecture ##
-    this.heatArea = D6.area.getHeatingLevel(this.prefecture);
+    this.heatArea = window.Area.getHeatingLevel(this.prefecture);
 
     this.person = this.input("i001", 3); //person ##
     this.houseType = this.input("i002", 1); //standalone
@@ -79,11 +76,11 @@ export class ConsHTsum extends ConsBase {
     // default area heating set
     this.priceHotWater =
       this.input("i066", 1) == 1
-        ? (D6.area.averageCostEnergy.hotwater * this.houseSize) / 100
+        ? (window.Area.averageCostEnergy.hotwater * this.houseSize) / 100
         : 0;
 
     this.heatSpace = this.input("i201", this.heatArea <= 3 ? 0.6 : 0.2); //part of heating CN
-    this.heatMonth = this.input("i206", D6.area.seasonMonth.winter); //heating month
+    this.heatMonth = this.input("i206", window.Area.seasonMonth.winter); //heating month
 
     // heat time default set
     this.heatTime = this.input("i204", this.heatArea <= 1 ? 24 : this.heatArea <= 3 ? 8 : 4); //heating time
@@ -154,7 +151,7 @@ export class ConsHTsum extends ConsBase {
     //guess of heat source
     if (this.heatEquip <= 0) {
       if (this.consKeros > 0
-        || D6.area.averageCostEnergy.kerosene > 1000
+        || window.Area.averageCostEnergy.kerosene > 1000
       ) {
         //kerosene 
         this.heatEquip = 4;
@@ -391,7 +388,7 @@ export class ConsHTsum extends ConsBase {
         D6.consShow["TO"].kerosene = consHW.kerosene + this.kerosene;
 
         //total kerosene recalculate
-        let seasonConsPattern = D6.area.getSeasonParam();
+        let seasonConsPattern = window.Area.getSeasonParam();
         ret = this.calcMonthly(D6.consShow["TO"].kerosene * Unit.price.kerosene, [-1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], seasonConsPattern.kerosene, "kerosene");
         D6.consShow["TO"].priceKeros = ret.ave;
         D6.consShow["TO"].seasonPrice["kerosene"] = ret.season;
@@ -453,7 +450,7 @@ export class ConsHTsum extends ConsBase {
     }
 
     //heat factor by month and hours
-    let heatFactor = D6.area.getHeatFactor(heatMonth, heatTime);
+    let heatFactor = window.Area.getHeatFactor(heatMonth, heatTime);
 
     //heat time adjust for long time use
     let heatTimeFactor = Math.min(heatTime, (heatTime - 8) * 0.3 + 8) / (heatTime ? heatTime : 4);
