@@ -991,11 +991,11 @@ var showMeasureTotalMessage = function (rescommon) {
 //
 var leanModalSet = function () {
 	// use leanModal
-	$("a[rel*=leanModal]").leanModal({
-		top: 50, // top position
-		overlay: 0.5, // back transparency
-		closeButton: ".modal_close" // CSS class of close button
-	});
+	// $("a[rel*=leanModal]").leanModal({
+	// 	top: 50, // top position
+	// 	overlay: 0.5, // back transparency
+	// 	closeButton: ".modal_close" // CSS class of close button
+	// });
 };
 
 // showModal(id) ----------------------------------------

@@ -172,6 +172,7 @@ var getCalcResult = function (command, res) {
 		return typeof data != "undefined";
 	}
 
+	var inputHtml = "";
 	var mestitle = "<h3>" + lang.effectivemeasures + "</h3>";
 
 	switch (command) {
@@ -181,7 +182,7 @@ var getCalcResult = function (command, res) {
 			// display input and result as start mode
 
 			//display tabs, input page
-			let inputHtml = createInputPage(res.inputPage);
+			inputHtml = createInputPage(res.inputPage);
 			$("#tab").html(inputHtml.menu);
 			$("#tabcontents").html(inputHtml.combo);
 
@@ -225,7 +226,7 @@ var getCalcResult = function (command, res) {
 			//sub tab click method : main tab is not changed
 			inputHtml = createInputPage(res.inputPage);
 			$("#tabcontents").html(inputHtml.combo);
-			tabset(tabNow);
+			tabset(config.tabNow);
 
 			config.tabSubNowName = res.subName;
 

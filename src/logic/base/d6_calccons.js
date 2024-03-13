@@ -69,7 +69,7 @@ const calcCons = function () {
   }
 
   //adjust among each consumption
-  // this.calcConsAdjust();
+  this.calcConsAdjust();
 
   //calculate cost and energy
   for (i = 0; i < this.consList.length; i++) {

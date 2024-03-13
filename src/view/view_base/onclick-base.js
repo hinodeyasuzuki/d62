@@ -65,10 +65,10 @@ window.measureadddelete = function(mid) {
 //		in other page, execute addandstart
 window.addroom = function(consName) {
 	var param = {};
-	param.rdata = localStorage.getItem("sindan" + targetMode);
+	param.rdata = localStorage.getItem("sindan" + config.targetMode);
 	param.consName = consName;
 	param.subName = consName;
-	if (mainTab == "demand") {
+	if (config.mainTab == "demand") {
 		window.startCalc("add_demand", param);
 	} else {
 		window.startCalc("addandstart", param);

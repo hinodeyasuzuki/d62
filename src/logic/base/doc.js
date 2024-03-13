@@ -25,6 +25,7 @@ const doc =
   data: [],								//input values
   equip: [],								//equiment price
 
+
   // clear values
   //		dialog:false not to show dialog
   clear: function (dialog) {
@@ -60,6 +61,10 @@ const doc =
     let prop = 0;
     let i = 0;
     let Input = this.data;
+
+    this.measureList = window.D6.measureList;
+    this.logicList = window.D6.logicList;
+    this.scenario = window.D6.scenario;
 
     for (prop in Input) {
       if (this.scenario.defInput[prop.substr(0, 4)].defaultValue == Input[prop]) continue;

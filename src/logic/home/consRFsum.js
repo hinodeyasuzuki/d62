@@ -47,6 +47,12 @@ export class ConsRFsum extends ConsBase {
     this.clear();
     this.count = this.input("i701", 1);		//number of refragerator
   }
+  
+  calc2nd() {
+    for (let i = 0; i < this.count; i++) {
+      this.electricity += D6.consListByName["consRF"][i].electricity;
+    }
+  }
 
   calcMeasure() {
   }

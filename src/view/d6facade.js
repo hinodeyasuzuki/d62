@@ -244,7 +244,7 @@ var d6facade = function (command, param) {
 
 		case "subtabclick":
 			//create input componets / sub cons change
-			result.inputPage = D6.getInputPage(param.consName, param.subName);
+			result.inputPage = D6View.getInputPage(param.consName, param.subName);
 			result.subName = param.subName;
 			break;
 
