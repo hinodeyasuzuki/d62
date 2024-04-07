@@ -112,9 +112,21 @@ Released under the MIT license
 
 
 
+# 年度単価更新
+logic_JP/area.js 216 電力会社ごとの単価係数
+	electCompanyPrice: [1.2, 1, 1, 1, 1, 1, 1, 1, 1, 1.2],
 
 
+logic_JP/area.js 461 最新の単価（家計調査）
+	toukeiUnitNow : [ 31.72, 764.61, 111, 168.1, 148.2 ],
 
+unit　43行～ 基本電気単価、燃料単価（家計調査）
+	defaultPriceElectricity 
 
+	price : {
+		electricity:31.72,				// override in D6.area.setPersonArea by supplier
+		nightelectricity:16.848,
+		sellelectricity:16,
+		・
+		・
 
-.

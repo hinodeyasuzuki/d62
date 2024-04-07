@@ -40,26 +40,26 @@ D6.Unit = {
 	},
 
 	//2022fy
-	defaultPriceElectricity : 26.15,
+	defaultPriceElectricity : 31.72,
 
 	// unit price   yen(in Japan)/each unit
 	price : {
-		electricity:26.15,				// override in D6.area.setPersonArea by supplier
-		nightelectricity:17.4,
-		sellelectricity:17,
-		nagas:166,
-		lpgas:746,
-		kerosene:122,
-		gasoline:174,
-		lightoil:153,
+		electricity:31.72,				// override in D6.area.setPersonArea by supplier
+		nightelectricity:16.848,
+		sellelectricity:16,
+		nagas:169.2,
+		lpgas:764.61,
+		kerosene:111.0,
+		gasoline:168.1,
+		lightoil:148.2,
 		heavyoil:80,
 		coal:0,
 		biomass:0,
 		hotwater:0,
 		waste:0,
-		water:332.69,
-		gas:166,
-		car:174
+		water:333.3,
+		gas:169.2,
+		car:168.1
 	},
 
 	// intercept price when consumption is zero 	yen(in Japan)

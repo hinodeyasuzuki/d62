@@ -230,6 +230,7 @@ D6.area = {
 			id = this.energyCode2id[i];
 			ret[i] = this.prefKakeiEnergy[pref][id] 
 					* this.kakeiNumCoefficent[( num>6 ? 6 : num )-1][id]
+					/ this.toukeiUnit[id] *  this.toukeiUnitNow[id]						//価格変化補正				
 					* this.urbanCostCoefficient[id][urban] / this.urbanCostCoefficient[id][0];
 		}
 
@@ -395,6 +396,13 @@ D6.area = {
 		[ 7959, 5661, 313, 2647],	//hyogo
 		[ 7568, 5400, 3772, 3984],  //hokkaido
 	],
+
+	//base unit
+	toukeiUnit : [ 1,1,1,1,1],
+
+	//unit of this year 
+	toukeiUnitNow : [ 1,1,1,1,1 ],
+
 
 	// seasonal energy fee factor to average
 	//
