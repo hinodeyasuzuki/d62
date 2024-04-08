@@ -228,7 +228,7 @@ D6.area = {
 		var id;
 		for ( var i in this.energyCode2id) {
 			id = this.energyCode2id[i];
-			ret[i] = this.prefKakeiEnergy[pref][id] 
+			ret[i] = this.prefKakeiEnergy[pref][id] * this.co2factor
 					* this.kakeiNumCoefficent[( num>6 ? 6 : num )-1][id]
 					/ this.toukeiUnit[id] *  this.toukeiUnitNow[id]						//価格変化補正				
 					* this.urbanCostCoefficient[id][urban] / this.urbanCostCoefficient[id][0];
@@ -403,6 +403,8 @@ D6.area = {
 	//unit of this year 
 	toukeiUnitNow : [ 1,1,1,1,1 ],
 
+	//co2 statistic factor
+	co2factor :1,
 
 	// seasonal energy fee factor to average
 	//

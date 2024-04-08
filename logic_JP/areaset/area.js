@@ -460,6 +460,9 @@ D6.patch(D6.area, {
 	//家計調査最新年度　2022年
 	toukeiUnitNow : [ 31.72, 764.61, 111, 168.1, 148.2 ],
 
+	//co2 statistic factor
+	co2factor :0.8713,		// 2015-19年 4330kg/y, 2022年 3733kg/y
+
 	// seasonal energy fee factor to average
 	//
 	//	prefSeasonFactorArray[prefecture][season][energy_type]
