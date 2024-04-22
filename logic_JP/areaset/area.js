@@ -457,11 +457,11 @@ D6.patch(D6.area, {
 	//2015-2019 家計調査 unit price 電気、LPガス、灯油、ガソリン
 	toukeiUnit : [ 25.91, 557.07, 77.27, 130.07, 120.80 ],
 
-	//家計調査最新年度　2022年
-	toukeiUnitNow : [ 31.72, 764.61, 111, 168.1, 148.2 ],
+	//家計調査最新年度 2023年(ガスほかは単価最新値）
+	toukeiUnitNow : [ 29.89, 735.57, 117, 174.9, 154.6 ],
 
-	//co2 statistic factor
-	co2factor :0.8713,		// 2015-19年 4330kg/y, 2022年 3733kg/y
+	//co2 statistic factor	家計調査（ガソリンはインベントリオフィスより、消費量比率）
+	energyfactor : [0.99, 0.98, 0.98, 0.83, 0.85],
 
 	// seasonal energy fee factor to average
 	//
