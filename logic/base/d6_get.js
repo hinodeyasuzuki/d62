@@ -87,12 +87,15 @@ D6.getAverage = function (consCode) {
 	ret.afterrank100 = D6.rankIn100(ret.after / ret.av); //rank after set measures( 1-100 )
 
 	var d6i012 = D6.doc.data["i021"];
+
+	//same home's name
 	ret.samehome =
 		D6.scenario.defSelectValue.sel021[d6i012 && d6i012 > 0 ? d6i012 : 13];
 
-	//same home's name
-	ret.sameoffice = D6.scenario.defSelectValue.sel001[D6.doc.data["i001"]];
 	//same office's name
+	if ( D6.scenario.defSelectValue.sel001) {
+		ret.sameoffice = D6.scenario.defSelectValue.sel001[D6.doc.data["i001"]>0 ? D6.doc.data["i001"] : 3];
+	}
 
 	ret.consCode = consCode;
 	return ret;

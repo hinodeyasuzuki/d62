@@ -75,8 +75,10 @@ class ConsHWdishwash extends ConsBase {
 			this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
 		}
 
-		if (this.sumCons.dishWashWater != 1 && this.savetype == 2 ) {
-			this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap);
+		if ( this.measures["mHWtap"] ){
+			if (this.sumCons.dishWashWater != 1 && this.savetype == 2 ) {
+				this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap);
+			}
 		}
 	}
 
