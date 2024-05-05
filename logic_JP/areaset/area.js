@@ -460,8 +460,8 @@ D6.patch(D6.area, {
 	//家計調査最新年度 2023年(ガスほかは単価最新値）
 	toukeiUnitNow : [ 29.89, 735.57, 117, 174.9, 154.6 ],
 
-	//co2 statistic factor	家計調査（ガソリンはインベントリオフィスより、消費量比率）
-	energyfactor : [0.99, 0.98, 0.98, 0.83, 0.85],
+	//co2 statistic factor	エネルギー経済統計要覧2022年値/(15-19)（ガソリンはインベントリオフィスより、消費量比率）
+	energyfactor : [0.968, 0.932, 0.932, 0.796, 0.852],
 
 	// seasonal energy fee factor to average
 	//
