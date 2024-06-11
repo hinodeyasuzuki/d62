@@ -101,7 +101,11 @@ class ConsTotal extends ConsBase {
 		this.priceEleSell = this.input("i092", this.input("i062", 0)); //sell electricity
 
 		//gas
-		this.priceGas = this.input("i063", D6.area.averageCostEnergy.gas); //gas fee
+		if (this.input("i083",-1) == 3 ){
+			this.priceGas = this.input("i063", 0); //gas fee
+		} else {
+			this.priceGas = this.input("i063", D6.area.averageCostEnergy.gas); //gas fee
+		}
 		this.priceGasSpring = this.input("i0932", -1);
 		this.priceGasSummer = this.input("i0933", -1);
 		this.priceGasWinter = this.input("i0931", -1);

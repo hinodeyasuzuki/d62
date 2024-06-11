@@ -144,7 +144,8 @@ class ConsHWsum extends ConsBase {
 		}
 
 		//good type
-		if (this.equipType == 1 && this.heaterPerformance == 1) {
+		if (this.equipType == 1 && this.input("i121", 1) == 1 ){
+			//default ecocute
 			this.equipType == 2;
 		}
 		if (this.equipType == 5 && this.heaterPerformance == 1) {
