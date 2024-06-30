@@ -130,28 +130,29 @@ class ConsHWsum extends ConsBase {
 
 	// calculation of this consumption ------------------------------------
 	calc() {
-		// guess equip type
+		// guess equip type( if not set )
 		if (this.equipType <= 0) {
 			if (this.priceGas == 0) {
 				if (this.priceKeros > 3000) {
 					this.equipType = 3;
 				} else {
+					//gas
 					this.equipType = 5;
 				}
 			} else {
-				this.equipType = 1;
+				//electricity
+				if ( this.input("i121", 1) == 1 ){
+					//default ecocute
+					this.equipType == 2;
+				}
 			}
 		}
 
-		//good type
-		if (this.equipType == 1 && this.input("i121", 1) == 1 ){
-			//default ecocute
-			this.equipType == 2;
-		}
+		//good type fix
 		if (this.equipType == 5 && this.heaterPerformance == 1) {
 			this.equipType == 6;
 		}
-		//bad type
+		//bad type fix
 		if (this.equipType == 2 && this.heaterPerformance == 3) {
 			this.equipType == 1;
 		}
@@ -369,7 +370,7 @@ class ConsHWsum extends ConsBase {
 		// 230203 fix
 		var endEnergyNow = this.jules * 1000 / 4.18 * this.performanceOrg;
 		if (
-			this.equipType < 5 &&
+			this.equipType < 9 &&
 			!goodPerformance
 		) {
 			//mHWecocute
@@ -415,7 +416,7 @@ class ConsHWsum extends ConsBase {
 
 		if ( 
 			this.housetype == 1 &&
-			this.equipType <=5 &&
+			this.equipType <=9 &&
 			!goodPerformance
 		) {
 			//mHWenefarm
@@ -483,7 +484,7 @@ class ConsHWsum extends ConsBase {
 		}
 
 		//mHWsaveMode
-		if (this.equipType == 6 || this.equipType == 5) {
+		if (this.equipType == 6 ) {
 			this.measures["mHWsaveMode"].calcReduceRate(this.reduceRateSaveMode);
 		}
 
