@@ -116,8 +116,6 @@ class ConsHWsum extends ConsBase {
 		this.tabHeight = this.input("i107", 8); //height of tab hot water 0-10
 
 		this.equipType = this.input("i101", -1); //type of heater
-		this.priceGas = D6.consShow["TO"].priceGas; //gas fee yen/month
-		this.priceKeros = D6.consShow["TO"].priceKeros; //kerosene price yen/month
 
 		this.dresserMonth = this.input("i114", 4); //months of use hot water for dresser month
 		this.dishWashMonth = this.input("i115", 4); //months of use hot water for dish wash month / 99 is machine
@@ -130,6 +128,9 @@ class ConsHWsum extends ConsBase {
 
 	// calculation of this consumption ------------------------------------
 	calc() {
+		this.priceGas = D6.consShow["TO"].priceGas; //gas fee yen/month
+		this.priceKeros = D6.consShow["TO"].priceKeros; //kerosene price yen/month
+
 		// guess equip type( if not set )
 		if (this.equipType <= 0) {
 			if (this.priceGas == 0) {

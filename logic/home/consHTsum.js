@@ -94,10 +94,6 @@ class ConsHTsum extends ConsBase {
 		this.priceGasSpring = this.input("i0922", -1); //gas charge in spring/fall
 		this.priceGasWinter = this.input("i0921", -1); //gas charge in winter
 
-		this.priceKerosSpring = this.input("i0942", -1);
-		this.priceKerosSummer = this.input("i0943", -1);
-		this.priceKerosWinter = this.input("i0941", -1);
-		this.consKeros = this.input("i064", -1); //consumption of kerosene
 		this.hotwaterEquipType = this.input("i101", -1); //hot water temperature
 
 		this.performanceWindow = this.input("i041", 0); //performance of window
@@ -134,6 +130,7 @@ class ConsHTsum extends ConsBase {
 	}
 
 	calc() {
+		this.consKeros = D6.consShow["TO"].priceKeros; //consumption of kerosene ->after set
 		this.priceEleSpring = D6.consShow["TO"].priceEleSpring;	//electricity charge in spring/fall
 		this.priceEleWinter = D6.consShow["TO"].priceEleWinter;	//electricity charge in winter
 		this.priceGasSpring = D6.consShow["TO"].priceGasSpring;	//gas charge in spring/fall
