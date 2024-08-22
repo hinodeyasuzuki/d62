@@ -40,6 +40,34 @@ D6.calcMeasures = function (gid) {
 
 	var selList = [];	//selected measures' ID
 
+	//last evaluate mTOzeroelectricity
+	var zeroenergy = function(){
+		var newret = [];
+		var newretafter = [];
+		var zero = [];
+		for (i = 0; i < ret.length; i++) {
+			if( 
+				ret[i].mesdefID == "10" 			//mTOzeroelectricity
+				|| ret[i].mesdefID == "104"			//mHWenefarmSOFC
+			){	
+				//ゼロの前にこの対策を挿入する
+				newretafter.push(ret[i]);
+			} else if( ret[i].co2ChangeOriginal >= 0 ) {
+				//ゼロになった時点で計算を止めるため
+				zero.push( ret[i] );
+			} else {
+				newret.push(ret[i]);				
+			}
+		}
+		for( i=0 ; i< newretafter.length ; i++ ){
+			newret.push( newretafter[i]);
+		}
+		for( i=0 ; i< zero.length ; i++ ){
+			newret.push( zero[i]);
+		}
+		return newret;
+	};
+
 	//save selected measures id
 	for (mes in this.measureList) {
 		selList[this.measureList[mes].mesID] = this.measureList[mes].selected;
@@ -47,6 +75,7 @@ D6.calcMeasures = function (gid) {
 
 	//clear selection and calculate
 	ret = this.clearSelectedMeasures(gid);
+	ret = zeroenergy();	//select zero energy measures
 
 	//set select one by one
 	for (i = 0; i < ret.length; i++) {
