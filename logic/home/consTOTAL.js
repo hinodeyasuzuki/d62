@@ -130,18 +130,21 @@ class ConsTotal extends ConsBase {
 		this.heatEquip = this.input("i202", -1); //main heat equipment
 		this.hwEquip = this.input("i101",-1);		//hot water equipment
 		this.hwUseKeros = (this.hwEquip == 3 || this.hwEquip == 4);
+		this.heatUseKeros = (this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44);
 
 		//kerosene------------------------------
 		this.priceKerosSpring = this.input("i0942", -1);
 		this.priceKerosSummer = this.input("i0943", -1);
 		this.priceKerosWinter = this.input("i0941", -1);
+		
 		this.noPriceData.kerosene =
-			(this.priceKerosSpring == -1) &
-			(this.priceKerosSummer == -1) &
+			(this.priceKerosSpring == -1) &&
+			(this.priceKerosSummer == -1) &&
 			(this.priceKerosWinter == -1);
 
+		//no winter price
 		if (this.priceKerosWinter == -1) {
-			if (D6.area.averageCostEnergy.kerosene < 1000 || !this.hwUseKeros) {
+			if (D6.area.averageCostEnergy.kerosene < 1000 || (!this.hwUseKeros && !this.heatUseKeros) ) {
 				this.priceKeros = this.input("i064", 0);
 			} else {
 				this.priceKeros = this.input(
@@ -149,12 +152,34 @@ class ConsTotal extends ConsBase {
 					D6.area.averageCostEnergy.kerosene / D6.area.seasonMonth.winter * 12
 				);				
 			}
-			if( !this.hwUseKeros ){
-				if( this.input("i064",-1)>0 ){
-					//in case of not use kerosene for hotwater, price is only winter
-					this.priceKeros /= 3;
+
+			//in case of spring price is set
+			if( this.priceKerosSpring >= 0
+				&& this.priceKerosSummer < 0 
+				&& this.priceKerosWinter < 0 
+				&& this.input("i064", -1) < 0 
+			){
+				// only spring price is set
+				this.priceKeros = this.priceKerosSpring;
+				this.priceKerosSpring = -1;
+				
+			}	
+	
+			// hotwater use fix
+			if( this.hwUseKeros ){
+				if( this.heatUseKeros ){
+					this.priceKerosWinter = this.priceKeros*1.5;
+					this.priceKerosSpring = this.priceKeros;
+					this.priceKerosSummer = this.priceKeros/2;
+				} else {
+					this.priceKerosWinter = this.priceKeros*1.3;
+					this.priceKerosSpring = this.priceKeros;
+					this.priceKerosSummer = this.priceKeros*0.7;
 				}
-				this.priceKerosWinter = this.priceKeros;
+			} else {
+				// in case of not use kerosene for hotwater, winter use is larger
+				this.priceKerosWinter = this.priceKeros*3;
+				this.priceKeros = -1;
 			}
 		}
 
@@ -435,6 +460,7 @@ class ConsTotal extends ConsBase {
 		mes = this.measures["mTOsolar"]; //set mes
 		mes.copy(this);
 		if(  this.houseType != 2
+			&& this.solarSetSize != 0
 			&& !this.isSelected("mTOzeh")
 		) {
 			if (this.solarKw == 0 ){
@@ -617,6 +643,16 @@ class ConsTotal extends ConsBase {
 			mes.electricity -= this.electricity * 0.0045;
 		}
 
+		//mTOzeroelectricity	脱炭素電源
+		//他の対策よりも後に評価する
+		if ( this.measures["mTOzeroelectricity"] ) {
+			mes = this.measures["mTOzeroelectricity"];
+			mes.copy(this);
+			mes.electricity = 0;
+			//コスト強制設定
+			mes.costUnique = this.cost + 2 * this.electricity;	//現時点でのコストに 1kWhあたり2円を追加
+		}
+	
 	}
 
 }

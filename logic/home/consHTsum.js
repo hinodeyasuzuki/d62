@@ -93,6 +93,10 @@ class ConsHTsum extends ConsBase {
 		this.priceEleWinter = this.input("i0911", -1); //electricity charge in winter
 		this.priceGasSpring = this.input("i0922", -1); //gas charge in spring/fall
 		this.priceGasWinter = this.input("i0921", -1); //gas charge in winter
+
+		this.priceKerosSpring = this.input("i0942", -1);
+		this.priceKerosSummer = this.input("i0943", -1);
+		this.priceKerosWinter = this.input("i0941", -1);
 		this.consKeros = this.input("i064", -1); //consumption of kerosene
 		this.hotwaterEquipType = this.input("i101", -1); //hot water temperature
 
