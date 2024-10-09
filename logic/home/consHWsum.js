@@ -253,67 +253,96 @@ class ConsHWsum extends ConsBase {
 
 		// Heater Equip Type
 		switch (this.equipType) {
-			case 1:
-				//gas heater
-				this.mainSource = "gas";
-				this[this.mainSource] =
-					this.heatEnergy /
-					this.performanceGas /
-					D6.Unit.calorie[this.mainSource];
-				this.performanceOrg = this.performanceGas;
-				break;
-			case 2:
-				//high efficient gas heater
-				this.mainSource = "gas";
-				this[this.mainSource] =
-					this.heatEnergy /
-					this.performanceEcojozu /
-					D6.Unit.calorie[this.mainSource];
-				this.performanceOrg = this.performanceEcojozu;
-				break;
-			case 3:
-				//kerosene heater
-				this.mainSource = "kerosene";
-				this[this.mainSource] =
-					this.heatEnergy /
-					this.performanceGas /
-					D6.Unit.calorie[this.mainSource];
-				this.performanceOrg = this.performanceGas;
-				break;
-			case 4:
-				//high efficient kerosene heate
-				this.mainSource = "kerosene";
-				this[this.mainSource] =
-					this.heatEnergy /
-					this.performanceEcojozu /
-					D6.Unit.calorie[this.mainSource];
-				this.performanceOrg = this.performanceEcojozu;
-				break;
-			case 5:
-				//electricity heater
-				this.mainSource = "electricity";
-				this[this.mainSource] =
-					(this.heatEnergy + this.tanklossEnergy) /
-					this.performanceElec /
-					D6.Unit.calorie[this.mainSource];
-				this.performanceOrg = this.performanceElec;
-				break;
-			case 6:
-				//heat pump heater
-				this.mainSource = "electricity";
-				this[this.mainSource] =
-					(this.heatEnergy + this.tanklossEnergy) /
-					this.performanceEcocute /
-					D6.Unit.calorie[this.mainSource];
-				this.performanceOrg = this.performanceEcocute;
-				break;
-			case 7:
-			case 8:
-			default:
-				this.mainSource = "gas";
-				this.gas =
-					this.heatEnergy / this.performanceEcojozu / D6.Unit.calorie.gas;
-				this.performanceOrg = this.performanceEcojozu;
+		case 1:
+			//gas heater
+			this.mainSource = "gas";
+			this[this.mainSource] =
+				this.heatEnergy /
+				this.performanceGas /
+				D6.Unit.calorie[this.mainSource];
+			this.performanceOrg = this.performanceGas;
+			break;
+		case 2:
+			//high efficient gas heater
+			this.mainSource = "gas";
+			this[this.mainSource] =
+				this.heatEnergy /
+				this.performanceEcojozu /
+				D6.Unit.calorie[this.mainSource];
+			this.performanceOrg = this.performanceEcojozu;
+			break;
+		case 3:
+			//kerosene heater
+			this.mainSource = "kerosene";
+			this[this.mainSource] =
+				this.heatEnergy /
+				this.performanceGas /
+				D6.Unit.calorie[this.mainSource];
+			this.performanceOrg = this.performanceGas;
+			break;
+		case 4:
+			//high efficient kerosene heate
+			this.mainSource = "kerosene";
+			this[this.mainSource] =
+				this.heatEnergy /
+				this.performanceEcojozu /
+				D6.Unit.calorie[this.mainSource];
+			this.performanceOrg = this.performanceEcojozu;
+			break;
+		case 5:
+			//electricity heater
+			this.mainSource = "electricity";
+			this[this.mainSource] =
+				(this.heatEnergy + this.tanklossEnergy) /
+				this.performanceElec /
+				D6.Unit.calorie[this.mainSource];
+			this.performanceOrg = this.performanceElec;
+			break;
+		case 6:
+			//heat pump heater
+			this.mainSource = "electricity";
+			this[this.mainSource] =
+				(this.heatEnergy + this.tanklossEnergy) /
+				this.performanceEcocute /
+				D6.Unit.calorie[this.mainSource];
+			this.performanceOrg = this.performanceEcocute;
+			break;
+		case 7:
+			this.mainSource = "gas";
+			this.gas =
+				this.heatEnergy / this.performanceEcojozu / D6.Unit.calorie.gas;
+			this.performanceOrg = this.performanceEcojozu;
+			break;
+		case 8:
+			this.mainSource = "gas";
+			var notCoGenerationEnergy = Math.min(this.heatEnergy, 500 * 1000 / 12); //	kcal/month
+			var coGenerationEnergy = this.heatEnergy - notCoGenerationEnergy;
+			coGenerationEnergy = Math.min(coGenerationEnergy, D6.consShow["TO"].electricity * 700);
+			notCoGenerationEnergy = this.heatEnergy - coGenerationEnergy;
+
+			var baseGas = 500 * 1000 / 12; //	kcal/month
+
+			this.gas =
+				(coGenerationEnergy / this.performanceEnefarmHW +
+					(notCoGenerationEnergy + baseGas) / this.performanceEcojozu) /
+				D6.Unit.calorie.gas;
+
+			this.electricity =
+				-coGenerationEnergy /
+				this.performanceEnefarmHW *
+				this.performanceEnefarmEle /
+				D6.Unit.calorie.electricity;
+			break;
+		case 10:
+			this.mainSource = "gas";
+			this.gas = 0;
+			this.electricity = 0;
+			break;
+		default:
+			this.mainSource = "gas";
+			this.gas =
+				this.heatEnergy / this.performanceEcojozu / D6.Unit.calorie.gas;
+			this.performanceOrg = this.performanceEcojozu;
 		}
 
 		//toilet
@@ -356,32 +385,36 @@ class ConsHWsum extends ConsBase {
 
 		// installed good performance equipments
 		if (
-			this.isSelected("mHWecocute") ||
-			this.isSelected("mHWhybrid") ||
+			// this.isSelected("mHWecocute") ||
+			// this.isSelected("mHWhybrid") ||
 			// this.isSelected("mHWecofeel") ||
 			//|| this.isSelected( "mHWecojoze" )
 			this.isSelected("mHWenefarm") ||
 			this.isSelected("mHWenefarmSOFC") ||
-			D6.consTotal.isSelected("mTOzeh")
+			// D6.consTotal.isSelected("mTOzeh")
+			this.equipType == 8 ||
+			this.equipType == 10
 		) {
 			goodPerformance = true;
 		}
 
 		//endEnergy adjust with installed measures 170426
-		// 230203 fix
-		var endEnergyNow = this.jules * 1000 / 4.18 * this.performanceOrg;
+		// 230203 fix 2-nd energy
+		var endEnergyNow = this.jules * 1000 / 4.18 * this.performanceOrg
+			/ (this.mainSource == "electricity" ? 3.6 : 1);
 		if (
-			this.equipType < 9 &&
 			!goodPerformance
 		) {
-			//mHWecocute
-			if (this.housetype == 1) {
-				this.measures["mHWecocute"].clear();
-				this.measures["mHWecocute"].nightelectricity =
-					(endEnergyNow + this.tanklossEnergy) /
-					this.performanceEcocute /
-					D6.Unit.calorie.nightelectricity;
-				this.measures["mHWecocute"].water = this.water;
+			if( this.equipType != 6 ){
+				//mHWecocute
+				if (this.housetype == 1) {
+					this.measures["mHWecocute"].clear();
+					this.measures["mHWecocute"].nightelectricity =
+						(endEnergyNow + this.tanklossEnergy) /
+						this.performanceEcocute /
+						D6.Unit.calorie.nightelectricity;
+					this.measures["mHWecocute"].water = this.water;
+				}
 			}
 
 			//mHWhybrid
@@ -408,16 +441,17 @@ class ConsHWsum extends ConsBase {
 				this.measures["mHWecofeel"].water = this.water;
 			}
 
-			//mHWecojoze
-			this.measures["mHWecojoze"].clear();
-			this.measures["mHWecojoze"].gas =
-				endEnergyNow / this.performanceEcojozu / D6.Unit.calorie.gas;
-			this.measures["mHWecojoze"].water = this.water;
+			if( this.equipType != 2 ){
+				//mHWecojoze
+				this.measures["mHWecojoze"].clear();
+				this.measures["mHWecojoze"].gas =
+					endEnergyNow / this.performanceEcojozu / D6.Unit.calorie.gas;
+				this.measures["mHWecojoze"].water = this.water;
+			}
 		}
 
 		if ( 
 			this.housetype == 1 &&
-			this.equipType <=9 &&
 			!goodPerformance
 		) {
 			//mHWenefarm
@@ -505,6 +539,8 @@ class ConsHWsum extends ConsBase {
 		if (
 			this.equipType != 5 &&
 			this.equipType != 6 &&
+			this.equipType != 8 &&
+			this.equipType != 10 &&
 			!rejectSolarSelect &&
 			this.solarHeater != 1 &&
 			this.housetype == 1

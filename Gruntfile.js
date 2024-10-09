@@ -2,11 +2,10 @@ module.exports = function(grunt){
 	var pkg = grunt.file.readJSON("package.json");
 	grunt.initConfig({
 		concat: {
-		// for forcemode2/3
-		home_core: {
-			files:{
-				"develop/d6home_core.js" :
-					[	
+			// for forcemode2/3
+			home_core: {
+				files:{
+					"develop/d6home_core.js" : [	
 						'node_modules/promise-polyfill/dist/polyfill.js',
 						"logic/d6facade.js",
 						"logic/areaset/*.js",
@@ -211,88 +210,88 @@ module.exports = function(grunt){
 		terser: {
 			home_core : {
 				files:{
-									// output file : source file
-									"dist/d6home_core.min.js": "develop/d6home_core.js"
+					// output file : source file
+					"dist/d6home_core.min.js": "develop/d6home_core.js"
 				}
 			},
 			office_core : {
 				files:{
-									"dist/d6office_core.min.js": "develop/d6office_core.js"
+					"dist/d6office_core.min.js": "develop/d6office_core.js"
 				}
 			},
 			home_JP : {
 				files:{
-									// output file : source file
-									"dist/d6home_JP.min.js": "develop/d6home_JP.js"
+					// output file : source file
+					"dist/d6home_JP.min.js": "develop/d6home_JP.js"
 				}
 			},
 			office_JP : {
 				files:{
-									// output file : source file
-									"dist/d6office_JP.min.js": "develop/d6office_JP.js"
+					// output file : source file
+					"dist/d6office_JP.min.js": "develop/d6office_JP.js"
 				}
 			},
 			home_JP_en : {
 				files:{
-									// output file : source file
-									"dist/d6home_JP_en.min.js": "develop/d6home_JP_en.js"
+					// output file : source file
+					"dist/d6home_JP_en.min.js": "develop/d6home_JP_en.js"
 				}
 			},
 			office_JP_en : {
 				files:{
-									// output file : source file
-									"dist/d6office_JP_en.min.js": "develop/d6office_JP_en.js"
+					// output file : source file
+					"dist/d6office_JP_en.min.js": "develop/d6office_JP_en.js"
 				}
 			},
 			home_CN : {
 				files:{
-									// output file : source file
-									"dist/d6home_CN.min.js": "develop/d6home_CN.js"
+					// output file : source file
+					"dist/d6home_CN.min.js": "develop/d6home_CN.js"
 				}
 			},
 			office_CN : {
 				files:{
-									// output file : source file
-									"dist/d6office_CN.min.js": "develop/d6office_CN.js"
+					// output file : source file
+					"dist/d6office_CN.min.js": "develop/d6office_CN.js"
 				}
 			},
 			home_FR : {
 				files:{
-									// output file : source file
-									"dist/d6home_FR.min.js": "develop/d6home_FR.js"
+					// output file : source file
+					"dist/d6home_FR.min.js": "develop/d6home_FR.js"
 				}
 			},
 			office_FR : {
 				files:{
-									// output file : source file
-									"dist/d6office_FR.min.js": "develop/d6office_FR.js"
+					// output file : source file
+					"dist/d6office_FR.min.js": "develop/d6office_FR.js"
 				}
 			},
 			home_KR : {
 				files:{
-									// output file : source file
-									"dist/d6home_KR.min.js": "develop/d6home_KR.js"
+					// output file : source file
+					"dist/d6home_KR.min.js": "develop/d6home_KR.js"
 				}
 			},
 			office_KR : {
 				files:{
-									// output file : source file
-									"dist/d6office_KR.min.js": "develop/d6office_KR.js"
+					// output file : source file
+					"dist/d6office_KR.min.js": "develop/d6office_KR.js"
 				}
 			},
 			home_VI : {
 				files:{
-									// output file : source file
-									"dist/d6home_VI.min.js": "develop/d6home_VI.js"
+					// output file : source file
+					"dist/d6home_VI.min.js": "develop/d6home_VI.js"
 				}
 			},
 		},
 
 		polyfill: {
 			options: {
-					uglify: true,
-					features: ['es5', 'es6.object.assign'],
-					output: 'dist/polyfill.js'
+				uglify: true,
+				features: ['es5', 'es6.object.assign'],
+				output: 'dist/polyfill.js'
 			}
 		},
 		babel:{
@@ -306,12 +305,14 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-polyfill-builder');
 	grunt.loadNpmTasks('grunt-babel');
 
-//	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.registerTask("core", ["concat:home_core",
-								"concat:office_core",
-								"terser:home_core",
-								"terser:office_core"
-								]);
+	//	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.registerTask("core", 
+		[
+			"concat:home_core",
+			"concat:office_core",
+			"terser:home_core",
+			"terser:office_core"
+		]);
 	grunt.registerTask("default", ["concat","terser","polyfill"]);
 
 };
