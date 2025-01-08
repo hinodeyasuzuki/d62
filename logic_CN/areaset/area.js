@@ -400,7 +400,7 @@ D6.patch(D6.area, {
 	getSeasonParam: function(pref) {
 		var param = this.getSeasonFactor(pref);
 
-		ret = Array();
+		var ret = Array();
 		ret["electricity"] = [param[0][0], param[1][0], param[2][0]];
 		ret["gas"] = [param[0][1], param[1][1], param[2][1]];
 		ret["kerosene"] = [param[0][2], param[1][2], param[2][2]];
@@ -460,5 +460,15 @@ D6.patch(D6.area, {
 		[3415, 6228],
 		[3, 20],
 		[24, 5]
-	]
+	],
+	
+	//base unit
+	toukeiUnit : [ 1,1,1,1,1,1],
+
+	//unit of this year 
+	toukeiUnitNow : [ 1,1,1,1,1,1 ],
+
+	//energy consumption statistic factor
+	energyfactor : [ 1,1,1,1,1,1 ],
+
 });
