@@ -307,7 +307,7 @@ class ConsHTsum extends ConsBase {
 			this[this.mainSource] =  heatKcal /D6.Unit.calorie[this.mainSource];
 		}
 		*/
-		if (this.heatEquip_in == 6) {
+		if (this.heatEquip_in == 6 || this.heatEquip_in == 16) {
 			//biomass
 			this.electricity = 10;
 			this.gas = 0;
