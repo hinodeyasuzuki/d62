@@ -424,7 +424,6 @@ var createEnergyAverage = function (ave) {
 		good += lang.gasolinetitle + ", ";
 		goodcount++;
 	}
-	console.log(lang.kerosenetitle);
 	if (goodcount == 4) {
 		comment = good.slice(0, -2) + "のいずれも平均より少ないです。";
 	} else if (goodcount > 0) {
@@ -1112,7 +1111,6 @@ var languageset = function () {
 	lang.gasoline = lang.gasolinetitle + " (" + lang.gasolineunit + ")";
 	lang.area = lang.areatitle + " (" + lang.areaunit + ")";
 	lang.briquet = lang.briquettitle + " (" + lang.briquetunit + ")";
-	console.log(lang);
 };
 
 //object sort

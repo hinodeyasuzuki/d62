@@ -286,7 +286,6 @@ var getCalcResult = function (command, res) {
 			$("#average").html(showAverageTable(res.average));
 			$("#cons").html(showItemizeTable(res.itemize));
 			graphItemize(res.itemize_graph);
-			console.log(res.itemize_graph);
 			graphMonthly(res.monthly);
 
 			//change measure list
