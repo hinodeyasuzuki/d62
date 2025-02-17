@@ -129,9 +129,11 @@ class ConsTotal extends ConsBase {
 
 		this.heatEquip = this.input("i202", -1); //main heat equipment
 		this.hwEquip = this.input("i101",-1);		//hot water equipment
-		this.hwUseKeros = (this.hwEquip == 3 || this.hwEquip == 4);
-		this.heatUseKeros = (this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44);
 
+		//possibility
+		this.hwUseKeros = (this.hwEquip == 3 || this.hwEquip == 4 || this.hwEquip == -1);
+		this.heatUseKeros = (this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44 || this.heatEquip == -1);
+			
 		//kerosene------------------------------
 		this.priceKerosSpring = this.input("i0942", -1);
 		this.priceKerosSummer = this.input("i0943", -1);
@@ -145,6 +147,7 @@ class ConsTotal extends ConsBase {
 		//no winter price
 		if (this.priceKerosWinter == -1) {
 			if (D6.area.averageCostEnergy.kerosene < 1000 || (!this.hwUseKeros && !this.heatUseKeros) ) {
+				console.log(D6.area.averageCostEnergy);
 				this.priceKeros = this.input("i064", 0);
 			} else {
 				this.priceKeros = this.input(
@@ -156,14 +159,12 @@ class ConsTotal extends ConsBase {
 			//in case of spring price is set
 			if( this.priceKerosSpring >= 0
 				&& this.priceKerosSummer < 0 
-				&& this.priceKerosWinter < 0 
 				&& this.input("i064", -1) < 0 
 			){
 				// only spring price is set
 				this.priceKeros = this.priceKerosSpring;
-				this.priceKerosSpring = -1;
-				
-			}	
+				this.priceKerosSpring = -1;				
+			}
 	
 			// hotwater use fix
 			if( this.hwUseKeros ){
