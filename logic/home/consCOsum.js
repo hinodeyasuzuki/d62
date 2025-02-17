@@ -57,8 +57,9 @@ class ConsCOsum extends ConsBase {
 		this.clear();
 
 		this.person = this.input("i001", 3);			//person number
-		this.houseSize = this.input("i003",
-			(this.person == 1 ? 60 : (80 + this.person * 10)));	//space of house
+		// this.houseSize = this.input("i003",
+		// 	(this.person == 1 ? 60 : (80 + this.person * 10)));	//space of house
+		this.houseSize = D6.consShow["TO"].houseSize; //home size
 		this.houseType = this.input("i002", 1);		//standalone / collective
 		this.coolArea = this.input("i201", 0.5);		//rate by space of cooling
 		this.coolTime = this.input("i261", 4);		//time

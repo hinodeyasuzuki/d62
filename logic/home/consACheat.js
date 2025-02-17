@@ -78,6 +78,9 @@ class ConsACheat extends ConsHTsum {
 	calc() {
 		//calculate heat load ( kcal/month in heating days )
 		var heatKcal = this.calcHeatLoad(this.heatSpace, this.heatTime, this.heatMonth, this.heatTemp, this.sumCons.heatMonth);
+		if( heatKcal > D6.consShow["HT"].endEnergy ) {
+			heatKcal = D6.consShow["HT"].endEnergy;
+		}
 
 		//calculate annual energy from heating season monthly one.
 		heatKcal *= this.heatMonth / 12;

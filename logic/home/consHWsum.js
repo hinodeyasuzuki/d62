@@ -171,22 +171,19 @@ class ConsHWsum extends ConsBase {
 
 		// estimate amount of hot water used as shower litter/day
 		this.showerWaterLitter =
-			((this.showerMinutes * (12 - D6.area.seasonMonth.summer) +
-				this.showerMinutesSummer * D6.area.seasonMonth.summer) /
-				12 *
+			(
+				(this.showerMinutes * (12 - D6.area.seasonMonth.summer) +
+					this.showerMinutesSummer * D6.area.seasonMonth.summer) / 12 *
 				(this.savingShower == 1 ? 1 - this.reduceRateShowerHead : 1) +
-				this.showerHotTimeSpan / 60 * 5) * //	5 times
+				this.showerHotTimeSpan / 60 * 5) * //	seconds , 5 times
 			this.showerWaterLitterUnit;
 
 		// estimate amount of hot water used in tub	litter/day
 		this.consHWtubLitter =
 			this.tabWaterLitter *
-			this.tabHeight /
-			10 *
+			this.tabHeight / 10 *
 			(this.tabDayWeek * (12 - D6.area.seasonMonth.summer) +
-				this.tabDayWeekSummer * D6.area.seasonMonth.summer) /
-			12 /
-			7;
+				this.tabDayWeekSummer * D6.area.seasonMonth.summer) / 12 / 7;
 
 		// sum hot water use litter/day
 		this.allLitter =

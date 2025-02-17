@@ -96,7 +96,7 @@ class ConsHTsum extends ConsBase {
 
 		this.hotwaterEquipType = this.input("i101", -1); //hot water temperature
 
-		this.performanceWindow = this.input("i041", 0); //performance of window
+		this.performanceWindow = this.input("i041", (this.input("i009", 30) < 10 ? 3 : 5 ) - ( this.heatArea <= 2 ? 1 : 0 ) ); //performance of window
 		this.performanceWall = this.input("i042", -1); //performance of wall insulation
 		this.reformWindow = this.input("i043", -1); //reform to change window
 		this.reformfloor = this.input("i044", -1); //reform to change floor
@@ -115,13 +115,18 @@ class ConsHTsum extends ConsBase {
 		this.reduceRateLowe = windowrate * ( 1 - heatWindow[2]/nowHeatWindow );				//reduce rate by Low-e grass
 
 		//wall
+		var ha_index = this.heatArea - (this.input("i009", 30) < 10 ? 1 : 0 );
 		if ( this.performanceWall == -1 ){
-			if( this.heatArea <= 2 ) {
+			if( ha_index <= 1 ){
+				this.performanceWall = 150;
+			} else if( this.heatArea == 2 ) {
 				this.performanceWall = 100;
 			} else if( this.heatArea == 3 ) {
 				this.performanceWall = 50;
-			} else {
+			} else if( this.heatArea <= 5 ) {
 				this.performanceWall = 30;
+			} else {
+				this.performanceWall = 0;
 			}
 		}
 		var wallrate = 0.19;
