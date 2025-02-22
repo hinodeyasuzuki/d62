@@ -147,7 +147,6 @@ class ConsTotal extends ConsBase {
 		//no winter price
 		if (this.priceKerosWinter == -1) {
 			if (D6.area.averageCostEnergy.kerosene < 1000 || (!this.hwUseKeros && !this.heatUseKeros) ) {
-				console.log(D6.area.averageCostEnergy);
 				this.priceKeros = this.input("i064", 0);
 			} else {
 				this.priceKeros = this.input(

@@ -59,6 +59,11 @@ class ConsTVsum extends ConsBase {
 
 		//electiricy kWh/month
 		this.electricity = this.watt / 1000 * this.useTime * 30;
+
+		//notuse
+		if( this.input("i6321", -1) == 0 ) {
+			this.electricity = 0;
+		}
 	}
 
 	calc2nd() {

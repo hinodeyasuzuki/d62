@@ -85,20 +85,6 @@ class ConsRF extends ConsRFsum {
 		//reduction rate to replace new one
 		this.reduceRateChange = this.consYearAdvanced / this.consYear;
 
-		// set 0-th equipment charactrictic to refregerator
-		if (this.subID == 0) {
-			/*
-			if (this.input("i7111", -1) < 0 && this.input("i7131", -1) < 0) {
-				//in case of no input set 0-th data as sumup by count
-				this.electricity = this.consYear * this.count / 12;
-			} else {
-				this.electricity = 0;
-			}
-			*/
-			this.electricity = 0;
-			return;
-		}
-
 		if (
 			this.subID > 0 &&
 			this.input("i711" + this.subID, -1) < 0 &&
@@ -132,6 +118,18 @@ class ConsRF extends ConsRFsum {
 			(this.performance == 1 ? 0.8 : this.performance == 3 ? 1.2 : 1);
 
 		if (this.year == 0) this.electricity = 0;
+		if (this.count == 0 ) this.electricity = 0;
+
+		// set 0-th equipment charactrictic to refregerator
+		if (this.subID == 0) {
+			if (this.input("i7111", -1) < 0 && this.input("i7131", -1) < 0) {
+				//in case of no input set 0-th data as sumup by count
+				this.electricity = this.electricity * Math.max(0,this.count -1);
+			} else {
+				this.electricity = 0;
+			}
+		}
+
 	}
 
 	calcMeasure() {

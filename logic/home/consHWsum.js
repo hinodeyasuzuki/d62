@@ -214,7 +214,7 @@ class ConsHWsum extends ConsBase {
 
 		// ratio of tub
 		this.consHWtubRate =
-			this.consHWtubLitter / this.allLitter +
+			this.consHWtubLitter / this.allLitter *
 			this.tabKeepEnergy / this.heatEnergy;
 
 		// ratio of shower

@@ -80,6 +80,9 @@ class ConsTV extends ConsTVsum {
 
 		//electricity kWh/month
 		this.electricity = this.useTime * this.nowWatt / 1000 * 30;
+
+		//notuse
+		if( this.year == 0 ) this.electricity = 0;
 	}
 
 	calc2nd() {

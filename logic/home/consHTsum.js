@@ -89,6 +89,10 @@ class ConsHTsum extends ConsBase {
 		this.heatEquip_in = this.heatEquip;				//heating equipment
 
 		this.heatTemp = this.input("i205", 21); //heating temperature setting
+		if(this.heatTemp < 10){
+			this.heatTime = 0;
+			this.heatTemp = 20;
+		}
 		this.priceEleSpring = this.input("i0912", -1); //electricity charge in spring/fall
 		this.priceEleWinter = this.input("i0911", -1); //electricity charge in winter
 		this.priceGasSpring = this.input("i0922", -1); //gas charge in spring/fall
@@ -100,6 +104,8 @@ class ConsHTsum extends ConsBase {
 		this.performanceWall = this.input("i042", -1); //performance of wall insulation
 		this.reformWindow = this.input("i043", -1); //reform to change window
 		this.reformfloor = this.input("i044", -1); //reform to change floor
+
+		this.otherRoom = this.input("i249",-1);
 
 		//window 
 		var heatWindow = [6.5, 1.4, 1.8, 3.6 ,4.65 ,6.5, 6.5 ];
@@ -119,11 +125,11 @@ class ConsHTsum extends ConsBase {
 		if ( this.performanceWall == -1 ){
 			if( ha_index <= 1 ){
 				this.performanceWall = 150;
-			} else if( this.heatArea == 2 ) {
+			} else if( ha_index == 2 ) {
 				this.performanceWall = 100;
-			} else if( this.heatArea == 3 ) {
+			} else if( ha_index == 3 ) {
 				this.performanceWall = 50;
-			} else if( this.heatArea <= 5 ) {
+			} else if( ha_index <= 5 ) {
 				this.performanceWall = 30;
 			} else {
 				this.performanceWall = 0;
@@ -153,6 +159,9 @@ class ConsHTsum extends ConsBase {
 	
 		//covert to monthly by seasonal data
 		heatKcal *= this.heatMonth / 12;
+		if( this.otherRoom == 1 || this.otherRoom == 2 ){
+			heatKcal *= (1 + 0.1 * (3 - this.otherRoom ));
+		}
 		this.endEnergy = heatKcal;
 
 		//guess of heat source
@@ -199,7 +208,7 @@ class ConsHTsum extends ConsBase {
 			//22 : electric panel heater
 			//32 : electric floor heater
 			//42 : electric hotwater floor heater
-			this.heatEquip = this.hetaEquip == 1 ? 1 : 2;
+			this.heatEquip = this.heatEquip == 1 ? 1 : 2;
 			this.mainSource = "electricity";
 
 		} else if (this.heatEquip == 3 || this.heatEquip == 13 || this.heatEquip == 43) {
@@ -521,6 +530,14 @@ class ConsHTsum extends ConsBase {
 				newlossfactor = 1 / (250 + 50);
 				this.measures["mHTreformLV6"].calcReduceRate(1 - newlossfactor/heatlossfactor );
 			}
+
+			//mHTkanki
+			//https://house.beta.lowenergy.jp/#/result  
+			//　暖房: 壁掛け式第一種換気  評価しない 13935MJ/年 設置する 13012MJ/年 6.6%削減
+			this.measures["mHTkanki"].calcReduceRate( 0.066 );
+			// 50W 4month
+			this.measures["mHTkanki"].electricity += 50 * 24 * 120 / 12 / 1000;
+
 		}
 
 		//mHTdanran
@@ -529,6 +546,11 @@ class ConsHTsum extends ConsBase {
 			&& this.houseSize > 40
 		) {
 			this.measures["mHTdanran"].calcReduceRate(this.reduceRateDanran);
+		}
+
+		//mHTcentralNotUse
+		if(this.otherRoom == 1 || this.otherRoom == 2){
+			this.measures["mHTcentralNotUse"].calcReduceRate((3-this.otherRoom)*0.1);
 		}
 
 	}
