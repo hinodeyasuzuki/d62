@@ -1,3 +1,13 @@
+# how to run(Japanese)
+>npm install -g grunt-cli
+>npm install
+
+access index_develop.html
+
+>grunt
+
+access index.html
+
 # d62 home eco diagnosis Ver6.rev.2
 
 温暖化対策計算ソフトのロジック部分です。diagnosis_view のデザインと併せて設定します。テスト用に index.htmlとview/を用意しています。
