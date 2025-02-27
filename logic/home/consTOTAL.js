@@ -559,7 +559,8 @@ class ConsTotal extends ConsBase {
 				&& this.houseType != 2
 			) {
 
-				var zehSolarSize = this.solarSetSize== -1 ? 5 : this.solarSetSize;
+				//new building
+				var zehSolarSize = this.solarSetSize <= 3 ? 5 : this.solarSetSize;
 
 				//electricity and cost
 				var eleReduce = 0.2;	//Zehエネルギー2割減
