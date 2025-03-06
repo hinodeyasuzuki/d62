@@ -66,18 +66,18 @@ class ConsHWdishwash extends ConsBase {
 
 	calcMeasure() {
 		//mHWdishTank
-		if (this.sumCons.dishWashWater != 1) {
-			this.measures["mHWdishTank"].calcReduceRate(this.reduceRateWashTank);
+		if (this.sumCons.dishWashWater <= 2) {
+			this.measures["mHWdishTank"].calcReduceRate(this.reduceRateWashTank * (3-this.sumCons.dishWashWater)/2);
 		}
 
 		//mHWdishWater
-		if (this.sumCons.dishWashWater != 1) {
-			this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer);
+		if (this.sumCons.dishWashWater <= 2) {
+			this.measures["mHWdishWater"].calcReduceRate(this.reduceRateWashNotSummer * (3-this.sumCons.dishWashWater)/2);
 		}
 
 		if ( this.measures["mHWtap"] ){
-			if (this.sumCons.dishWashWater != 1 && this.savetype == 2 ) {
-				this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap);
+			if (this.sumCons.dishWashWater  <= 2 && this.savetype == 2 ) {
+				this.measures["mHWtap"].calcReduceRate(this.reduceRateShowerTap * (3-this.sumCons.dishWashWater)/2);
 			}
 		}
 	}

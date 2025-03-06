@@ -77,6 +77,7 @@ class ConsTotal extends ConsBase {
 		this.solarSet = this.input("i051", 0); //PV exist 1:exist
 		this.solarKw = this.input("i052", this.solarSet * 3.5); //PV size (kW)
 		this.solarYear = this.input("i053", 0); //PV set year
+		this.sunlight = this.input("i007",1 ); //1:verygood 4:bad
 
 		this.solarSetSize = this.input("i951", -1); //PV set size
 
@@ -87,7 +88,7 @@ class ConsTotal extends ConsBase {
 		//fix selrate by daylight time use
 		this.solarSaleRatio = this.solarSaleRatio_org + ( this.daylighttimeuse==2 ? 0.1 : 0 );
 
-		//electricity
+		//electricity------------------------------
 		this.priceEle = this.input("i061", D6.area.averageCostEnergy.electricity); //electricity fee
 		this.priceEleSpring = this.input("i0912", -1);
 		this.priceEleSummer = this.input("i0913", -1);
@@ -100,7 +101,7 @@ class ConsTotal extends ConsBase {
 
 		this.priceEleSell = this.input("i092", this.input("i062", 0)); //sell electricity
 
-		//gas
+		//gas------------------------------
 		if (this.input("i083",-1) == 3 ){
 			this.priceGas = this.input("i063", 0); //gas fee
 		} else {
@@ -126,15 +127,13 @@ class ConsTotal extends ConsBase {
 				this.houseSize = this.room2size[this.input("i008", 3)];
 			}
 		}
-
-		this.heatEquip = this.input("i202", -1); //main heat equipment
-		this.hwEquip = this.input("i101",-1);		//hot water equipment
-
-		//possibility
-		this.hwUseKeros = (this.hwEquip == 3 || this.hwEquip == 4 || this.hwEquip == -1);
-		this.heatUseKeros = (this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44 || this.heatEquip == -1);
 			
 		//kerosene------------------------------
+		this.heatEquip = this.input("i202", -1); //main heat equipment
+		this.hwEquip = this.input("i101",-1);		//hot water equipment
+		this.hwUseKeros = (this.hwEquip == 3 || this.hwEquip == 4 || this.hwEquip == -1);
+		this.heatUseKeros = (this.heatEquip == 4 || this.heatEquip == 14 || this.heatEquip == 44 || this.heatEquip == -1);
+
 		this.priceKerosSpring = this.input("i0942", -1);
 		this.priceKerosSummer = this.input("i0943", -1);
 		this.priceKerosWinter = this.input("i0941", -1);
@@ -151,7 +150,7 @@ class ConsTotal extends ConsBase {
 			} else {
 				this.priceKeros = this.input(
 					"i064",
-					D6.area.averageCostEnergy.kerosene / D6.area.seasonMonth.winter * 12
+					D6.area.averageCostEnergy.kerosene
 				);				
 			}
 
@@ -170,11 +169,15 @@ class ConsTotal extends ConsBase {
 				if( this.heatUseKeros ){
 					this.priceKerosWinter = this.priceKeros*1.5;
 					this.priceKerosSpring = this.priceKeros;
-					this.priceKerosSummer = this.priceKeros/2;
+					if( this.priceKerosSummer < 0 ){
+						this.priceKerosSummer = this.priceKeros/2;
+					}
 				} else {
 					this.priceKerosWinter = this.priceKeros*1.3;
 					this.priceKerosSpring = this.priceKeros;
-					this.priceKerosSummer = this.priceKeros*0.7;
+					if( this.priceKerosSummer < 0 ){
+						this.priceKerosSummer = this.priceKeros*0.7;
+					}
 				}
 			} else {
 				// in case of not use kerosene for hotwater, winter use is larger
@@ -453,7 +456,8 @@ class ConsTotal extends ConsBase {
 
 		// monthly generate electricity
 		let pvsize =  (this.solarSetSize==-1 ?  this.standardSize : this.solarSetSize );
-		var solar_generate_kWh = this.generateEleUnit * pvsize / 12;
+		var sunlightrate = [1, 1, 0.9, 0.7, 0.4];
+		var solar_generate_kWh = this.generateEleUnit * pvsize / 12 * sunlightrate[this.sunlight];
 
 		//mTOsolar-----------------------------------------
 		// not installed and ( stand alone or desired )
@@ -462,6 +466,7 @@ class ConsTotal extends ConsBase {
 		if(  this.houseType != 2
 			&& this.solarSetSize != 0
 			&& !this.isSelected("mTOzeh")
+			&& this.sunlight != 4
 		) {
 			if (this.solarKw == 0 ){
 				// saving by generation

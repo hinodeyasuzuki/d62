@@ -542,14 +542,14 @@ class ConsHTsum extends ConsBase {
 
 		//mHTdanran
 		if (this.person >= 2
-			&& this.heatSpace > 0.3
-			&& this.houseSize > 40
+			&& this.heatSpace >= 0.3
+			&& this.houseSize > 60
 		) {
 			this.measures["mHTdanran"].calcReduceRate(this.reduceRateDanran);
 		}
 
 		//mHTcentralNotUse
-		if(this.otherRoom == 1 || this.otherRoom == 2){
+		if( this.heatSpace==1 || this.otherRoom == 1 || this.otherRoom == 2){
 			this.measures["mHTcentralNotUse"].calcReduceRate((3-this.otherRoom)*0.1);
 		}
 

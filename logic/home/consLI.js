@@ -67,12 +67,15 @@ class ConsLI extends ConsLIsum {
 	calc() {
 		//in case of no electricity input
 		if (!(this.watt > 0)) {
-			if (this.type <= 2) {
+			if (this.type == 1) {
+				//LED
+				this.watt = 10;
+			} else if (this.type == 2) {
 				//fluorescent lump 
-				this.watt = 60;
+				this.watt = 20;
 			} else {
 				//bulb
-				this.watt = 100;
+				this.watt = 60;
 			}
 		}
 		this.electricity = this.watt * this.time * this.num / 1000 * 365 / 12;

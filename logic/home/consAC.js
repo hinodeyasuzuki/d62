@@ -69,7 +69,7 @@ class ConsAC extends ConsBase {
 		if( this.acYear > 1900 ) this.acYear = now.getFullYear() - this.acYear;
 		this.nowEquip = this.equip(now.getFullYear() - this.acYear, (this.roomSize < 16 ? 2.8 : 4));
 		this.newEquip = this.equip(now.getFullYear(), (this.roomSize < 16 ? 2.8 : 4));
-		this.apf = this.nowEquip.pf2 * 0.7;
+		this.apf = this.nowEquip.pf2 * 0.7 * (this.acPerf == 1 ? 0.8 : 1);
 		this.apfMax = this.newEquip.pf1 * 0.7;
 
 		//test code for performance
