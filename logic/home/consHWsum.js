@@ -56,7 +56,7 @@ class ConsHWsum extends ConsBase {
 		this.showerWaterLitterUnit = 10; //shower speed L/min
 		this.reduceRateShowerHead = 0.3; //reduce rate by saving shower head
 		this.showerWaterMinutes = 5; //shower time min/person
-		this.otherWaterLitter = 50; //other amount of hot water L/day
+		this.otherWaterLitterOrg = 50; //other amount of hot water L/day
 		this.tankLossWatt = 100; //keep tank hot energy
 		this.tabTemplatureDown = 2; //temperature down in tab water degree-C/hour
 		this.tabTemplatureInsulationDown = 0.5; //temperature down in insulated tab degree-C/hour
@@ -179,9 +179,9 @@ class ConsHWsum extends ConsBase {
 			this.showerWaterLitterUnit;
 
 		// dishwash water litter/day
-		this.dishWashWaterLitter = this.otherWaterLitter * 0.5 * this.person / 3;
+		this.dishWashWaterLitter = this.otherWaterLitterOrg * 0.5 * this.person / 3;
 		// dresser water litter/day
-		this.dresserWaterLitter = this.otherWaterLitter * 0.5 * this.person / 3;
+		this.dresserWaterLitter = this.otherWaterLitterOrg * 0.5 * this.person / 3;
 	
 		this.otherWaterLitter  = this.dishWashWaterLitter + this.dresserWaterLitter;
 
@@ -230,7 +230,7 @@ class ConsHWsum extends ConsBase {
 
 		// ratio of dresser
 		this.consHWdresserRate =
-			this.dishWashWaterLitter /
+			this.dresserWaterLitter /
 			this.allLitter *
 			(this.heatTapEnergy / this.heatEnergy) *
 			this.dresserMonth /

@@ -413,7 +413,7 @@ class ConsTotal extends ConsBase {
 			this.priceGas = forcegas;
 		}
 
-		this.gas = (this.priceGas - D6.Unit.priceBase.gas) / D6.Unit.price.gas;
+		this.gas = Math.max(0,(this.priceGas - D6.Unit.priceBase.gas) / D6.Unit.price.gas);
 
 		//kerosene
 		ret = D6.calcMonthly(

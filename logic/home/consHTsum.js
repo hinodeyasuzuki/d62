@@ -80,7 +80,7 @@ class ConsHTsum extends ConsBase {
 				? (D6.area.averageCostEnergy.hotwater * this.houseSize) / 100
 				: 0;
 
-		this.heatSpace = this.input("i201", this.heatArea <= 3 ? 0.6 : 0.2); //part of heating CN
+		this.heatSpace = this.input("i201", this.heatArea == 1 ? 1 : (this.heatArea <= 3 ? 0.6 : 0.2) ); //part of heating CN
 		this.heatMonth = this.input("i206", D6.area.seasonMonth.winter); //heating month
 
 		// heat time default set
@@ -542,8 +542,9 @@ class ConsHTsum extends ConsBase {
 
 		//mHTdanran
 		if (this.person >= 2
-			&& this.heatSpace >= 0.3
-			&& this.houseSize > 60
+			&& this.heatSpace >= 0.2
+			&& this.heatSpace != 1
+			&& this.houseSize > 50
 		) {
 			this.measures["mHTdanran"].calcReduceRate(this.reduceRateDanran);
 		}
