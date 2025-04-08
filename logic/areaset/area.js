@@ -510,10 +510,11 @@ D6.area = {
 	//
 	setPersonArea : function( numPerson, areaId, urbanId  )
 	{
-		if ( urbanId == 1 || urbanId == 2  ) {
-			this.urban = 0;
-		} else {
+		if ( urbanId == 3 || urbanId == 4  ) {
 			this.urban = 1;
+		} else {
+			//default is urban area
+			this.urban = 0;
 		}
 
 		if ( areaId < 0 ) {
