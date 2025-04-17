@@ -183,10 +183,9 @@ class ConsAC extends ConsBase {
 			mes["consACheat"] = new Energy();
 			mes["consACheat"].copy(this.acHeat);
 			mes["consACheat"].electricity = this.acHeat.endEnergy / this.apfMax / D6.Unit.calorie.electricity;
-
 			mes["consACcool"] = new Energy();
 			mes["consACcool"].copy(this.acCool);
-			mes["consACcool"].electricity = this.acCool.electricity * this.acHeat.apf / this.apfMax;
+			mes["consACcool"].electricity = this.acCool.electricity * this.apf / this.apfMax;
 
 			mes.electricity = mes["consACheat"].electricity + mes["consACcool"].electricity;
 			if (this.heatArea > 0.3

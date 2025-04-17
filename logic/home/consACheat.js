@@ -129,7 +129,7 @@ class ConsACheat extends ConsHTsum {
 			if( this.kerosene < 0 ) this.kerosene = 0;
 		}
 		var nowapf = 1;
-		if (this.ac.heatEquip != 2) {
+		if (this.heatEquip != 2) {
 			nowapf = this.ac.apf;
 		}
 		var heatKcal = this.electricity * D6.Unit.calorie.electricity * nowapf
