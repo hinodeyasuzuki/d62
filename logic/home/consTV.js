@@ -31,7 +31,7 @@ class ConsTV extends ConsTVsum {
 
 	constructor() {
 		super();
-
+``
 		//construction setting
 		this.consName = "consTV";           //code name of this consumption 
 		this.consCode = "";                 //short code to access consumption, only set main consumption user for itemize
@@ -82,7 +82,7 @@ class ConsTV extends ConsTVsum {
 		this.electricity = this.useTime * this.nowWatt / 1000 * 30;
 
 		//notuse
-		if( this.year == 0 ) this.electricity = 0;
+		if( this.year == 0 || this.size == 0 ) this.electricity = 0;
 	}
 
 	calc2nd() {

@@ -117,7 +117,7 @@ class ConsHTsum extends ConsBase {
 		var windowrate = 0.48;								// heat loss through window
 
 		this.reduceRateDouble = windowrate * ( 1 - heatWindow[4]/nowHeatWindow );
-		this.reduceRateUchimado = windowrate * ( 1 - 2.2 / nowHeatWindow);
+		this.reduceRateUchimado = windowrate * ( 1 - (nowHeatWindow + 3.5)/ 3.5/ nowHeatWindow );	//reduce rate by double glass
 		this.reduceRateLowe = windowrate * ( 1 - heatWindow[2]/nowHeatWindow );				//reduce rate by Low-e grass
 
 		//wall

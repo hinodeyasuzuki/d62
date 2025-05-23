@@ -353,9 +353,9 @@ class ConsTotal extends ConsBase {
 			pvSellUnitPrice = 19;
 		} else if (this.solarYear == 2022) {
 			pvSellUnitPrice = 17;
-		} else if (this.solarYear == 2023) {
+		} else if (this.solarYear == 2023 || this.solarYear == 2024) {
 			pvSellUnitPrice = 16;
-		} else if (this.solarYear >= 2024 && this.solarYear < 2028) {
+		} else if (this.solarYear >= 2025 && this.solarYear < 2028) {
 			pvSellUnitPrice = 15;
 		} else if (this.solarYear < 2100) {
 			//estimate
