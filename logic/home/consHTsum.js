@@ -80,15 +80,15 @@ class ConsHTsum extends ConsBase {
 				? (D6.area.averageCostEnergy.hotwater * this.houseSize) / 100
 				: 0;
 
-		this.heatSpace = this.input("i201", this.heatArea == 1 ? 1 : (this.heatArea <= 3 ? 0.6 : 0.2) ); //part of heating CN
+		this.heatSpace = this.input("i201", this.heatArea == 1 ? 1 : (this.heatArea <= 3 ? 0.6 : 0.3) ); //part of heating CN
 		this.heatMonth = this.input("i206", D6.area.seasonMonth.winter); //heating month
 
 		// heat time default set
-		this.heatTime = this.input("i204", this.heatArea <= 1 ? 24 : this.heatArea <= 3 ? 8 : 4); //heating time
+		this.heatTime = this.input("i204", this.heatArea <= 1 ? 24 : this.heatArea <= 3 ? 10 : 6); //heating time
 		this.heatEquip = this.input("i202", -1);		//heating equipment in case of change
 		this.heatEquip_in = this.heatEquip;				//heating equipment
 
-		this.heatTemp = this.input("i205", 21); //heating temperature setting
+		this.heatTemp = this.input("i205", 22); //heating temperature setting
 		if(this.heatTemp < 10){
 			this.heatTime = 0;
 			this.heatTemp = 20;
@@ -266,7 +266,7 @@ class ConsHTsum extends ConsBase {
 
 		//gas
 		consbyprice = Math.max(0, this.priceGasWinter - this.priceGasSpring) / D6.Unit.price.gas;
-		//var gasover = 0;
+		var gasover = 0;
 		if (this.priceGasSpring != -1 && this.priceGasWinter != -1) {
 			if (this.hotwaterEquipType >= 3 && this.hotwaterEquipType <= 6) {	//not gas
 				this.gas = (this.gas * 3 + consbyprice) / 4;
@@ -276,13 +276,13 @@ class ConsHTsum extends ConsBase {
 		} else {
 			this.gas = (this.gas * 4 + consbyprice) / 5;
 		}
-		//gasover = Math.max( 0,  this.gas - consbyprice );
+		gasover = Math.max( 0,  this.gas - consbyprice );
 
 		//kerosene
-		//var keroseneover = 0;
+		var keroseneover = 0;
 		if (this.consKeros != -1 && this.hotwaterEquipType != 3 && this.hotwaterEquipType != 4) {
 			consbyprice = this.consKeros / D6.Unit.price.kerosene;
-			//keroseneover = Math.max( 0,  this.kerosene - consbyprice );
+			keroseneover = Math.max( 0,  this.kerosene - consbyprice );
 			this.kerosene = consbyprice;
 		}
 
@@ -297,6 +297,7 @@ class ConsHTsum extends ConsBase {
 				this.gas +=  elecOver *  D6.Unit.calorie.electricity /D6.Unit.calorie.gas;
 			}
 		}
+		*/
 		//gas over fix
 		if ( gasover>0 ){
 			if( this.priceKeros > 0 ) {
@@ -320,7 +321,6 @@ class ConsHTsum extends ConsBase {
 			//other than air conditioner
 			this[this.mainSource] =  heatKcal /D6.Unit.calorie[this.mainSource];
 		}
-		*/
 		if (this.heatEquip_in == 6 || this.heatEquip_in == 16) {
 			//biomass
 			this.electricity = 10;
