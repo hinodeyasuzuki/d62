@@ -286,30 +286,32 @@ class ConsHTsum extends ConsBase {
 			this.kerosene = consbyprice;
 		}
 
-		/*
-		//	fix electricity estimate is more than that of by fee
-		//	it will be better fix in calc2nd
-		if ( elecOver > 0 ) {
-			//kerosene fix
-			if (D6.Unit.areaHeating <= 4 && this.priceKeros > 0 ) {
-				this.kerosene +=  elecOver *  D6.Unit.calorie.electricity /D6.Unit.calorie.kerosene;
-			} else {
-				this.gas +=  elecOver *  D6.Unit.calorie.electricity /D6.Unit.calorie.gas;
+		if( !D6.modeHeatOverNotFix ) {
+			/*
+			//	fix electricity estimate is more than that of by fee
+			//	it will be better fix in calc2nd
+			if ( elecOver > 0 ) {
+				//kerosene fix
+				if (D6.Unit.areaHeating <= 4 && this.priceKeros > 0 ) {
+					this.kerosene +=  elecOver *  D6.Unit.calorie.electricity /D6.Unit.calorie.kerosene;
+				} else {
+					this.gas +=  elecOver *  D6.Unit.calorie.electricity /D6.Unit.calorie.gas;
+				}
 			}
-		}
-		*/
-		//gas over fix
-		if ( gasover>0 ){
-			if( this.priceKeros > 0 ) {
-				this.kerosene = Math.min( gasover * D6.Unit.calorie.gas / D6.Unit.calorie.kerosene, this.consKeros / D6.Unit.price.kerosene );
-			} else {
-				this.electricity +=  gasover * D6.Unit.calorie.gas / D6.Unit.calorie.electricity/ this.apf;
+			*/
+			//gas over fix
+			if ( gasover>0 ){
+				if( this.priceKeros > 0 ) {
+					this.kerosene = Math.min( gasover * D6.Unit.calorie.gas / D6.Unit.calorie.kerosene, this.consKeros / D6.Unit.price.kerosene );
+				} else {
+					this.electricity +=  gasover * D6.Unit.calorie.gas / D6.Unit.calorie.electricity/ this.apf;
+				}
 			}
-		}
 
-		//kerosene use estimate is more than fee
-		if (keroseneover>0){
-			this.electricity +=  keroseneover * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity/ this.apf;
+			//kerosene use estimate is more than fee
+			if (keroseneover>0){
+				this.electricity +=  keroseneover * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity/ this.apf;
+			}
 		}
 
 		//re-calculate after fix

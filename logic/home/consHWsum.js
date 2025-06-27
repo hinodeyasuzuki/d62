@@ -359,9 +359,13 @@ class ConsHWsum extends ConsBase {
 			1 / (this.showerMinutes / this.person - 1) * this.consHWshowerRate;
 
 		//reduce rate by stop keep hot
-		this.reduceRateTabKeep =
-			this.tabKeepEnergy /
-			(this.heatEnergy * this.consHWtubLitter / this.allLitter);
+		if ( this.consHWtubLitter != 0 ){
+			this.reduceRateTabKeep = 
+				this.tabKeepEnergy /
+				(this.heatEnergy * this.consHWtubLitter / this.allLitter);
+		} else {
+			this.reduceRateTabKeep = 0;
+		}
 
 		//reduce rate by insulation tab
 		this.reduceRateInsulation =
