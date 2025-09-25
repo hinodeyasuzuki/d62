@@ -358,27 +358,31 @@ class ConsHWsum extends ConsBase {
 		this.reduceRateShowerTime =
 			1 / (this.showerMinutes / this.person - 1) * this.consHWshowerRate;
 
-		//reduce rate by stop keep hot
 		if ( this.consHWtubLitter != 0 ){
+			//reduce rate by stop keep hot
 			this.reduceRateTabKeep = 
 				this.tabKeepEnergy /
 				(this.heatEnergy * this.consHWtubLitter / this.allLitter);
+			//reduce rate by insulation tab
+			this.reduceRateInsulation =
+				this.tabInsulation == 1 || this.tabInsulation == 2
+					? 0
+					: this.reduceRateTabKeep *
+					(this.tabTemplatureDown - this.tabTemplatureInsulationDown) /
+					this.tabTemplatureDown;
+
+			//reduce rate by use shower in summer
+			var ssummer = this.tabDayWeekSummer * D6.area.seasonMonth.summer;
+			var snsummer = this.tabDayWeek * (12 - D6.area.seasonMonth.summer);
+			this.reduceRateStopTabSummer = ssummer / (ssummer + snsummer);
+
 		} else {
 			this.reduceRateTabKeep = 0;
+			this.reduceRateInsulation = 0;
+			this.reduceRateStopTabSummer = 0;
 		}
 
-		//reduce rate by insulation tab
-		this.reduceRateInsulation =
-			this.tabInsulation == 1 || this.tabInsulation == 2
-				? 0
-				: this.reduceRateTabKeep *
-				(this.tabTemplatureDown - this.tabTemplatureInsulationDown) /
-				this.tabTemplatureDown;
 
-		//reduce rate by use shower in summer
-		var ssummer = this.tabDayWeekSummer * D6.area.seasonMonth.summer;
-		var snsummer = this.tabDayWeek * (12 - D6.area.seasonMonth.summer);
-		this.reduceRateStopTabSummer = ssummer / (ssummer + snsummer);
 	}
 
 	// calclate measures ----------------------------------------------

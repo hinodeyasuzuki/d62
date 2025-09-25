@@ -128,6 +128,8 @@ class ConsLI extends ConsLIsum {
 				this.measures["mLILED"].calcReduceRate(
 					(this.reduceRateLED - this.reduceRateBulb) / this.reduceRateLED);
 			}
+			// 40,000 hour
+			this.measures["mLILED"].lifeTime = Math.min(20,Math.round(40000 / (parseInt(this.time / 365)))); //in year
 		}
 
 		//mLIceilingLED
