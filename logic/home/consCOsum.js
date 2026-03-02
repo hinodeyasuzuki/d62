@@ -113,6 +113,10 @@ class ConsCOsum extends ConsBase {
 
 		energyLoad = coolLoadUnit * coolFactor[0] * coolArea_m2 * coolTime * 30 * coefTemp;
 
+		if( coolTemp == 0 ) {
+			energyLoad = 0;
+		}
+
 		return energyLoad;
 	}
 

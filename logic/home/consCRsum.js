@@ -61,6 +61,10 @@ class ConsCRsum extends ConsBase {
 
 		this.priceCar = D6.consShow["TO"].priceCar;		//car charge
 		this.carNum = this.input("i901", -1);			//number of cars
+		this.ecodrive_idoling = this.input("i931", 2);	//eco driving idling time
+		this.ecodrive_start = this.input("i932", 2);	//eco driving speed
+		this.ecodrive_accel = this.input("i933", 2);		//eco driving acceleration
+
 		if (this.carNum == 0 && D6.consShow["TO"].noPriceData.car) {
 			this.car = 0;
 			D6.consShow["TO"].priceCar = 0;
@@ -75,7 +79,8 @@ class ConsCRsum extends ConsBase {
 
 	calcMeasure() {
 		//mCRecoDrive
-		this.measures["mCRecoDrive"].calcReduceRate(this.reduceRateEcoDrive);
+		var ecodrive_rate = ( this.ecodrive_idoling + this.ecodrive_start + this.ecodrive_accel - 3 ) / 6;
+		this.measures["mCRecoDrive"].calcReduceRate(this.reduceRateEcoDrive * ecodrive_rate);
 	}
 }
 

@@ -56,7 +56,7 @@ class ConsHWsum extends ConsBase {
 		this.showerWaterLitterUnit = 10; //shower speed L/min
 		this.reduceRateShowerHead = 0.3; //reduce rate by saving shower head
 		this.showerWaterMinutes = 5; //shower time min/person
-		this.otherWaterLitter = 50; //other amount of hot water L/day
+		this.otherWaterLitterOrg = 50; //other amount of hot water L/day
 		this.tankLossWatt = 100; //keep tank hot energy
 		this.tabTemplatureDown = 2; //temperature down in tab water degree-C/hour
 		this.tabTemplatureInsulationDown = 0.5; //temperature down in insulated tab degree-C/hour
@@ -119,7 +119,7 @@ class ConsHWsum extends ConsBase {
 
 		this.dresserMonth = this.input("i114", 4); //months of use hot water for dresser month
 		this.dishWashMonth = this.input("i115", 4); //months of use hot water for dish wash month / 99 is machine
-		this.dishWashWater = this.input("i113", 3); //use cold water for dish wash 1every day - 4 not
+		this.dishWashWater = this.input("i113", 2); //use cold water for dish wash 1every day - 4 not
 		this.heaterPerformance = this.input("i121", 2); //performance of heater 1good  3bad
 		this.cookingFreq = this.input("i802", 6); //frequency of cooking 0-10
 
@@ -178,17 +178,22 @@ class ConsHWsum extends ConsBase {
 				this.showerHotTimeSpan / 60 * 5) * //	seconds , 5 times
 			this.showerWaterLitterUnit;
 
+		// dishwash water litter/day
+		this.dishWashWaterLitter = this.otherWaterLitterOrg * 0.5 * this.person / 3;
+		// dresser water litter/day
+		this.dresserWaterLitter = this.otherWaterLitterOrg * 0.5 * this.person / 3;
+	
+		this.otherWaterLitter  = this.dishWashWaterLitter + this.dresserWaterLitter;
+
 		// estimate amount of hot water used in tub	litter/day
 		this.consHWtubLitter =
 			this.tabWaterLitter *
 			this.tabHeight / 10 *
 			(this.tabDayWeek * (12 - D6.area.seasonMonth.summer) +
 				this.tabDayWeekSummer * D6.area.seasonMonth.summer) / 12 / 7;
-
 		// sum hot water use litter/day
 		this.allLitter =
 			this.consHWtubLitter + this.showerWaterLitter + this.otherWaterLitter;
-
 		// tap water heating energy   kcal/month
 		this.heatTapEnergy =
 			this.allLitter * (this.hotWaterTemp - this.waterTemp) * 365 / 12;
@@ -215,7 +220,7 @@ class ConsHWsum extends ConsBase {
 		// ratio of tub
 		this.consHWtubRate =
 			this.consHWtubLitter / this.allLitter *
-			this.tabKeepEnergy / this.heatEnergy;
+			(this.heatTapEnergy / this.heatEnergy);
 
 		// ratio of shower
 		this.consHWshowerRate =
@@ -225,8 +230,7 @@ class ConsHWsum extends ConsBase {
 
 		// ratio of dresser
 		this.consHWdresserRate =
-			this.otherWaterLitter /
-			2 /
+			this.dresserWaterLitter /
 			this.allLitter *
 			(this.heatTapEnergy / this.heatEnergy) *
 			this.dresserMonth /
@@ -234,8 +238,7 @@ class ConsHWsum extends ConsBase {
 
 		// ratio of dish wash
 		this.consHWdishwashRate =
-			this.otherWaterLitter /
-			2 /
+			this.dishWashWaterLitter /
 			this.allLitter *
 			(this.heatTapEnergy / this.heatEnergy) *
 			(this.dishWashMonth == 99 ? 1 : this.dishWashMonth / 6) *
@@ -330,6 +333,11 @@ class ConsHWsum extends ConsBase {
 				this.performanceEnefarmEle /
 				D6.Unit.calorie.electricity;
 			break;
+		case 9:
+			this.mainSource = "biomass";
+			this.gas = 0;
+			this.electricity = 0;
+			break;
 		case 10:
 			this.mainSource = "gas";
 			this.gas = 0;
@@ -350,23 +358,31 @@ class ConsHWsum extends ConsBase {
 		this.reduceRateShowerTime =
 			1 / (this.showerMinutes / this.person - 1) * this.consHWshowerRate;
 
-		//reduce rate by stop keep hot
-		this.reduceRateTabKeep =
-			this.tabKeepEnergy /
-			(this.heatEnergy * this.consHWtubLitter / this.allLitter);
+		if ( this.consHWtubLitter != 0 ){
+			//reduce rate by stop keep hot
+			this.reduceRateTabKeep = 
+				this.tabKeepEnergy /
+				(this.heatEnergy * this.consHWtubLitter / this.allLitter);
+			//reduce rate by insulation tab
+			this.reduceRateInsulation =
+				this.tabInsulation == 1 || this.tabInsulation == 2
+					? 0
+					: this.reduceRateTabKeep *
+					(this.tabTemplatureDown - this.tabTemplatureInsulationDown) /
+					this.tabTemplatureDown;
 
-		//reduce rate by insulation tab
-		this.reduceRateInsulation =
-			this.tabInsulation == 1 || this.tabInsulation == 2
-				? 0
-				: this.reduceRateTabKeep *
-				(this.tabTemplatureDown - this.tabTemplatureInsulationDown) /
-				this.tabTemplatureDown;
+			//reduce rate by use shower in summer
+			var ssummer = this.tabDayWeekSummer * D6.area.seasonMonth.summer;
+			var snsummer = this.tabDayWeek * (12 - D6.area.seasonMonth.summer);
+			this.reduceRateStopTabSummer = ssummer / (ssummer + snsummer);
 
-		//reduce rate by use shower in summer
-		var ssummer = this.tabDayWeekSummer * D6.area.seasonMonth.summer;
-		var snsummer = this.tabDayWeek * (12 - D6.area.seasonMonth.summer);
-		this.reduceRateStopTabSummer = ssummer / (ssummer + snsummer);
+		} else {
+			this.reduceRateTabKeep = 0;
+			this.reduceRateInsulation = 0;
+			this.reduceRateStopTabSummer = 0;
+		}
+
+
 	}
 
 	// calclate measures ----------------------------------------------

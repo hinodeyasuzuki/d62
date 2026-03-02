@@ -57,6 +57,7 @@ class ConsDRsum extends ConsBase {
 		this.clear();
 
 		this.dryUse = this.input("i401", 3); //use dryer or not
+		this.dryType = this.input("i402", 3); //machine type 1:heatpump, 2:electric, 3:gas
 		this.washFreq = this.input("i403", 1); //use dryer or not
 		this.person = D6.consShow["TO"].person; //person number
 	}
@@ -68,11 +69,17 @@ class ConsDRsum extends ConsBase {
 		this.rateDry = dry / (wash + dry);
 
 		//electricity kWh/month
-		this.electricity =
-			(wash + dry) /
-			1000 *
-			this.person / 3 *
-			30;
+		if( this.dryType == 1 ){
+			//heat pump
+			this.electricity = (wash + dry) / 1000 * this.person / 3 * 30 * (1-this.reduceRateHeatPump);
+		} else if ( this.dryType == 2 ){
+			//electric
+			this.electricity = (wash + dry) / 1000 * this.person / 3 * 30;
+		} else {
+			//gas
+			this.electricity = wash / 1000 * this.person / 3 * 30;			
+			this.gas = dry * D6.Unit.jules.electricity / D6.Unit.jules.gas  / 1000 * this.person / 3 * 30;
+		}
 	}
 
 	calcMeasure() {

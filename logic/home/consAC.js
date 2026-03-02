@@ -69,7 +69,7 @@ class ConsAC extends ConsBase {
 		if( this.acYear > 1900 ) this.acYear = now.getFullYear() - this.acYear;
 		this.nowEquip = this.equip(now.getFullYear() - this.acYear, (this.roomSize < 16 ? 2.8 : 4));
 		this.newEquip = this.equip(now.getFullYear(), (this.roomSize < 16 ? 2.8 : 4));
-		this.apf = this.nowEquip.pf2 * 0.7;
+		this.apf = this.nowEquip.pf2 * 0.7 * (this.acPerf == 1 ? 0.8 : 1);
 		this.apfMax = this.newEquip.pf1 * 0.7;
 
 		//test code for performance
@@ -183,10 +183,9 @@ class ConsAC extends ConsBase {
 			mes["consACheat"] = new Energy();
 			mes["consACheat"].copy(this.acHeat);
 			mes["consACheat"].electricity = this.acHeat.endEnergy / this.apfMax / D6.Unit.calorie.electricity;
-
 			mes["consACcool"] = new Energy();
 			mes["consACcool"].copy(this.acCool);
-			mes["consACcool"].electricity = this.acCool.electricity * this.acHeat.apf / this.apfMax;
+			mes["consACcool"].electricity = this.acCool.electricity * this.apf / this.apfMax;
 
 			mes.electricity = mes["consACheat"].electricity + mes["consACcool"].electricity;
 			if (this.heatArea > 0.3

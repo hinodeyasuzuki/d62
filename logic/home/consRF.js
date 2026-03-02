@@ -83,7 +83,7 @@ class ConsRF extends ConsRFsum {
 		this.consYearAdvanced = this.newEquip.pf1 * (this.type == 2 ? 2 : 1);
 
 		//reduction rate to replace new one
-		this.reduceRateChange = this.consYearAdvanced / this.consYear;
+		this.reduceRateChange = (this.consYear - this.consYearAdvanced) / this.consYear;
 
 		if (
 			this.subID > 0 &&

@@ -52,15 +52,17 @@ class ConsCR extends ConsCRsum {
 	precalc() {
 		this.clear();
 
-		this.carType = this.input("i911" + Math.max(this.subID,1), 1); //type of car
-		this.performance = this.input("i912" + Math.max(this.subID,1), 12); //performance km/L
+		var subIDtemp = this.subID;
+
+		this.carType = this.input("i911" + Math.max(subIDtemp,1), 1); //type of car
+		this.performance = this.input("i912" + Math.max(subIDtemp,1), 12); //performance km/L
 
 		this.ordinalCarNum = this.input("i941",0);
 		this.elecCarNum = this.input("i943",0);
 
 		// car user
-		this.user = this.input("i913" + this.subID, this.subID + this.countCall);
-		this.ecoTier = this.input("i914" + this.subID, 3); //eco tier
+		this.user = this.input("i913" + subIDtemp, subIDtemp + this.countCall);
+		this.ecoTier = this.input("i914" + subIDtemp, 3); //eco tier
 	}
 
 	calc() {
@@ -94,7 +96,10 @@ class ConsCR extends ConsCRsum {
 
 	calcMeasure() {
 		//mCRreplace
-		if (!this.isSelected("mCRreplaceElec")) {
+		if (!this.isSelected("mCRreplaceElec") &&
+			this.carType != 5 &&
+			this.performance < 20
+		) {
 			this.measures["mCRreplace"].calcReduceRate(
 				(this.performanceNew - this.performanceNow) / this.performanceNew
 			);
@@ -103,7 +108,8 @@ class ConsCR extends ConsCRsum {
 		//mCRreplaceElec
 		if (!this.isSelected("mCRreplace") &&
 			this.carType != 5 &&
-			this.ordinalCarNum == 0
+			this.ordinalCarNum == 0 &&
+			this.performance < 25
 		) {
 			this.measures["mCRreplaceElec"].clear();
 			this.measures["mCRreplaceElec"].electricity =
