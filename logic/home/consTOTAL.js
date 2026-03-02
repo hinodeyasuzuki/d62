@@ -352,8 +352,11 @@ class ConsTotal extends ConsBase {
 			pvSellUnitPrice = 17;
 		} else if (this.solarYear == 2023) {
 			pvSellUnitPrice = 16;
-		} else if (this.solarYear >= 2024 && this.solarYear < 2028) {
+		} else if (this.solarYear >= 2024 && this.solarYear <= 2025) {
 			pvSellUnitPrice = 15;
+		} else if (this.solarYear >= 2026 && this.solarYear < 2028) {
+			//初期4年間 24円、その後8.4円 10年間の平均
+			pvSellUnitPrice = 14.6;
 		} else if (this.solarYear < 2100) {
 			//estimate
 			pvSellUnitPrice = 11;
@@ -362,8 +365,8 @@ class ConsTotal extends ConsBase {
 		// end of FIT
 		var date = new Date();
 		if( this.solarYear < date.getFullYear() - 10 ){
-			pvSellUnitPrice = 10;
-			this.solarYear = 10;
+			pvSellUnitPrice = 8;
+			this.solarYear = 8;
 		}
 		this.pvSellUnitPrice = pvSellUnitPrice;
 
