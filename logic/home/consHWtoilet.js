@@ -36,6 +36,8 @@ class ConsHWtoilet extends ConsBase {
 		this.resudeRateTemplature = 0.2;		//reduce rate by temperature set 
 		this.resudeRateCover = 0.1;			//reduce rate by use cover 
 		this.water_m3_d = 0.1;				//flush water use in toilet m3/day/person
+		this.water_average = 13;				//average water use in toilet L/once
+		this.water_save = 4;					//water saving in toilet L/once
 
 		//construction setting
 		this.consName = "consHWtoilet";    	//code name of this consumption 
@@ -77,14 +79,14 @@ class ConsHWtoilet extends ConsBase {
 	calcMeasure() {
 		//var mes;
 
-		//mHWreplaceToilet5]
+		//mHWreplaceToilet5
 		if( this.reform !=1 ){
 			this.measures["mHWreplaceToilet5"].copy(this);
-			this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 / 2;
+			this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 * this.water_save / this.water_average;
 		}
 
 		//mHWreplaceToilet
-		if (this.savingToilet != 1 || this.keepSeason != 4) {
+		if (this.savingToilet != 1 && this.keepSeason != 4) {
 			this.measures["mHWreplaceToilet"].calcReduceRate(this.resudeRateGoodSheat);
 		}
 
