@@ -37,7 +37,7 @@ class ConsHWtoilet extends ConsBase {
 		this.resudeRateCover = 0.1;			//reduce rate by use cover 
 		this.water_m3_d = 0.1;				//flush water use in toilet m3/day/person
 		this.water_average = 13;				//average water use in toilet L/once
-		this.water_save = 4;					//water saving in toilet L/once
+		this.water_save = 4.8;					//water saving in toilet L/once from Okayama Gas Co.Ltd 2026/03/18
 
 		//construction setting
 		this.consName = "consHWtoilet";    	//code name of this consumption 
