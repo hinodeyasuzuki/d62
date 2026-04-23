@@ -39,30 +39,30 @@ D6.Unit = {
 		car:2.32
 	},
 
-	//2025
-	defaultPriceElectricity : 30.74,
+	//2026
+	defaultPriceElectricity : 32.65, //2025年値(20260403)
 
-	// unit price   yen(in Japan)/each unit
+	// unit price yen(in Japan)/each unit
 	price : {
-		electricity:30.74, // override in D6.area.setPersonArea by supplier
-		nightelectricity:24.96,
-		sellelectricity:15,
-		nagas:173.03,
-		lpgas:747.01,
-		kerosene:127.2,
-		gasoline:184.5,
-		lightoil:164.2,
-		heavyoil:80,
+		electricity:32.65, // override in D6.area.setPersonArea by supplier
+		nightelectricity:25.24,
+		sellelectricity:14.58,
+		nagas:164.47,
+		lpgas:758.01,
+		kerosene:140.8,
+		gasoline:170.2,
+		lightoil:159.0,
+		heavyoil:99.1,
 		coal:0,
 		biomass:0,
 		hotwater:0,
 		waste:0,
 		water:333.3,
-		gas:173.03,
-		car:184.5
+		gas:164.47,
+		car:170.2
 	},
 
-	// intercept price when consumption is zero 	yen(in Japan)
+	// intercept price when consumption is zero yen(in Japan)
 	priceBase : {
 		electricity:0,
 		nightelectricity:1950,

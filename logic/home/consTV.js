@@ -31,7 +31,7 @@ class ConsTV extends ConsTVsum {
 
 	constructor() {
 		super();
-``
+
 		//construction setting
 		this.consName = "consTV";           //code name of this consumption 
 		this.consCode = "";                 //short code to access consumption, only set main consumption user for itemize
