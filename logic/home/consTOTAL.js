@@ -358,7 +358,7 @@ class ConsTotal extends ConsBase {
 		} else if (this.solarYear >= 2024 && this.solarYear <= 2025) {
 			pvSellUnitPrice = 15;
 		} else if (this.solarYear >= 2026 && this.solarYear < 2028) {
-			//初期4年間 24円、その後8.4円 10年間の平均
+			//初期4年間 24円、その後8.4円 10年間の平均 2025年10月以降
 			pvSellUnitPrice = 14.6;
 		} else if (this.solarYear < 2100) {
 			//estimate
