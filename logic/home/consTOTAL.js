@@ -610,11 +610,10 @@ class ConsTotal extends ConsBase {
 				//暖房割合
 				var heatRatio = D6.consHTsum.jules / this.jules;
 
-				//灯油の利用を電気にする
+				//灯油の利用を電気にする（太陽光発電の処理を除く）
 				var elec = this.electricity
 					+ this.kerosene * (D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity);
-				mes2.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce))
-					- solar_generate_kWh;
+				mes2.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce));
 				mes2.kerosene = 0;
 
 				//暖房に関しては
@@ -628,11 +627,12 @@ class ConsTotal extends ConsBase {
 					heatParam = 2 / (heatLoad * 860 / 1000);		//暖房の増減比率
 				}
 				mes2.gas -= D6.consHTsum.gas * (1 - heatParam);
-				mes2.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
-					* (1 - heatParam);
+				mes2.electricity -= D6.consHTsum.electricity  * ( 1 - heatParam);
+				mes2.electricity -= D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity * (1 - heatParam);
 
 				mes2.calcCost();
 
+				//太陽光発電の処理
 				// monthly generate electricity
 				var solar_generate_kWh = this.generateEleUnit * zehSolarSize / 12;
 
