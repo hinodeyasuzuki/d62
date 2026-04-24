@@ -182,7 +182,12 @@ D6.calcConsAdjust = function () {
 			if (energySum[j] == 0) {
 				this.energyAdj[j] = 1; //any number
 			} else {
-				this.energyAdj[j] = this.consShow["TO"][j] / energySum[j];
+				//全体整合補正で、電気は「グロス消費量（購入＋自家消費）」で補正する
+				if( j == "electricity" ) {
+					this.energyAdj[j] = this.consShow["TO"]["grossElectricity"] / energySum[j];
+				} else{
+					this.energyAdj[j] = this.consShow["TO"][j] / energySum[j];
+				}
 				if (
 					typeof this.consShow["TO"].noPriceData[j] !== "undefined" &&
 					this.consShow["TO"].noPriceData[j]
