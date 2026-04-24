@@ -18,7 +18,7 @@
 var D6 = D6||{};
 
 D6.Unit = {
-	
+
 	// co2 emission factor  kg-CO2/each unit
 	co2 : {
 		electricity:0.55,
