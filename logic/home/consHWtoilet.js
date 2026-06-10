@@ -77,14 +77,14 @@ class ConsHWtoilet extends ConsBase {
 	calcMeasure() {
 		//var mes;
 
-		//mHWreplaceToilet5]
+		//mHWreplaceToilet5
 		if( this.reform !=1 ){
 			this.measures["mHWreplaceToilet5"].copy(this);
 			this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 / 2;
 		}
 
 		//mHWreplaceToilet
-		if (this.savingToilet != 1 || this.keepSeason != 4) {
+		if (this.savingToilet != 1 && this.keepSeason != 4) {
 			this.measures["mHWreplaceToilet"].calcReduceRate(this.resudeRateGoodSheat);
 		}
 
