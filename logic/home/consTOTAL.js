@@ -23,6 +23,8 @@
  * 
  */
 
+//const { debug } = require("webpack");
+
 var D6 = D6 || {};
 
 //Inherited class of ConsBase
@@ -309,6 +311,7 @@ class ConsTotal extends ConsBase {
 
 		//solar sell price in Japan
 		var pvSellUnitPrice = D6.Unit.price.sellelectricity;
+		var pvSellUnitPriceNow = pvSellUnitPrice;	//calc for now balance
 		if (this.solarYear > 1990 && this.solarYear <= 2010) {
 			pvSellUnitPrice = 48;
 		} else if (this.solarYear == 2011 || this.solarYear == 2012) {
@@ -355,8 +358,13 @@ class ConsTotal extends ConsBase {
 			pvSellUnitPrice = 17;
 		} else if (this.solarYear == 2023 || this.solarYear == 2024) {
 			pvSellUnitPrice = 16;
-		} else if (this.solarYear >= 2025 && this.solarYear < 2028) {
+		} else if (this.solarYear >= 2024 && this.solarYear <= 2025) {
 			pvSellUnitPrice = 15;
+		} else if (this.solarYear >= 2026 && this.solarYear < 2028) {
+			//初期4年間 24円、その後8.4円 10年間の平均 2025年10月以降
+			pvSellUnitPrice = 14.6;
+			//260426 現時点では初期4年間は経過していない
+			pvSellUnitPriceNow = 24;
 		} else if (this.solarYear < 2100) {
 			//estimate
 			pvSellUnitPrice = 11;
@@ -365,28 +373,46 @@ class ConsTotal extends ConsBase {
 		// end of FIT
 		var date = new Date();
 		if( this.solarYear < date.getFullYear() - 10 ){
-			pvSellUnitPrice = 10;
-			this.solarYear = 10;
+			pvSellUnitPrice = 8;
+			this.solarYear = 8;
 		}
 		this.pvSellUnitPrice = pvSellUnitPrice;
+		pvSellUnitPriceNow = pvSellUnitPriceNow ? pvSellUnitPriceNow : pvSellUnitPrice;
 
 		//PV installed
+		var solarSaleRate_temp = 0;
 		if (this.solarKw > 0) {
-			// sellrate fitting
-			this.sellelec_byprice = this.priceEleSell / pvSellUnitPrice;
-			this.solarSaleRate_byprice = this.sellelec_byprice / generateEle;
-			var t_solarSaleRatio = ( this.solarSaleRatio + this.solarSaleRate_byprice ) / 2;
-			this.solarSaleRatio = Math.max(0.2 , Math.min(0.8 , t_solarSaleRatio));
+			//260424 売電価格から、売電率を算出
+			this.sellelec_byprice = this.priceEleSell / pvSellUnitPriceNow;
+			this.solarSaleRate_byprice = Math.min(0.8, this.sellelec_byprice / generateEle);
+
+			//260424 サイズと電気代から、売電率を算出
+			// sell rate from price and size
+			var solarSaleRate_byprice_size = this.solarSaleRatio 
+				* Math.sqrt( this.solarKw / this.standardSize ) 
+				* Math.pow( 5000 / Math.max(2000,this.priceEle),0.4);
+
+			// calc average
+			var t_solarSaleRatio = ( solarSaleRate_byprice_size + this.solarSaleRate_byprice ) / 2;
+			if (this.priceEleSell == 0) {
+				t_solarSaleRatio = solarSaleRate_byprice_size;
+			}
+
+			this.solarSaleRatio = Math.max(0.2 , Math.min(0.8 , t_solarSaleRatio));	//売電比率 this.solarSaleRatio
+			solarSaleRate_temp = this.solarSaleRatio;
+
 			// gross = electricity consumed in home include self consumption amount
 			this.grossElectricity =
 				(1 - this.solarSaleRatio) * generateEle +
 				Math.max(
 					0,
 					this.priceEle - this.priceEleSell +
-					this.solarSaleRatio * generateEle * pvSellUnitPrice - priceBase
+					this.solarSaleRatio * generateEle * pvSellUnitPriceNow - priceBase
 				) / this.averagePriceElec;
+
+			//260424 売電評価のときのみ、grossから発電量を引く
 			if( modesolaronlyself ){
-				this.electricity = this.grossElectricity - generateEle * ( 1-this.solarSaleRatio);
+				this.electricity = this.grossElectricity ;
 			} else {
 				this.electricity = this.grossElectricity - generateEle;
 			}
@@ -394,6 +420,17 @@ class ConsTotal extends ConsBase {
 			//not installed
 			this.electricity = (this.priceEle - priceBase) / this.averagePriceElec;
 			this.grossElectricity = this.electricity;
+		}
+
+		//2604026 自家消費を考慮した平均CO2係数で計算する
+		//electricity CO2 emisstion unit by supplyer
+		D6.co2unit_electricityOrg = D6.area.getCo2Unit( D6.area.electCompany );
+		D6.Unit.co2.electricity = D6.area.getCo2Unit( D6.area.electCompany ) * (1 - solarSaleRate_temp);
+		D6.Unit.co2.nightelectricity = D6.Unit.co2.electricity;
+		D6.Unit.co2.sellelectricity = D6.Unit.co2.electricity;
+		if( D6.debugMode){
+			console.log("electricity unit", D6.Unit.co2.electricity);
+			console.log("solarSaleRatio", solarSaleRate_temp);
 		}
 
 		//gas
@@ -573,11 +610,10 @@ class ConsTotal extends ConsBase {
 				//暖房割合
 				var heatRatio = D6.consHTsum.jules / this.jules;
 
-				//灯油の利用を電気にする
+				//灯油の利用を電気にする（太陽光発電の処理を除く）
 				var elec = this.electricity
 					+ this.kerosene * (D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity);
-				mes2.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce))
-					- solar_generate_kWh;
+				mes2.electricity = elec * (heatRatio + (1 - heatRatio) * (1 - solar_reduceVisualize) * (1 - eleReduce));
 				mes2.kerosene = 0;
 
 				//暖房に関しては
@@ -591,11 +627,12 @@ class ConsTotal extends ConsBase {
 					heatParam = 2 / (heatLoad * 860 / 1000);		//暖房の増減比率
 				}
 				mes2.gas -= D6.consHTsum.gas * (1 - heatParam);
-				mes2.electricity -= (D6.consHTsum.electricity + D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity)
-					* (1 - heatParam);
+				mes2.electricity -= D6.consHTsum.electricity  * ( 1 - heatParam);
+				mes2.electricity -= D6.consHTsum.kerosene * D6.Unit.calorie.kerosene / D6.Unit.calorie.electricity * (1 - heatParam);
 
 				mes2.calcCost();
 
+				//太陽光発電の処理
 				// monthly generate electricity
 				var solar_generate_kWh = this.generateEleUnit * zehSolarSize / 12;
 

@@ -1,4 +1,4 @@
-﻿/* 2017/12/15  version 1.0
+/* 2017/12/15  version 1.0
  * coding: utf-8, Tab as 4 spaces
  * 
  * Home Energy Diagnosis System Ver.6
@@ -36,6 +36,8 @@ class ConsHWtoilet extends ConsBase {
 		this.resudeRateTemplature = 0.2;		//reduce rate by temperature set 
 		this.resudeRateCover = 0.1;			//reduce rate by use cover 
 		this.water_m3_d = 0.1;				//flush water use in toilet m3/day/person
+		this.water_average = 13;				//average water use in toilet L/once
+		this.water_save = 4.8;					//water saving in toilet L/once from Okayama Gas Co.Ltd 2026/03/18
 
 		//construction setting
 		this.consName = "consHWtoilet";    	//code name of this consumption 
@@ -80,7 +82,7 @@ class ConsHWtoilet extends ConsBase {
 		//mHWreplaceToilet5
 		if( this.reform !=1 ){
 			this.measures["mHWreplaceToilet5"].copy(this);
-			this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 / 2;
+			this.measures["mHWreplaceToilet5"].water = this.water_m3_d * this.person * 30 * this.water_save / this.water_average;
 		}
 
 		//mHWreplaceToilet

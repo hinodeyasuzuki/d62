@@ -213,8 +213,19 @@ D6.patch(D6.area, {
 		9
 	],
 
-	//#CHANGE electricity supply company price ratio
-	electCompanyPrice: [1.2, 1, 1, 1, 1, 1, 1, 1, 1, 1.2],
+	//#CHANGE electricity supply company price ratio 	2026/4/23
+	electCompanyPrice : [
+		1.33,
+		1.09,
+		1.11,
+		1.07,
+		1.06,
+		0.98,
+		1.04,
+		1.07,
+		1.00,
+		1.15
+	],
 
 	//	electricity charge unit table
 	//
@@ -460,8 +471,8 @@ D6.patch(D6.area, {
 	//家計調査最新年度 2024年値(ガスほかは単価最新値）
 	toukeiUnitNow : [ 30.74, 747.01, 127.2, 184.5, 164.2 ],
 
-	//co2 statistic factor	エネルギー経済統計要覧2022年値/(15-19)（ガソリンはインベントリオフィスより、消費量比率）
-	energyfactor : [0.945, 0.886, 0.737, 0.907, 0.886],
+	//co2 statistic factor	エネルギー経済統計要覧2024年値/(15-19)（ガソリンはインベントリオフィスより、消費量比率）
+	energyfactor : [0.967, 0.879, 0.736, 0.873, 0.873],
 
 	// seasonal energy fee factor to average
 	//
