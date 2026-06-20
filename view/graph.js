@@ -1,7 +1,7 @@
 /**
  * Home-Eco Diagnosis for JavaScript
  *
- * graph: graph create Class
+ * graph: graph create Class (Chart.js v4)
  *
  *
  * @author SUZUKI Yasufumi	2016/05/23
@@ -10,6 +10,27 @@
 
 var wid;
 var hei;
+
+var _chartInstances = {};
+
+function _destroyChart(id) {
+	if (_chartInstances[id]) {
+		_chartInstances[id].destroy();
+		delete _chartInstances[id];
+	}
+}
+
+function _ensureCanvas(targetId, w, h) {
+	var $target = $("#" + targetId);
+	var canvasId = targetId + "Canvas";
+	_destroyChart(canvasId);
+	$target.find(".chartjs-wrapper").remove();
+	$target.append(
+		'<div class="chartjs-wrapper" style="position:relative;width:' + w + 'px;height:' + h + 'px">' +
+		'<canvas id="' + canvasId + '"></canvas></div>'
+	);
+	return document.getElementById(canvasId);
+}
 
 //graphItemize( ret ) ------------------------------------------------
 //		draw itemized graph to div#graph
@@ -26,7 +47,6 @@ function graphItemizeCommon(ret, targetname) {
 	if (!$("#" + targetname).is(":visible")) {
 		return;
 	}
-	//caption: graph captions translate
 	if (targetMode == 1) {
 		var captions = {
 			you: lang.younow,
@@ -65,7 +85,6 @@ function graphItemizeCommon(ret, targetname) {
 		"</h3>"
 	);
 
-	// use dimple
 	wid =
 		Math.min(
 			$("#" + targetname)
@@ -76,156 +95,188 @@ function graphItemizeCommon(ret, targetname) {
 	if (wid <= 0) return;
 	hei = Math.max(wid * 0.4, 320);
 
-	var svg = dimple.newSvg("#" + targetname, wid, hei);
+	var canvas = _ensureCanvas(targetname, wid, hei);
 
-	// redesign data for graph
-	for (var c in ret.data) {
-		if (pageMode == "m1") {
-			//in case of no selection mode
-			if (ret.data[c].compare == "after") {
-				delete ret.data[c];
-				continue;
-			}
-		}
-		if (hideAverage == 1 && ret.data[c].compare == "average") {
-			delete ret.data[c];
-			continue;
-		}
-		//set language (other is not set in d6)
-		if (ret.data[c].item == "other") {
-			ret.data[c][captionItem] = lang.other;
-		} else {
-			ret.data[c][captionItem] = ret.data[c].item;
-		}
-		delete ret.data[c].item;
-		ret.data[c][captionCompare] = captions[ret.data[c].compare];
-		delete ret.data[c].compare;
-		ret.data[c][captionPercent] = ret.data[c].ratio;
-		delete ret.data[c].ratio;
-		ret.data[c][titles[ret.yaxis]] = ret.data[c][ret.yaxis];
-		delete ret.data[c][ret.yaxis];
-	}
-	var chart = new dimple.chart(svg, ret.data);
-	chart.customClassList.axisLine = "dimple-custom-gridline";
+	var unitSuffix = ret.yaxis == "yen" ? lang.priceunit : ret.yaxis;
 
-	//X axis
-	var xAxis = chart.addCategoryAxis("x", captionCompare);
-	xAxis.fontSize = "13px";
-	xAxis.title = "";
-	//sort data and set axis
-	var categoryOrder = [];
-	categoryOrder[0] = captions.you;
+	// Build category labels (x-axis groups)
+	var categoryLabels = [captions.you];
 	if (pageMode == "m1") {
 		if (hideAverage == 0) {
-			categoryOrder[1] = captions.average;
+			categoryLabels.push(captions.average);
 		}
 	} else {
-		categoryOrder[1] = captions.after;
+		categoryLabels.push(captions.after);
 		if (hideAverage == 0) {
-			categoryOrder[2] = captions.average;
+			categoryLabels.push(captions.average);
 		}
 	}
-	xAxis.addOrderRule(categoryOrder);
 
-	// y axis
-	var yAxis = chart.addMeasureAxis("y", titles[ret.yaxis]);
-	yAxis.tickFormat = "";
-	yAxis.textAlign = "left";
-	yAxis.fontSize = "12px";
-
-	//legend
-	var myLegend = chart.addLegend(wid - 80, 10, 90, hei - 40);
-	myLegend.fontSize = "12px";
-
-	// reverse regend: first, store a copy of the original _getEntries method.
-	myLegend._getEntries_old = myLegend._getEntries;
-	// now override the method
-	myLegend._getEntries = function () {
-		return myLegend._getEntries_old.apply(this, arguments).reverse();
-	};
-
-	//graph size setting
-	chart.setBounds(60, 10, wid - 150, hei - 70); //left margin, top margin, width, height
-	var barAxis = chart.addSeries(captionItem, dimple.plot.bar);
-	//label
-	barAxis.afterDraw = function (shape, data) {
-		var s = d3.select(shape),
-			rect = {
-				x: parseFloat(s.attr("x")),
-				y: parseFloat(s.attr("y")),
-				width: parseFloat(s.attr("width")),
-				height: parseFloat(s.attr("height"))
-			};
-		if (rect.height >= 8) {
-			svg
-				.append("text")
-				// Position in the centre of the shape (vertical position is
-				// manually set due to cross-browser problems with baseline)
-				.attr("x", rect.x + rect.width / 2)
-				.attr("y", rect.y + rect.height / 2 + 3.5)
-				// Centre align
-				.style("text-anchor", "middle")
-				.style("font-size", "10px")
-				.style("font-family", "sans-serif")
-				// Make it a little transparent to tone down the black
-				.style("opacity", 1)
-				// Prevent text cursor on hover and allow tooltips
-				.style("pointer-events", "none")
-				// Format the number
-				.text(d3.format(",.0f")(data.yValue) + "kg");
-		}
-	};
-
+	// Collect unique item names from data (preserving order from ret.ord when valid)
+	var itemColors = {};
 	for (var cid in ret.clist) {
-		chart.assignColor(ret.clist[cid].title, ret.clist[cid].color);
+		itemColors[ret.clist[cid].title] = ret.clist[cid].color;
 	}
-	barAxis.addOrderRule(ret.ord);
 
-	//縦軸の反転
-	var varaxorder = [];
-	for (var i = ret.ord.length - 1; i >= 0; i--) {
-		if (ret.ord[i] == "other") {
-			varaxorder.push("その他");
-		} else {
-			varaxorder.push(ret.ord[i]);
+	var itemNamesOrdered = [];
+	var itemNameSet = {};
+	// Collect from all scenarios ("you" first, then others)
+	var scenarioOrder = ["you", "after", "average"];
+	for (var si = 0; si < scenarioOrder.length; si++) {
+		for (var c in ret.data) {
+			var d = ret.data[c];
+			if (!d) continue;
+			if (d.compare != scenarioOrder[si]) continue;
+			var dItem = d.item == "other" ? lang.other : d.item;
+			if (!itemNameSet[dItem]) {
+				itemNameSet[dItem] = true;
+				itemNamesOrdered.push(dItem);
+			}
 		}
 	}
-	barAxis.addOrderRule(varaxorder);
 
-	//draw
-	chart.draw(200);
+	// Reorder by ret.ord if it contains valid entries
+	var hasValidOrd = ret.ord && ret.ord.length > 0 && ret.ord[0] != null;
+	if (hasValidOrd) {
+		var orderedNames = [];
+		for (var i = 0; i < ret.ord.length; i++) {
+			var oname = ret.ord[i] == "other" ? lang.other : ret.ord[i];
+			if (itemNameSet[oname]) {
+				orderedNames.push(oname);
+			}
+		}
+		// Add any items not in ord
+		for (var j = 0; j < itemNamesOrdered.length; j++) {
+			if (orderedNames.indexOf(itemNamesOrdered[j]) < 0) {
+				orderedNames.push(itemNamesOrdered[j]);
+			}
+		}
+		itemNamesOrdered = orderedNames;
+	}
 
-	//comment-------------------
+	// Reverse for stacking order (bottom to top)
+	var itemNames = itemNamesOrdered.slice().reverse();
+
+	// Default color palette for sub-items without explicit colors
+	var _defaultColors = [
+		"#4dc9f6", "#f67019", "#f53794", "#537bc4",
+		"#acc236", "#166a8f", "#00a950", "#58595b",
+		"#8549ba", "#e6194b", "#3cb44b", "#ffe119"
+	];
+	var _colorIndex = 0;
+
+	// Build datasets per item
+	var datasets = [];
+	for (var i = 0; i < itemNames.length; i++) {
+		var itemName = itemNames[i];
+		var values = [];
+		for (var ci = 0; ci < categoryLabels.length; ci++) {
+			var catKey = categoryLabels[ci] == captions.you ? "you"
+				: categoryLabels[ci] == captions.after ? "after"
+				: "average";
+			var val = 0;
+			for (var c in ret.data) {
+				var d = ret.data[c];
+				if (!d) continue;
+				var dItem = d.item == "other" ? lang.other : d.item;
+				if (dItem == itemName && d.compare == catKey) {
+					val = d[ret.yaxis] || 0;
+					break;
+				}
+			}
+			values.push(Math.round(val));
+		}
+		var bgColor = itemColors[itemName];
+		if (!bgColor) {
+			bgColor = _defaultColors[_colorIndex % _defaultColors.length];
+			_colorIndex++;
+		}
+		datasets.push({
+			label: itemName,
+			data: values,
+			backgroundColor: bgColor
+		});
+	}
+
+	_chartInstances[targetname + "Canvas"] = new Chart(canvas, {
+		type: "bar",
+		data: {
+			labels: categoryLabels,
+			datasets: datasets
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			animation: { duration: 200 },
+			plugins: {
+				legend: {
+					position: "right",
+					labels: { font: { size: 12 } }
+				},
+				datalabels: {
+					display: function (ctx) {
+						return ctx.dataset.data[ctx.dataIndex] > 0;
+					},
+					anchor: "center",
+					align: "center",
+					font: { size: 10 },
+					formatter: function (value) {
+						return value.toLocaleString() + unitSuffix;
+					}
+				}
+			},
+			scales: {
+				x: {
+					stacked: true,
+					ticks: { font: { size: 13 } }
+				},
+				y: {
+					stacked: true,
+					ticks: { font: { size: 12 } },
+					title: {
+						display: true,
+						text: titles[ret.yaxis]
+					}
+				}
+			}
+		},
+		plugins: [ChartDataLabels]
+	});
+
+	// comment
+	var commentItems = hasValidOrd ? itemNamesOrdered : [];
 	var rat = [];
 	var ratsum = 0;
-	for (var i1 = 0; i1 < 3; i1++) {
-		for (var i2 in chart.data) {
-			if (
-				chart.data[i2][captionCompare] == captions.you &&
-				chart.data[i2][captionItem] == ret.ord[i1]
-			) {
-				rat[i1] = chart.data[i2][captionPercent];
-				ratsum += chart.data[i2][captionPercent];
+	for (var i1 = 0; i1 < Math.min(3, commentItems.length); i1++) {
+		for (var c in ret.data) {
+			var d = ret.data[c];
+			if (!d) continue;
+			var dItem = d.item == "other" ? lang.other : d.item;
+			if (d.compare == "you" && dItem == commentItems[i1]) {
+				rat[i1] = d.ratio;
+				ratsum += d.ratio;
 				break;
 			}
 		}
 	}
-	var comment = lang.itemizecomment(
-		ret.ord[0] +
-		"（" +
-		rat[0] +
-		"%）、" +
-		ret.ord[1] +
-		"（" +
-		rat[1] +
-		"%）、" +
-		ret.ord[2] +
-		"（" +
-		rat[2] +
-		"%）",
-		Math.round(ratsum)
-	);
-	$("#" + targetname + "comment").html(comment);
+	if (commentItems.length >= 3) {
+		var comment = lang.itemizecomment(
+			commentItems[0] +
+			"（" +
+			rat[0] +
+			"%）、" +
+			commentItems[1] +
+			"（" +
+			rat[1] +
+			"%）、" +
+			commentItems[2] +
+			"（" +
+			rat[2] +
+			"%）",
+			Math.round(ratsum)
+		);
+		$("#" + targetname + "comment").html(comment);
+	}
 }
 
 // graphEnergy( averageData ) -----------------------------------------------------
@@ -237,7 +288,6 @@ function graphEnergy(averageData) {
 
 	$("#graphEnergy").html("");
 
-	// use dimple
 	wid =
 		Math.min(
 			$("#graphEnergy")
@@ -248,118 +298,73 @@ function graphEnergy(averageData) {
 	if (wid <= 0) return;
 	hei = Math.max(wid * 0.4, 320);
 
-	var svg = dimple.newSvg("#graphEnergy", wid, hei);
-	var data = [
-		{
-			user: lang.youcall,
-			energy: lang.electricitytitle,
-			cons: Math.round(averageData.cost[0].electricity)
-		},
-		{
-			user: lang.average,
-			energy: lang.electricitytitle,
-			cons: Math.round(averageData.cost[1].electricity)
-		},
-		{
-			user: lang.youcall,
-			energy: lang.gastitle,
-			cons: Math.round(averageData.cost[0].gas)
-		},
-		{
-			user: lang.average,
-			energy: lang.gastitle,
-			cons: Math.round(averageData.cost[1].gas)
-		},
-		{
-			user: lang.youcall,
-			energy: lang.kerosenetitle,
-			cons: Math.round(averageData.cost[0].kerosene)
-		},
-		{
-			user: lang.average,
-			energy: lang.kerosenetitle,
-			cons: Math.round(averageData.cost[1].kerosene)
-		},
-		{
-			user: lang.youcall,
-			energy: lang.gasolinetitle,
-			cons: Math.round(averageData.cost[0].car)
-		},
-		{
-			user: lang.average,
-			energy: lang.gasolinetitle,
-			cons: Math.round(averageData.cost[1].car)
-		}
-	];
-	for (var c in data) {
-		data[c][lang.fee] = data[c].cons;
-		delete data[c].cons;
-	}
-	var chart = new dimple.chart(svg, data);
+	var canvas = _ensureCanvas("graphEnergy", wid, hei);
 
-	//x axis
-	var xAxis = chart.addCategoryAxis("x", ["energy", "user"]);
-	if (wid < 480) {
-		xAxis.fontSize = "12px";
-	} else {
-		xAxis.fontSize = "15px";
-	}
-	xAxis.title = "";
-	xAxis.addOrderRule([
+	var energyLabels = [
 		lang.electricitytitle,
 		lang.gastitle,
 		lang.kerosenetitle,
 		lang.gasolinetitle
-	]);
-	xAxis.addGroupOrderRule([lang.youcall, lang.average]); //カテゴリーの並び順
+	];
+	var energyKeys = ["electricity", "gas", "kerosene", "car"];
 
-	//y axis
-	var yAxis = chart.addMeasureAxis("y", lang.fee);
-	yAxis.tickFormat = "";
-	yAxis.fontSize = "12px";
-	yAxis.title = lang.fee + "（" + lang.priceunit + "/" + lang.monthunit + "）";
+	var youData = [];
+	var avgData = [];
+	for (var i = 0; i < energyKeys.length; i++) {
+		youData.push(Math.round(averageData.cost[0][energyKeys[i]]));
+		avgData.push(Math.round(averageData.cost[1][energyKeys[i]]));
+	}
 
-	//legend
-	var myLegend = chart.addLegend(wid - 160, 10, 160, 20);
-	myLegend.fontSize = "12px";
-
-	//set color
-	chart.assignColor(lang.youcall, "orange");
-	chart.assignColor(lang.average, "green");
-
-	chart.setBounds(70, 10, wid - 80, hei - 70); //left padding, top padding, graph width, graph height
-
-	var s = chart.addSeries("user", dimple.plot.bar);
-	//label
-	s.afterDraw = function (shape, data) {
-		var s = d3.select(shape),
-			rect = {
-				x: parseFloat(s.attr("x")),
-				y: parseFloat(s.attr("y")),
-				width: parseFloat(s.attr("width")),
-				height: parseFloat(s.attr("height"))
-			};
-		svg
-			.append("text")
-			// Position in the centre of the shape (vertical position is
-			// manually set due to cross-browser problems with baseline)
-			.attr("x", rect.x + rect.width / 2)
-			.attr("y", rect.y - 3.5)
-			// Centre align
-			.style("text-anchor", "middle")
-			.style("font-size", "10px")
-			.style("font-family", "sans-serif")
-			// Make it a little transparent to tone down the black
-			.style("opacity", 1)
-			// Prevent text cursor on hover and allow tooltips
-			.style("pointer-events", "none")
-			// Format the number
-			.text(d3.format(",.0f")(data.yValue) + lang.priceunit);
-	};
-
-	chart.ease = "bounce";
-	chart.staggerDraw = true;
-	chart.draw(1000);
+	_chartInstances["graphEnergyCanvas"] = new Chart(canvas, {
+		type: "bar",
+		data: {
+			labels: energyLabels,
+			datasets: [
+				{
+					label: lang.youcall,
+					data: youData,
+					backgroundColor: "orange"
+				},
+				{
+					label: lang.average,
+					data: avgData,
+					backgroundColor: "green"
+				}
+			]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			animation: { duration: 1000 },
+			plugins: {
+				legend: {
+					position: "top",
+					labels: { font: { size: 12 } }
+				},
+				datalabels: {
+					anchor: "end",
+					align: "top",
+					font: { size: 10 },
+					formatter: function (value) {
+						return value.toLocaleString() + lang.priceunit;
+					}
+				}
+			},
+			scales: {
+				x: {
+					ticks: { font: { size: wid < 480 ? 12 : 15 } }
+				},
+				y: {
+					ticks: { font: { size: 12 } },
+					title: {
+						display: true,
+						text: lang.fee + "（" + lang.priceunit + "/" + lang.monthunit + "）"
+					}
+				}
+			}
+		},
+		plugins: [ChartDataLabels]
+	});
 }
 
 // graphCO2average( averageData ) -----------------------------------------------------
@@ -376,7 +381,6 @@ function graphCO2averageCommon(averageData, target) {
 
 	$("#" + target).html("");
 
-	// use dimple
 	wid =
 		Math.min(
 			$("#" + target)
@@ -387,61 +391,50 @@ function graphCO2averageCommon(averageData, target) {
 	if (wid <= 0) return;
 	hei = Math.max(wid * 0.4, 320);
 
-	var svgco2 = dimple.newSvg("#" + target, wid, hei);
-	var data = [
-		{ user: lang.average, CO2: Math.round(averageData.co2[1].total * 12) },
-		{ user: lang.youcall, CO2: Math.round(averageData.co2[0].total * 12) }
-	];
-	var chart = new dimple.chart(svgco2, data);
+	var canvas = _ensureCanvas(target, wid, hei);
 
-	//x axis
-	var xAxis = chart.addCategoryAxis("x", "user");
-	xAxis.fontSize = "15px";
-	xAxis.addOrderRule([lang.youcall, lang.average]);
-	xAxis.title = "";
+	var youCO2 = Math.round(averageData.co2[0].total * 12);
+	var avgCO2 = Math.round(averageData.co2[1].total * 12);
 
-	//y axis
-	var yAxis = chart.addMeasureAxis("y", "CO2");
-	yAxis.tickFormat = "";
-	yAxis.fontSize = "12px";
-	yAxis.title = lang.co2emission + "（kg/" + lang.yearunit + "）";
-
-	//set color
-	chart.assignColor(lang.youcall, "red");
-	chart.assignColor(lang.average, "green");
-	chart.setBounds(80, 10, wid - 90, hei - 70); //left padding, top padding, graph width, graph height
-
-	var s = chart.addSeries("user", dimple.plot.bar);
-	//label
-	s.afterDraw = function (shape, data) {
-		var s = d3.select(shape),
-			rect = {
-				x: parseFloat(s.attr("x")),
-				y: parseFloat(s.attr("y")),
-				width: parseFloat(s.attr("width")),
-				height: parseFloat(s.attr("height"))
-			};
-		svgco2
-			.append("text")
-			// Position in the centre of the shape (vertical position is
-			// manually set due to cross-browser problems with baseline)
-			.attr("x", rect.x + rect.width / 2)
-			.attr("y", rect.y - 3.5)
-			// Centre align
-			.style("text-anchor", "middle")
-			.style("font-size", "12px")
-			.style("font-family", "sans-serif")
-			// Make it a little transparent to tone down the black
-			.style("opacity", 1)
-			// Prevent text cursor on hover and allow tooltips
-			.style("pointer-events", "none")
-			// Format the number
-			.text(d3.format(",.0f")(data.yValue) + "kg");
-	};
-
-	chart.ease = "bounce";
-	chart.staggerDraw = true;
-	chart.draw(1000);
+	_chartInstances[target + "Canvas"] = new Chart(canvas, {
+		type: "bar",
+		data: {
+			labels: [lang.youcall, lang.average],
+			datasets: [{
+				data: [youCO2, avgCO2],
+				backgroundColor: ["red", "green"]
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			animation: { duration: 1000 },
+			plugins: {
+				legend: { display: false },
+				datalabels: {
+					anchor: "end",
+					align: "top",
+					font: { size: 12 },
+					formatter: function (value) {
+						return value.toLocaleString() + "kg";
+					}
+				}
+			},
+			scales: {
+				x: {
+					ticks: { font: { size: 15 } }
+				},
+				y: {
+					ticks: { font: { size: 12 } },
+					title: {
+						display: true,
+						text: lang.co2emission + "（kg/" + lang.yearunit + "）"
+					}
+				}
+			}
+		},
+		plugins: [ChartDataLabels]
+	});
 }
 
 // graphMonthly( ret ) -----------------------------------------------------
@@ -454,7 +447,6 @@ function graphMonthly(ret) {
 	if (!$("#graphMonthly").is(":visible")) {
 		return;
 	}
-	//graph captions
 	var titles = {
 		kg: lang.co2emission + "（" + lang.co2unitpermonth + "）",
 		MJ: lang.primaryenergy + "（" + lang.energyunitpermonth + "）",
@@ -478,10 +470,8 @@ function graphMonthly(ret) {
 	};
 	var captionGraph = lang.monthlytitle;
 	var captionMonth = lang.month;
-	var captionEnergy = "energyname"; //same to disp.js
 	$("#graphMonthly").html("<h3>" + captionGraph + "</h3>");
 
-	// use dimple
 	wid =
 		Math.min(
 			$("#graphMonthly")
@@ -492,39 +482,84 @@ function graphMonthly(ret) {
 	if (wid <= 0) return;
 	hei = Math.max(wid * 0.4, 320);
 
-	var svg = dimple.newSvg("#graphMonthly", wid, hei);
+	var canvas = _ensureCanvas("graphMonthly", wid, hei);
 
-	// redesign data for graph
+	// Collect unique months and energy types
+	var months = [];
+	var energyTypes = [];
+	var monthSet = {};
+	var energySet = {};
 	for (var c in ret.data) {
-		ret.data[c][captionMonth] = ret.data[c].month;
-		delete ret.data[c].month;
-		ret.data[c][captionEnergy] = enename[ret.data[c].energyname];
-		delete ret.data[c].energy;
-		ret.data[c][titles[ret.yaxis]] = ret.data[c][ret.yaxis];
-		delete ret.data[c][ret.yaxis];
+		var d = ret.data[c];
+		if (!monthSet[d.month]) {
+			months.push(d.month);
+			monthSet[d.month] = true;
+		}
+		if (!energySet[d.energyname]) {
+			energyTypes.push(d.energyname);
+			energySet[d.energyname] = true;
+		}
 	}
 
-	var chart = new dimple.chart(svg, ret.data);
-	var xAxis = chart.addCategoryAxis("x", captionMonth);
-	xAxis.fontSize = "13px";
-
-	var yAxis = chart.addMeasureAxis("y", titles[ret.yaxis]);
-	yAxis.tickFormat = "";
-	yAxis.fontSize = "12px";
-
-	//legend
-	var myLegend = chart.addLegend(wid - 70, 10, 70, hei - 40);
-	myLegend.fontSize = "12px";
-
-	chart.setBounds(70, 10, wid - 160, hei - 70); //left padding, top padding, graph width, graph height
-	var barAxis = chart.addSeries(captionEnergy, dimple.plot.bar);
-
-	//color
-	for (var cid in enename) {
-		chart.assignColor(enename[cid], color[cid]);
+	// Build datasets per energy type
+	var dataMap = {};
+	for (var c in ret.data) {
+		var d = ret.data[c];
+		var key = d.energyname + "_" + d.month;
+		dataMap[key] = d[ret.yaxis] || 0;
 	}
 
-	chart.draw(0);
+	var datasets = [];
+	for (var i = 0; i < energyTypes.length; i++) {
+		var etype = energyTypes[i];
+		var values = [];
+		for (var m = 0; m < months.length; m++) {
+			values.push(dataMap[etype + "_" + months[m]] || 0);
+		}
+		datasets.push({
+			label: enename[etype] || etype,
+			data: values,
+			backgroundColor: color[etype] || null
+		});
+	}
+
+	// Convert month keys to display labels
+	var monthLabels = [];
+	for (var m = 0; m < months.length; m++) {
+		monthLabels.push(months[m]);
+	}
+
+	_chartInstances["graphMonthlyCanvas"] = new Chart(canvas, {
+		type: "bar",
+		data: {
+			labels: monthLabels,
+			datasets: datasets
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: {
+				legend: {
+					position: "right",
+					labels: { font: { size: 12 } }
+				}
+			},
+			scales: {
+				x: {
+					stacked: true,
+					ticks: { font: { size: 13 } }
+				},
+				y: {
+					stacked: true,
+					ticks: { font: { size: 12 } },
+					title: {
+						display: true,
+						text: titles[ret.yaxis]
+					}
+				}
+			}
+		}
+	});
 }
 
 // graphDemand( ret ) --------------------------------------
@@ -534,75 +569,105 @@ function graphMonthly(ret) {
 //		ret : graph data calcrated by D6
 //
 function graphDemand(ret) {
-	//graph captions
 	var captionGraph = "1時間ごとデマンドグラフ（積み上げ）";
 	var captionHour = "時刻";
 	var captionEquipment = "機器";
 	var caption_kW = "消費電力(kW)";
-
 	var captionInputTable = "1時間ごとデマンドグラフ（計測）";
+
 	$("#graphDemandSumup").html("<h3>" + captionGraph + "</h3>");
 	$("#graphDemandLog").html("<h3>" + captionInputTable + "</h3>");
 
-	// use dimple for sumup graph
 	wid = Math.min(500, $(window).width()) * 0.9;
 	hei = wid * 0.9;
-	var svg = dimple.newSvg("#graphDemandSumup", wid, hei);
 
-	// redesign sumup data for graph
-	for (var c in ret.sumup) {
-		ret.sumup[c][captionHour] = ret.sumup[c].time;
-		delete ret.sumup[c].time;
-		ret.sumup[c][captionEquipment] = ret.sumup[c].equip;
-		delete ret.sumup[c].equip;
-		ret.sumup[c][caption_kW] = ret.sumup[c].electricity_kW;
-		delete ret.sumup[c][ret.electricity_kW];
+	// --- Sumup graph ---
+	_buildDemandChart("graphDemandSumup", ret.sumup, ret.clist, caption_kW, wid, hei);
+
+	// --- Log graph ---
+	_buildDemandChart("graphDemandLog", ret.log, ret.clist, caption_kW, wid, hei);
+}
+
+function _buildDemandChart(targetId, data, clist, yLabel, wid, hei) {
+	var canvas = _ensureCanvas(targetId, wid, hei);
+
+	// Collect unique times and equipment names
+	var times = [];
+	var equips = [];
+	var timeSet = {};
+	var equipSet = {};
+	for (var c in data) {
+		var d = data[c];
+		if (!timeSet[d.time]) {
+			times.push(d.time);
+			timeSet[d.time] = true;
+		}
+		if (!equipSet[d.equip]) {
+			equips.push(d.equip);
+			equipSet[d.equip] = true;
+		}
 	}
 
-	var chart = new dimple.chart(svg, ret.sumup);
-	var xAxis = chart.addCategoryAxis("x", captionHour);
-	xAxis.fontSize = "13px";
-
-	var yAxis = chart.addMeasureAxis("y", caption_kW);
-	yAxis.tickFormat = "";
-	yAxis.fontSize = "15px";
-
-	chart.setBounds(80, 10, wid - 80, wid - 70); //left padding, top padding, graph width, graph height
-	var barAxis = chart.addSeries(captionEquipment, dimple.plot.bar);
-	for (var cid in ret.clist) {
-		chart.assignColor(ret.clist[cid].title, ret.clist[cid].color);
+	// Build data map
+	var dataMap = {};
+	for (var c in data) {
+		var d = data[c];
+		dataMap[d.equip + "_" + d.time] = d.electricity_kW || 0;
 	}
 
-	chart.ease = "bounce";
-	chart.staggerDraw = true;
-	chart.draw(2000);
-
-	// use dimple for logged graph
-	var svg = dimple.newSvg("#graphDemandLog", wid, hei);
-
-	// redesign log data for graph
-	for (var c in ret.log) {
-		ret.log[c][captionHour] = ret.log[c].time;
-		delete ret.log[c].time;
-		ret.log[c][captionEquipment] = ret.log[c].equip;
-		delete ret.log[c].equip;
-		ret.log[c][caption_kW] = ret.log[c].electricity_kW;
-		delete ret.log[c][ret.electricity_kW];
+	// Color map from clist
+	var colorMap = {};
+	if (clist) {
+		for (var cid in clist) {
+			colorMap[clist[cid].title] = clist[cid].color;
+		}
 	}
 
-	var chart = new dimple.chart(svg, ret.log);
-	var xAxis = chart.addCategoryAxis("x", captionHour);
-	xAxis.fontSize = "13px";
+	// Build datasets
+	var datasets = [];
+	for (var i = 0; i < equips.length; i++) {
+		var equip = equips[i];
+		var values = [];
+		for (var t = 0; t < times.length; t++) {
+			values.push(dataMap[equip + "_" + times[t]] || 0);
+		}
+		datasets.push({
+			label: equip,
+			data: values,
+			backgroundColor: colorMap[equip] || null
+		});
+	}
 
-	var yAxis = chart.addMeasureAxis("y", caption_kW);
-	yAxis.tickFormat = "";
-	yAxis.fontSize = "15px";
-
-	//left padding, top padding, graph width, graph height
-	chart.setBounds(80, 10, wid - 100, hei - 70);
-	var barAxis = chart.addSeries(captionEquipment, dimple.plot.bar);
-
-	chart.ease = "bounce";
-	chart.staggerDraw = true;
-	chart.draw(2000);
+	_chartInstances[targetId + "Canvas"] = new Chart(canvas, {
+		type: "bar",
+		data: {
+			labels: times,
+			datasets: datasets
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			animation: { duration: 2000 },
+			plugins: {
+				legend: {
+					position: "top",
+					labels: { font: { size: 12 } }
+				}
+			},
+			scales: {
+				x: {
+					stacked: true,
+					ticks: { font: { size: 13 } }
+				},
+				y: {
+					stacked: true,
+					ticks: { font: { size: 15 } },
+					title: {
+						display: true,
+						text: yLabel
+					}
+				}
+			}
+		}
+	});
 }
