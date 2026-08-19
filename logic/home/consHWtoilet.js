@@ -1,4 +1,4 @@
-﻿/* 2017/12/15  version 1.0
+/* 2017/12/15  version 1.0
  * coding: utf-8, Tab as 4 spaces
  * 
  * Home Energy Diagnosis System Ver.6
