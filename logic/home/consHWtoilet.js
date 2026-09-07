@@ -32,8 +32,8 @@ class ConsHWtoilet extends ConsBase {
 		super();
 
 		this.warmerElec_kWh_y = 200;		//hot seat of toilet electricity kWh/year
-		this.resudeRateGoodSheat = 0.5;		//reduce rate by saving type 
-		this.resudeRateTemplature = 0.2;		//reduce rate by temperature set 
+		this.reduceRateGoodSeat = 0.5;		//reduce rate by saving type 
+		this.reduceRateTemplature = 0.2;		//reduce rate by temperature set 
 		this.resudeRateCover = 0.1;			//reduce rate by use cover 
 		this.water_m3_d = 0.1;				//flush water use in toilet m3/day/person
 		this.water_average = 13;				//average water use in toilet L/once
@@ -87,23 +87,23 @@ class ConsHWtoilet extends ConsBase {
 
 		//mHWreplaceToilet
 		if (this.savingToilet != 1 && this.keepSeason != 4) {
-			this.measures["mHWreplaceToilet"].calcReduceRate(this.resudeRateGoodSheat);
+			this.measures["mHWreplaceToilet"].calcReduceRate(this.reduceRateGoodSeat);
 		}
 
 		//mHWtemplatureToilet
-		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1) {
+		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1 || this.keepSeason == 4) {
 		} else {
 			if (this.keepTemp == 1) {
-				this.measures["mHWtemplatureToilet"].calcReduceRate(this.resudeRateTemplature);
+				this.measures["mHWtemplatureToilet"].calcReduceRate(this.reduceRateTemplature);
 				this.measures["mHWtemplatureToilet"].water = this.water;
 			} else if (this.keepTemp == 2) {
-				this.measures["mHWtemplatureToilet"].calcReduceRate(this.resudeRateTemplature / 2);
+				this.measures["mHWtemplatureToilet"].calcReduceRate(this.reduceRateTemplature / 2);
 				this.measures["mHWtemplatureToilet"].water = this.water;
 			}
 		}
 
 		//mHWcoverTilet
-		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1 || this.coverToilet == 1) {
+		if (this.isSelected("mHWreplaceToilet") || this.savingToilet == 1 || this.coverToilet == 1 || this.keepSeason == 4) {
 		} else {
 			this.measures["mHWcoverTilet"].calcReduceRate(this.resudeRateCover);
 			this.measures["mHWcoverTilet"].water = this.water;
